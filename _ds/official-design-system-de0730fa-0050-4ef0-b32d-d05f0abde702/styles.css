@@ -1,0 +1,8 @@
+/* Cloudinary Design System — root stylesheet.
+ * Single entry point: consumers link this one file.
+ * Order matters — tokens first, then type/colour semantics, then generated CSS. */
+
+@import './colors_and_type.css';
+@import './components/fig-tokens.css';
+@import './components/fig-typography.css';
+@import './components/fig-assets.css';

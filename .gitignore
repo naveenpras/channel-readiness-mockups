@@ -1,0 +1,9 @@
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Local scratch
+*.log
+node_modules/

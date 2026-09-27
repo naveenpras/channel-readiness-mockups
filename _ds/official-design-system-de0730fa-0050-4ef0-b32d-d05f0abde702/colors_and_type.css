@@ -1,0 +1,247 @@
+/*
+ * Cloudinary Design System — Colors & Typography
+ * Source: DS colors (foundations).fig, DS - components.fig, toasts based on banner...fig
+ * Fonts: Inter Variable (uploaded); Google Fonts fallback available
+ */
+
+/* Inter — static family. 18pt optical size covers UI text;
+ * use heavier weights for headings. Variable font also still available. */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 100; src: url('./fonts/Inter_18pt-Thin.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 100; src: url('./fonts/Inter_18pt-ThinItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 200; src: url('./fonts/Inter_18pt-ExtraLight.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 200; src: url('./fonts/Inter_18pt-ExtraLightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 300; src: url('./fonts/Inter_18pt-Light.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 300; src: url('./fonts/Inter_18pt-LightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; src: url('./fonts/Inter_18pt-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 400; src: url('./fonts/Inter_18pt-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; src: url('./fonts/Inter_18pt-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 500; src: url('./fonts/Inter_18pt-MediumItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; src: url('./fonts/Inter_18pt-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 600; src: url('./fonts/Inter_18pt-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; src: url('./fonts/Inter_18pt-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 700; src: url('./fonts/Inter_18pt-BoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 800; src: url('./fonts/Inter_18pt-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 800; src: url('./fonts/Inter_18pt-ExtraBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 900; src: url('./fonts/Inter_18pt-Black.ttf') format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: italic; font-weight: 900; src: url('./fonts/Inter_18pt-BlackItalic.ttf') format('truetype'); }
+
+/* Inter Display — optical 28pt, use for large headings (>= 24px) */
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 400; src: url('./fonts/Inter_28pt-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 500; src: url('./fonts/Inter_28pt-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 600; src: url('./fonts/Inter_28pt-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 700; src: url('./fonts/Inter_28pt-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 800; src: url('./fonts/Inter_28pt-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family: 'Inter Display'; font-style: normal; font-weight: 900; src: url('./fonts/Inter_28pt-Black.ttf') format('truetype'); }
+
+:root {
+
+  /* ─────────────────────────────────────────────────
+   * FONT STACKS
+   * ───────────────────────────────────────────────── */
+  --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+
+  /* ─────────────────────────────────────────────────
+   * BRAND BLUE (Primary)
+   * rgb(52,72,197) = #3448C5
+   * ───────────────────────────────────────────────── */
+  --blue-50:  rgba(52, 72, 197, 0.06);
+  --blue-100: rgba(52, 72, 197, 0.12);
+  --blue-200: rgba(52, 72, 197, 0.24);
+  --blue-300: #8090DF;
+  --blue-400: #5B6ED9;
+  --blue-500: #3448C5;   /* ← PRIMARY brand blue */
+  --blue-600: #2B3BAD;
+  --blue-700: #222F94;
+  --blue-800: #19237C;
+  --blue-900: #111763;
+
+  /* ─────────────────────────────────────────────────
+   * NEUTRAL SCALE
+   * ───────────────────────────────────────────────── */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F7F8FA;
+  --neutral-100: #EAEDF2;
+  --neutral-200: #D1D6E0;   /* border default */
+  --neutral-300: #B0B8C8;
+  --neutral-400: #8A94A6;
+  --neutral-500: #636D7E;
+  --neutral-600: #50586A;
+  --neutral-700: #323A45;   /* text secondary */
+  --neutral-800: #20242D;   /* text dark */
+  --neutral-900: #0A0C0F;   /* text primary */
+  --neutral-950: #090C0F;   /* dark bg */
+
+  /* ─────────────────────────────────────────────────
+   * SEMANTIC: STATUS COLORS
+   * ───────────────────────────────────────────────── */
+
+  /* Success — #22AA00 */
+  --green-50:  rgba(34, 170, 0, 0.06);
+  --green-100: rgba(34, 170, 0, 0.12);
+  --green-500: #22AA00;
+  --green-600: #1B8A00;
+
+  /* Error/Danger — #CE190D */
+  --red-50:  rgba(206, 25, 13, 0.06);
+  --red-100: rgba(206, 25, 13, 0.12);
+  --red-500: #CE190D;
+  --red-600: #A8140A;
+
+  /* Warning — amber (inferred; extend as needed) */
+  --yellow-50:  rgba(228, 149, 0, 0.06);
+  --yellow-100: rgba(228, 149, 0, 0.12);
+  --yellow-500: #E49500;
+  --yellow-600: #B87800;
+
+  /* Info = Primary Blue (re-aliased) */
+  --info-100: var(--blue-100);
+  --info-500: var(--blue-500);
+
+  /* ─────────────────────────────────────────────────
+   * BRAND GRADIENT (cover / decorative)
+   * ───────────────────────────────────────────────── */
+  --gradient-brand: linear-gradient(135deg, #3448C5 0%, #DD58BD 100%); /* @kind color */
+  --gradient-brand-vertical: linear-gradient(180deg, #344CC5 2%, #DD58BD 100%); /* @kind color */
+  --color-accent-pink: #DD58BD;
+
+  /* ─────────────────────────────────────────────────
+   * SEMANTIC TOKENS — SURFACES & TEXT
+   * ───────────────────────────────────────────────── */
+  --bg:              var(--neutral-0);
+  --bg-subtle:       var(--neutral-50);
+  --bg-muted:        var(--neutral-100);
+  --bg-dark:         var(--neutral-950);
+  --bg-inverse:      var(--neutral-900);
+
+  --fg:              var(--neutral-900);
+  --fg-muted:        var(--neutral-700);
+  --fg-subtle:       var(--neutral-500);
+  --fg-disabled:     var(--neutral-400);
+  --fg-on-dark:      var(--neutral-0);
+  --fg-on-primary:   var(--neutral-0);
+
+  --border:          var(--neutral-200);
+  --border-strong:   var(--neutral-300);
+  --border-focus:    var(--blue-500);
+
+  /* ─────────────────────────────────────────────────
+   * SEMANTIC TOKENS — ACTIONS
+   * ───────────────────────────────────────────────── */
+  --action-primary:        var(--blue-500);
+  --action-primary-hover:  var(--blue-600);
+  --action-primary-active: var(--blue-700);
+  --action-primary-subtle: var(--blue-100);
+
+  --action-danger:         var(--red-500);
+  --action-danger-hover:   var(--red-600);
+  --action-danger-subtle:  var(--red-100);
+
+  /* ─────────────────────────────────────────────────
+   * SPACING SCALE (4px base)
+   * ───────────────────────────────────────────────── */
+  --space-0:  0px;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ─────────────────────────────────────────────────
+   * BORDER RADIUS
+   * ───────────────────────────────────────────────── */
+  --radius-xs:  2px;
+  --radius-sm:  4px;   /* ← default component radius */
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-full: 9999px;
+
+  /* ─────────────────────────────────────────────────
+   * ELEVATION / SHADOWS
+   * ───────────────────────────────────────────────── */
+  --shadow-xs: 0px 1px 2px rgba(0,0,0,0.10);
+  --shadow-sm: 0px 1px 4px rgba(0,0,0,0.20);
+  --shadow-md: 0px 4px 6px rgba(0,0,0,0.20);
+  --shadow-lg: 0px 8px 24px rgba(0,0,0,0.16);
+  --shadow-xl: 0px 16px 48px rgba(0,0,0,0.20);
+
+  /* ─────────────────────────────────────────────────
+   * TYPE SCALE
+   * ───────────────────────────────────────────────── */
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  28px;
+  --text-4xl:  32px;
+  --text-5xl:  40px;
+
+  --leading-tight:   1.25;
+  --leading-snug:    1.35;
+  --leading-normal:  1.4;
+  --leading-relaxed: 1.55;
+  --leading-loose:   1.7;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.02em;
+  --tracking-wider:   0.05em;
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ─────────────────────────────────────────────────
+   * SEMANTIC TYPE — DISPLAY & HEADINGS
+   * ───────────────────────────────────────────────── */
+  --type-display:   700 40px/1.2 var(--font-sans);
+  --type-h1:        700 32px/1.25 var(--font-sans);
+  --type-h2:        700 24px/1.3  var(--font-sans);
+  --type-h3:        600 20px/1.35 var(--font-sans);
+  --type-h4:        600 16px/1.4  var(--font-sans);
+  --type-h5:        600 14px/1.4  var(--font-sans);
+
+  /* ─────────────────────────────────────────────────
+   * SEMANTIC TYPE — BODY & UI
+   * ───────────────────────────────────────────────── */
+  --type-body-lg:  400 16px/1.55 var(--font-sans);
+  --type-body:     400 14px/1.5  var(--font-sans);
+  --type-body-sm:  400 13px/1.5  var(--font-sans);
+  --type-label:    500 14px/1.25 var(--font-sans);
+  --type-label-sm: 500 12px/1.25 var(--font-sans);
+  --type-caption:  400 12px/1.4  var(--font-sans);
+  --type-code:     400 13px/1.55 var(--font-mono);
+
+  /* ─────────────────────────────────────────────────
+   * COMPONENT SIZING (buttons, inputs)
+   * ───────────────────────────────────────────────── */
+  --btn-height-sm: 28px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+  --btn-px-sm: 10px;
+  --btn-px-md: 16px;
+  --btn-px-lg: 20px;
+
+  --input-height-sm: 28px;
+  --input-height-md: 40px;
+  --input-height-lg: 48px;
+  --input-px: 12px;
+
+  /* ─────────────────────────────────────────────────
+   * TRANSITIONS
+   * ───────────────────────────────────────────────── */
+  --transition-fast:   100ms ease; /* @kind other */
+  --transition-base:   150ms ease; /* @kind other */
+  --transition-slow:   250ms ease; /* @kind other */
+}

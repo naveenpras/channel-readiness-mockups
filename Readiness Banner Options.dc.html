@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/official-design-system-de0730fa-0050-4ef0-b32d-d05f0abde702/components/fig-tokens.css">
+<link rel="stylesheet" href="_ds/official-design-system-de0730fa-0050-4ef0-b32d-d05f0abde702/components/fig-typography.css">
+<link rel="stylesheet" href="_ds/official-design-system-de0730fa-0050-4ef0-b32d-d05f0abde702/components/fig-assets.css">
+<link rel="stylesheet" href="_ds/official-design-system-de0730fa-0050-4ef0-b32d-d05f0abde702/styles.css">
+<script src="_ds/official-design-system-de0730fa-0050-4ef0-b32d-d05f0abde702/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: #F1F3F7; font-family: Inter, system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; }
+  a:hover { color: #2B3BAD; }
+  @keyframes rb-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+</style>
+</helmet>
+
+<section style="display: flex; flex-direction: column; gap: 22px; padding: 36px 40px 56px;">
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Dashboard banner</div>
+    <div style="font-size: 13px; color: #636D7E;">Shown at dashboard width. Reference it as <a href="#1a">1a</a>.</div>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+
+    <div id="1a" style="width: 880px; max-width: 100%; display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 9999px; background: #0A0C0F; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">1A</span>
+        <span style="font-size: 13px; font-weight: 600;">Flow strip</span>
+        <span style="font-size: 12px; color: #8A94A6;">one row, arrows carry the story</span>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #EAEDF2; border-radius: 8px; padding: 22px 24px; box-shadow: 0 1px 2px rgba(10,12,15,0.04);">
+        <div style="position: relative; display: flex; align-items: center; justify-content: center; padding: 2px 32px 0;">
+          <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em; text-align: center;">Catalog In, Channel-Ready Out</div>
+          <span style="position: absolute; top: 0; right: 0; color: #8A94A6; display: flex; cursor: pointer;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="16" hint-size="16px,16px"></x-import></span>
+        </div>
+
+        <div style="display: flex; align-items: stretch; gap: 0; margin-top: 18px; flex-wrap: wrap;">
+          <div style="flex: 1 1 200px; min-width: 200px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; background: #FBFCFE; border: 1px solid #EAEDF2; border-radius: 10px; padding: 16px 14px; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 9px;">
+              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="link" size="16" hint-size="16px,16px"></x-import>
+              </span>
+              <div style="font-size: 14px; font-weight: 600;">1 · Set up products</div>
+            </div>
+            <div style="height: 100px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0;">
+              <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 600; color: #3448C5; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.28); border-radius: 4px; padding: 5px 8px; flex: 0 0 auto;">SKU</span>
+              <span style="width: 14px; height: 2px; background: rgba(52,72,197,0.28); border-radius: 2px; flex: 0 0 auto;"></span>
+              <span style="display: flex; flex: 0 0 auto;">
+                <sc-for list="{{ tiles3 }}" as="t" hint-placeholder-count="3">
+                  <span style="width: 44px; height: 44px; border-radius: 8px; background: {{ t.bg }}; color: {{ t.fg }}; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(10,12,15,0.14); display: flex; align-items: center; justify-content: center; margin-left: -10px; flex: 0 0 auto;">
+                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="19" hint-size="19px,19px"></x-import>
+                  </span>
+                </sc-for>
+              </span>
+            </div>
+            <div style="font-size: 13px; color: #636D7E;">Link each SKU to its assets.</div>
+          </div>
+
+          <div style="flex: 0 0 40px; align-self: center; display: flex; align-items: center; justify-content: center; color: #C6CDDA;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_forward_ios" size="18" hint-size="18px,18px"></x-import>
+          </div>
+
+          <div style="flex: 1 1 200px; min-width: 200px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; background: #FBFCFE; border: 1px solid #EAEDF2; border-radius: 10px; padding: 16px 14px; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 9px;">
+              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import>
+              </span>
+              <div style="font-size: 14px; font-weight: 600;">2 · Run variations</div>
+            </div>
+            <div style="height: 100px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; min-width: 0;">
+              <sc-for list="{{ channels }}" as="c" hint-placeholder-count="4">
+                <span style="width: 44px; height: 44px; border-radius: 8px; background: #fff; border: 1px solid #EAEDF2; box-shadow: 0 1px 4px rgba(10,12,15,0.10); display: flex; align-items: center; justify-content: center; padding: 6px; box-sizing: border-box; flex: 0 0 auto;">{{ c.badge }}</span>
+              </sc-for>
+            </div>
+            <div style="font-size: 13px; color: #636D7E;">Pick channels, crop to spec.</div>
+          </div>
+
+          <div style="flex: 0 0 40px; align-self: center; display: flex; align-items: center; justify-content: center; color: #C6CDDA;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_forward_ios" size="18" hint-size="18px,18px"></x-import>
+          </div>
+
+          <div style="flex: 1 1 200px; min-width: 200px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; background: #FBFCFE; border: 1px solid #EAEDF2; border-radius: 10px; padding: 16px 14px; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 9px;">
+              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="16" hint-size="16px,16px"></x-import>
+              </span>
+              <div style="font-size: 14px; font-weight: 600;">3 · Review results</div>
+            </div>
+            <div style="min-height: 100px; width: 100%; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px; min-width: 0;">
+              <sc-for list="{{ results }}" as="t" hint-placeholder-count="5">
+                <span style="position: relative; width: {{ t.w }}; height: 44px; border-radius: 8px; background: {{ t.bg }}; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(10,12,15,0.14); color: {{ t.fg }}; display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 0 0 auto;">
+                  <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ t.icon }}" size="16" hint-size="16px,16px"></x-import>
+                </span>
+              </sc-for>
+            </div>
+            <div style="font-size: 13px; color: #636D7E;">Check what was created, then ship.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CHANNELS = [
+  { key: 'amazon', name: 'Amazon', initial: 'A', color: '#F08804', logo: 'assets/channel-amazon.png' },
+  { key: 'walmart', name: 'Walmart', initial: 'W', color: '#0071CE', logo: 'assets/channel-walmart-mark.png' },
+  { key: 'target', name: 'Target', initial: 'T', color: '#CC0000', logo: 'assets/channel-target-mark.png' },
+  { key: 'site', name: 'Your Site', initial: '', color: '#3448C5', icon: 'public' },
+];
+
+class Component extends DCLogic {
+  badge(c, px) {
+    if (c.icon) {
+      const DS = window.OfficialDesignSystem_de0730 || {};
+      return React.createElement('span', {
+        key: c.key,
+        title: c.name,
+        style: {
+          width: px + 'px', height: px + 'px', borderRadius: '5px', background: c.color, color: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto',
+        },
+      }, DS.CldIcon ? React.createElement(DS.CldIcon, { name: c.icon, size: Math.round(px * 0.62) }) : null);
+    }
+    if (c.logo) {
+      return React.createElement('span', {
+        key: c.key,
+        title: c.name,
+        style: {
+          width: px + 'px', height: px + 'px', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', flex: '0 0 auto', overflow: 'hidden',
+        },
+      }, React.createElement('img', {
+        src: c.logo, alt: c.name,
+        style: { width: '100%', height: '100%', objectFit: 'contain', display: 'block' },
+      }));
+    }
+    return React.createElement('span', {
+      key: c.key,
+      title: c.name,
+      style: {
+        width: px + 'px', height: px + 'px', borderRadius: '5px', background: c.color, color: '#fff',
+        fontSize: (px <= 22 ? 10 : 12) + 'px', fontWeight: 700, letterSpacing: '0.01em',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto',
+      },
+    }, c.initial);
+  }
+
+  renderVals() {
+    return {
+      tiles3: [
+        { bg: '#E3E8F6', fg: '#6C7CC9' },
+        { bg: '#EFE7DD', fg: '#B29273' },
+        { bg: '#E2EFE6', fg: '#71A585' },
+      ],
+      crops: [
+        { w: '30px', h: '44px', bg: '#E3E8F6', fg: '#6C7CC9' },
+        { w: '44px', h: '44px', bg: '#E7E3F2', fg: '#8B7FB8' },
+        { w: '32px', h: '32px', bg: '#EFE7DD', fg: '#B29273' },
+        { w: '44px', h: '26px', bg: '#E2EFE6', fg: '#71A585' },
+      ],
+      results: [
+        { w: '26px', bg: '#EEF1FB', fg: '#3448C5', icon: 'image' },
+        { w: '38px', bg: '#F1EEFA', fg: '#7B4FD8', icon: 'auto_awesome' },
+        { w: '30px', bg: '#FBF2E8', fg: '#B26A05', icon: 'crop' },
+        { w: '44px', bg: '#EAF6EE', fg: '#1B7F4B', icon: 'photo_library' },
+        { w: '26px', bg: '#EDF3F8', fg: '#1E6FA8', icon: 'visibility' },
+      ],
+      resultSpecs: '4:5 · 1:1 · 16:9',
+      channels: CHANNELS.map((c) => ({ badge: this.badge(c, c.logo ? 32 : 22) })),
+      steps: [
+        { icon: 'link', title: 'Set up products', line: 'Link each SKU to its assets.' },
+        { icon: 'auto_awesome', title: 'Run variations', line: 'Pick channels, crop to spec.' },
+        { icon: 'check_circle', title: 'Review results', line: 'Check what was created, then ship.' },
+      ],
+      fan: CHANNELS.map((c, i) => ({
+        badge: this.badge(c, 18),
+        w: ['26px', '34px', '26px', '40px'][i],
+        bg: ['#E3E8F6', '#E7E3F2', '#EFE7DD', '#E2EFE6'][i],
+        fg: ['#6C7CC9', '#8B7FB8', '#B29273', '#71A585'][i],
+        spec: ['1:1 · 2000px', '16:9 · 1920px', '1:1 · 1024px', '4:5 · 1600px'][i],
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
