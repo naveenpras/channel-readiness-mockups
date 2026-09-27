@@ -1,5 +1,7 @@
 # Channel Readiness — mockups
 
+<https://github.com/naveenpras/channel-readiness-mockups>
+
 Interactive HTML mockups for the Channel Readiness screens in the Cloudinary DAM
 console: linking SKUs to assets, checking those assets against per-channel
 listing requirements, and generating compliant variations in bulk.
