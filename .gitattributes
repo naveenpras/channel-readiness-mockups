@@ -1,0 +1,13 @@
+# The design system and its runtime are vendored, not authored here. Mark them
+# so GitHub's language stats reflect the mockups rather than the bundle, and so
+# diffs on them stay collapsed.
+_ds/** linguist-vendored
+support.js linguist-vendored
+image-slot.js linguist-vendored
+
+# Design reference screenshots, not source.
+uploads/** linguist-documentation
+
+# The mockups themselves are the point of the repo.
+*.dc.html linguist-detectable
+*.dc.html linguist-language=HTML
