@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Channel Readiness — mockups</title>
+<meta name="description" content="Interactive HTML mockups for the Channel Readiness screens in the Cloudinary DAM console.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F8FA;
+    --surface: #FFFFFF;
+    --border: #EAEDF2;
+    --border-strong: #D7DCE5;
+    --text: #0A0C0F;
+    --muted: #636D7E;
+    --faint: #8A94A6;
+    --accent: #3448C5;
+    --accent-hover: #2B3BAD;
+    --tile: #F1F3F7;
+    --shadow: 0 1px 2px rgba(10, 12, 15, 0.04), 0 4px 16px rgba(10, 12, 15, 0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D0F13;
+      --surface: #15181E;
+      --border: #252A33;
+      --border-strong: #333A46;
+      --text: #F2F4F8;
+      --muted: #A2ACBD;
+      --faint: #798394;
+      --accent: #8C9BF0;
+      --accent-hover: #A8B4F5;
+      --tile: #1D212A;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D0F13;
+    --surface: #15181E;
+    --border: #252A33;
+    --border-strong: #333A46;
+    --text: #F2F4F8;
+    --muted: #A2ACBD;
+    --faint: #798394;
+    --accent: #8C9BF0;
+    --accent-hover: #A8B4F5;
+    --tile: #1D212A;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 56px 16px 80px; }
+
+  header { margin-bottom: 40px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--faint); margin: 0 0 10px;
+  }
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(28px, 6vw, 40px);
+    font-weight: 700; letter-spacing: -0.025em; line-height: 1.15;
+  }
+  .lede { margin: 0; font-size: 17px; color: var(--muted); max-width: 62ch; }
+  .lede + .lede { margin-top: 12px; }
+
+  .note {
+    margin: 28px 0 0; padding: 12px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px; font-size: 14px; color: var(--muted);
+  }
+
+  h2 {
+    margin: 48px 0 16px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--faint);
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+  .card {
+    display: block; padding: 22px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; text-decoration: none; color: inherit;
+    box-shadow: var(--shadow);
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card h3 {
+    margin: 0 0 8px; font-size: 16px; font-weight: 600;
+    letter-spacing: -0.01em; color: var(--accent);
+  }
+  .card p { margin: 0; font-size: 14px; color: var(--muted); }
+
+  .strip { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 8px; }
+  .strip img {
+    width: 74px; height: 74px; object-fit: contain;
+    background: var(--tile); border: 1px solid var(--border);
+    border-radius: 8px; padding: 5px; display: block;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  caption { text-align: left; color: var(--muted); font-size: 14px; padding-bottom: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); }
+  td code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px; background: var(--tile);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  td.num { color: var(--muted); white-space: nowrap; }
+  .scroller { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+  .scroller table { min-width: 540px; }
+  .scroller tr:last-child td { border-bottom: 0; }
+
+  footer {
+    margin-top: 56px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 14px; color: var(--muted);
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-hover); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Cloudinary DAM console</p>
+    <h1>Channel Readiness</h1>
+    <p class="lede">
+      Interactive mockups for linking SKUs to their assets, checking those assets
+      against each sales channel's listing requirements, and generating compliant
+      variations in bulk.
+    </p>
+    <p class="lede">
+      Design mockups, not production code — they run entirely in the browser with
+      no build step and no backend.
+    </p>
+  </header>
+
+  <h2>Screens</h2>
+  <div class="grid">
+    <a class="card" href="Channel%20Readiness.dc.html">
+      <h3>Channel Readiness</h3>
+      <p>The main app: readiness dashboard, product table, channel configuration,
+         the per-SKU compliance matrix, the asset picker, and the bulk variation flow.</p>
+    </a>
+    <a class="card" href="SKU%20Details.dc.html">
+      <h3>SKU Details</h3>
+      <p>One product in depth — its original captures, the per-channel variations
+         built from them, and why each one passes or fails.</p>
+    </a>
+    <a class="card" href="SKU%20Channel%20Setup%20Flow.dc.html">
+      <h3>SKU Channel Setup Flow</h3>
+      <p>The three-step wizard for adding a new SKU, linking its assets and
+         picking the channels to run.</p>
+    </a>
+    <a class="card" href="Readiness%20Banner%20Options.dc.html">
+      <h3>Readiness Banner Options</h3>
+      <p>Layout options for the dashboard banner that introduces the flow.</p>
+    </a>
+  </div>
+
+  <div class="note">
+    <strong>SKU Details</strong> renders whichever product it is handed via a
+    <code>?sku=</code> parameter, for example
+    <a href="SKU%20Details.dc.html?sku=FTW-RUN-60026">?sku=FTW-RUN-60026</a>.
+    Clicking into a product from the main app links through with it set.
+  </div>
+
+  <h2>Sample catalogue</h2>
+  <div class="strip">
+    <img src="assets/camera-front.jpg" alt="DSLR camera body" loading="lazy">
+    <img src="assets/drink-front.jpg" alt="Energy drink can" loading="lazy">
+    <img src="assets/wshirt-front.jpg" alt="Women's chambray shirt" loading="lazy">
+    <img src="assets/polo-front.jpg" alt="Men's piqué polo" loading="lazy">
+    <img src="assets/drill-hero.jpg" alt="Cordless drill" loading="lazy">
+    <img src="assets/shoe-hero.jpg" alt="Running shoe" loading="lazy">
+    <img src="assets/wipes-lemon-front.jpg" alt="Disinfecting wipes" loading="lazy">
+  </div>
+
+  <div class="scroller">
+    <table>
+      <caption>
+        Compliance states in the mockups are derived from these assets' real
+        capture dimensions rather than invented, so the failures on show are ones
+        these images would genuinely hit.
+      </caption>
+      <thead>
+        <tr><th>SKU</th><th>Product</th><th>Assets</th><th>Capture size</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>CAM-DSLR-10026</code></td><td>DSLR camera body</td><td class="num">4</td><td class="num">1200 × 1600</td></tr>
+        <tr><td><code>BEV-NRG-20026</code></td><td>Energy drink, berry</td><td class="num">4 + video</td><td class="num">2500 × 2500, 1946 × 1946</td></tr>
+        <tr><td><code>APW-SHT-30026</code></td><td>Women's chambray shirt</td><td class="num">4</td><td class="num">up to 2671 × 3456</td></tr>
+        <tr><td><code>APM-POL-40026</code></td><td>Men's piqué polo</td><td class="num">5 + video</td><td class="num">2304 × 3456</td></tr>
+        <tr><td><code>TLS-DRL-50026</code></td><td>Cordless drill/driver</td><td class="num">5 + video</td><td class="num">960–1500 px square</td></tr>
+        <tr><td><code>FTW-RUN-60026</code></td><td>Running shoe</td><td class="num">6 + video</td><td class="num">2880 × 3456</td></tr>
+        <tr><td><code>HHS-WIP-70026</code></td><td>Disinfecting wipes</td><td class="num">4</td><td class="num">1000 × 1000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Source on <a href="https://github.com/naveenpras/channel-readiness-mockups">GitHub</a>.
+    Sample imagery from the <code>test-master-assets</code> folder of the
+    <code>naveen-syndigo-test</code> Cloudinary environment.
+  </footer>
+
+</div>
+</body>
+</html>

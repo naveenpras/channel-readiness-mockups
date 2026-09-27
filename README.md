@@ -1,6 +1,7 @@
 # Channel Readiness — mockups
 
-<https://github.com/naveenpras/channel-readiness-mockups>
+**Live:** <https://naveenpras.github.io/channel-readiness-mockups/>
+· Source: <https://github.com/naveenpras/channel-readiness-mockups>
 
 Interactive HTML mockups for the Channel Readiness screens in the Cloudinary DAM
 console: linking SKUs to assets, checking those assets against per-channel
@@ -20,8 +21,10 @@ with no build step and no backend.
 
 ## Viewing them
 
-The pages load their design system and assets over relative paths, so open them
-through a local server rather than `file://`:
+Published at <https://naveenpras.github.io/channel-readiness-mockups/>.
+
+To run them locally instead: the pages load their design system and assets over
+relative paths, so serve the directory rather than opening `file://` URLs:
 
 ```bash
 python3 -m http.server 8000
@@ -67,6 +70,8 @@ uploads/       design reference screenshots from the original bundle
 support.js     the template runtime the .dc.html files are built on
 image-slot.js  the <image-slot> component used for swappable images
 sync.sh        stage, commit and push any local edits
+index.html     landing page for the published site
+.nojekyll      stops Pages running Jekyll, which would skip _ds/
 ```
 
 ## Pushing changes
