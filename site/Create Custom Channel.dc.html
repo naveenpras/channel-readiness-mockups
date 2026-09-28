@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #EEF0F4; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+</style>
+</helmet>
+<div data-screen-label="Create custom channel" style="padding: 24px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
+<div style="background: #fff; border: 1px solid #DFE3EA; border-radius: 8px; box-shadow: 0 1px 3px rgba(10,12,15,0.06);">
+        <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="display: flex; gap: 28px; padding: 0 32px; border-bottom: 1px solid #EAEDF2;">
+          <div onClick="{{ goDash }}" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; cursor: pointer;" style-hover="color: #0A0C0F;">Dashboard</div>
+          <div onClick="{{ goProducts }}" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; cursor: pointer;" style-hover="color: #0A0C0F;">Products</div>
+          <div onClick="{{ goChanList }}" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 600; color: #0A0C0F; box-shadow: inset 0 -2px 0 #3448C5; cursor: pointer;">Channels</div>
+        </div></sc-if>
+        <div style="padding: 20px 40px 0;">
+          <div onClick="{{ onBack }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E; cursor: pointer;" style-hover="color: #3448C5;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>Channels</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; padding: 16px 40px 20px; border-bottom: 1px solid #EAEDF2;">
+          <span style="width: 44px; height: 44px; border-radius: 8px; background: #EEF1FB; color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 44px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="public" size="24" hint-size="24px,24px"></x-import></span>
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; color: #8A94A6;">
+              <input value="{{ t2name }}" onChange="{{ onT2Name }}" placeholder="Channel name" style="font-family: inherit; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: #0A0C0F; border: none; border-bottom: 1px dashed #C3C9D4; padding: 0 0 2px; outline: none; background: transparent; width: 300px;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="edit" size="16" hint-size="16px,16px"></x-import>
+            </div>
+            <div style="font-size: 13px; color: #8A94A6; margin-top: 4px;">New custom channel · pick the asset types this channel needs, then set their options</div>
+          </div>
+          <div onClick="{{ onBack }}" style="height: 32px; padding: 0 14px; border-radius: 4px; border: 1px solid #DFE3EA; color: #323A45; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Cancel</div>
+          <div style="height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer; margin-left: 8px;" style-hover="background: #2B3BAD;">Create channel</div>
+        </div>
+        <div style="padding: 0 40px 48px; max-width: 1000px;">
+          
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+            <div style="display: flex; align-items: baseline; gap: 10px;">
+              <div style="font-size: 16px; font-weight: 600;">Start with asset types</div>
+              <div style="font-size: 13px; color: #8A94A6;">Select one or more. You can change this later.</div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+              <sc-for list="{{ pickTypes }}" as="p" hint-placeholder-count="6">
+                <div onClick="{{ p.toggle }}" style="display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid {{ p.bd }}; background: {{ p.bg }}; border-radius: 8px; cursor: pointer;" style-hover="border-color: #3448C5;">
+                  <span style="width: 32px; height: 32px; border-radius: 6px; background: {{ p.iconBg }}; color: {{ p.iconFg }}; display: flex; align-items: center; justify-content: center; flex: 0 0 32px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ p.icon }}" size="18" hint-size="18px,18px"></x-import></span>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                      <span style="font-size: 14px; font-weight: 600;">{{ p.title }}</span>
+                      <sc-if value="{{ p.isPost }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap; box-sizing: border-box; flex: 0 0 auto; background: #FFF3DC; color: #8A5300; border: 1px solid #F2D59A;">Post-MVP</span></sc-if>
+                    </div>
+                    <div style="font-size: 12px; color: #636D7E; margin-top: 3px; line-height: 1.4;">{{ p.desc }}</div>
+                  </div>
+                  <span style="width: 18px; height: 18px; border-radius: 3px; border: 1px solid {{ p.boxBd }}; background: {{ p.boxBg }}; color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 18px;"><sc-if value="{{ p.on }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <sc-if value="{{ noTypes }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 24px; padding: 32px; border: 1px dashed #C3C9D4; border-radius: 8px; text-align: center; font-size: 13px; color: #636D7E;">Select an asset type above to set its operations, settings and file name.</div>
+          </sc-if>
+          <sc-if value="{{ hasTypes }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 32px; padding-bottom: 12px; border-bottom: 1px solid #EAEDF2;">
+            <div style="font-size: 16px; font-weight: 600;">Options for selected types</div>
+            <div style="font-size: 13px; color: #8A94A6;">{{ reqNoteD }}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+            <sc-for list="{{ typesD }}" as="t" hint-placeholder-count="3">
+              <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #EAEDF2;">
+                  <span style="width: 32px; height: 32px; border-radius: 6px; background: #F1F3F7; color: #323A45; display: flex; align-items: center; justify-content: center; flex: 0 0 32px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ t.icon }}" size="18" hint-size="18px,18px"></x-import></span>
+                  <div style="font-size: 15px; font-weight: 600;">{{ t.title }}</div>
+                  <sc-if value="{{ t.isPost }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap; box-sizing: border-box; flex: 0 0 auto; background: #FFF3DC; color: #8A5300; border: 1px solid #F2D59A;">Post-MVP</span></sc-if>
+                  <sc-if value="{{ t.hasCount }}" hint-placeholder-val="{{ true }}">
+                    <span style="display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px; border: 1px solid #DFE3EA; border-radius: 4px; font-size: 12px; color: #323A45;">{{ t.count }}<x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="edit" size="12" hint-size="12px,12px"></x-import></span>
+                  </sc-if>
+                  <div style="flex: 1;"></div>
+                  <sc-if value="{{ t.canRemove }}" hint-placeholder-val="{{ false }}">
+                    <div onClick="{{ t.remove }}" style="font-size: 13px; color: #636D7E; cursor: pointer;" style-hover="color: #C0392B;">Remove</div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ t.isProd }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px 6px; flex-wrap: wrap;">
+                    <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px;">
+                      <sc-for list="{{ t.modeSeg }}" as="o" hint-placeholder-count="2">
+                        <div onClick="{{ o.onClick }}" style="height: 28px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+                      </sc-for>
+                    </div>
+                    <span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap; box-sizing: border-box; flex: 0 0 auto; background: #FFF3DC; color: #8A5300; border: 1px solid #F2D59A;">Per image: Post-MVP</span>
+<span style="font-size: 12px; color: #8A94A6;">{{ t.modeNote }}</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ t.showOps }}" hint-placeholder-val="{{ true }}">
+                  <div style="padding: 0 16px 12px;">
+                    <sc-for list="{{ t.ops }}" as="op" hint-placeholder-count="2">
+                      <div style="border-bottom: 1px solid #F1F3F7;">
+                        <div onClick="{{ op.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer;">
+                          <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 14px; font-weight: 500;">{{ op.name }}</div>
+                            <div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ op.sum }}</div>
+                          </div>
+                          <sc-if value="{{ op.isOver }}" hint-placeholder-val="{{ false }}"></sc-if>
+                          <div style="color: #8A94A6; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ op.chev }}" size="18" hint-size="18px,18px"></x-import></div>
+                          <div onClick="{{ op.remove }}" style="width: 26px; height: 26px; border-radius: 4px; color: #8A94A6; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="15" hint-size="15px,15px"></x-import></div>
+                        </div>
+                        <sc-if value="{{ op.open }}" hint-placeholder-val="{{ false }}"><div style="padding: 0 0 16px;"><div style="display: flex; flex-wrap: wrap; gap: 16px 20px;">
+  <sc-for list="{{ op.fields }}" as="fd" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 6px; min-width: 140px;">
+      <div style="font-size: 12px; color: #636D7E;">{{ fd.label }}</div>
+      <sc-if value="{{ fd.isOpts }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px; align-self: flex-start;">
+          <sc-for list="{{ fd.opts }}" as="o" hint-placeholder-count="2">
+            <div onClick="{{ o.onClick }}" style="height: 28px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; font-size: 13px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ fd.notOpts }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: 8px; height: 32px; min-width: 130px; padding: 0 10px; border: 1px solid #DFE3EA; border-radius: 4px; font-size: 13px; color: #0A0C0F; background: #fff; box-sizing: border-box; align-self: flex-start;">
+          <sc-if value="{{ fd.hasSwatch }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C3C9D4; background: #FFFFFF;"></span></sc-if>
+          {{ fd.val }}
+        </div>
+      </sc-if>
+      <div style="font-size: 11px; color: #8A94A6; max-width: 240px; line-height: 1.4; text-wrap: pretty;">{{ fd.rule }}</div>
+    </div>
+  </sc-for>
+</div></div></sc-if>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ t.canAddOp }}" hint-placeholder-val="{{ false }}">
+                      <div style="position: relative; padding-top: 8px;">
+                        <div onClick="{{ t.toggleAddOp }}" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; font-size: 13px; font-weight: 600; color: #3448C5; cursor: pointer;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>Add operation</div>
+                        <sc-if value="{{ t.addOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position: absolute; top: 40px; left: 0; z-index: 20; min-width: 260px; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); padding: 4px;">
+    <sc-for list="{{ t.addOps }}" as="a" hint-placeholder-count="2">
+      <div onClick="{{ a.add }}" style="height: 34px; padding: 0 10px; display: flex; align-items: center; font-size: 13px; border-radius: 4px; cursor: pointer;" style-hover="background: #F7F8FA;">{{ a.name }}</div>
+    </sc-for>
+  </div>
+</sc-if>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ t.showPer }}" hint-placeholder-val="{{ true }}">
+<div style="padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 10px; ">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                      <span style="font-size: 12px; color: #636D7E;">Match images by</span>
+                      <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px;">
+                        <sc-for list="{{ t.matchSeg }}" as="o" hint-placeholder-count="2">
+                          <div onClick="{{ o.onClick }}" style="height: 26px; padding: 0 10px; border-radius: 4px; display: flex; align-items: center; font-size: 12px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+                        </sc-for>
+                      </div>
+                      <span style="font-size: 12px; color: #8A94A6;">{{ t.matchRule }}</span>
+                    </div>
+<sc-for list="{{ t.slots }}" as="s" hint-placeholder-count="4">
+  <div style="border: 1px solid {{ s.cardBd }}; border-radius: 6px; background: #fff;">
+    <div onClick="{{ s.toggleCard }}" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer;">
+      <div style="color: #8A94A6; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ s.chevCard }}" size="18" hint-size="18px,18px"></x-import></div>
+      <span style="align-self: flex-start; font-family: 'Roboto Mono', monospace; font-size: 12px; background: #fff; border: 1px solid #DFE3EA; border-radius: 4px; padding: 3px 8px; white-space: nowrap;">{{ s.match }}</span>
+      <span style="font-size: 14px; font-weight: 600; white-space: nowrap;">{{ s.label }}</span>
+      <span style="flex: 1; min-width: 0; font-size: 12px; color: #636D7E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ s.opsSummary }}</span>
+      <span style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ s.naming }}</span>
+      <div onClick="{{ s.remove }}" style="width: 26px; height: 26px; border-radius: 4px; color: #8A94A6; display: {{ s.rmDisp }}; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 26px;" style-hover="background: #F1F3F7; color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="15" hint-size="15px,15px"></x-import></div>
+    </div>
+    <sc-if value="{{ s.cardOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 0 14px 14px 44px; border-top: 1px solid #F1F3F7;">
+        <sc-for list="{{ s.ops }}" as="op" hint-placeholder-count="2">
+                      <div style="border-bottom: 1px solid #F1F3F7;">
+                        <div onClick="{{ op.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; cursor: pointer;">
+                          <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 14px; font-weight: 500;">{{ op.name }}</div>
+                            <div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ op.sum }}</div>
+                          </div>
+                          <sc-if value="{{ op.isOver }}" hint-placeholder-val="{{ false }}"><span style="font-size: 11px; font-weight: 600; color: #3448C5; background: #EEF1FB; border-radius: 4px; padding: 2px 6px;">{{ op.overLabel }}</span></sc-if>
+                          <div style="color: #8A94A6; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ op.chev }}" size="18" hint-size="18px,18px"></x-import></div>
+                          <div onClick="{{ op.remove }}" style="width: 26px; height: 26px; border-radius: 4px; color: #8A94A6; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="15" hint-size="15px,15px"></x-import></div>
+                        </div>
+                        <sc-if value="{{ op.open }}" hint-placeholder-val="{{ false }}"><div style="padding: 0 0 16px;"><div style="display: flex; flex-wrap: wrap; gap: 16px 20px;">
+  <sc-for list="{{ op.fields }}" as="fd" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 6px; min-width: 140px;">
+      <div style="font-size: 12px; color: #636D7E;">{{ fd.label }}</div>
+      <sc-if value="{{ fd.isOpts }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px; align-self: flex-start;">
+          <sc-for list="{{ fd.opts }}" as="o" hint-placeholder-count="2">
+            <div onClick="{{ o.onClick }}" style="height: 28px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; font-size: 13px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ fd.notOpts }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: 8px; height: 32px; min-width: 130px; padding: 0 10px; border: 1px solid #DFE3EA; border-radius: 4px; font-size: 13px; color: #0A0C0F; background: #fff; box-sizing: border-box; align-self: flex-start;">
+          <sc-if value="{{ fd.hasSwatch }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C3C9D4; background: #FFFFFF;"></span></sc-if>
+          {{ fd.val }}
+        </div>
+      </sc-if>
+      <div style="font-size: 11px; color: #8A94A6; max-width: 240px; line-height: 1.4; text-wrap: pretty;">{{ fd.rule }}</div>
+    </div>
+  </sc-for>
+</div></div></sc-if>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ s.canAddOp }}" hint-placeholder-val="{{ false }}">
+                      <div style="position: relative; padding-top: 8px;">
+                        <div onClick="{{ s.toggleAddOp }}" style="display: inline-flex; align-items: center; gap: 6px; height: 30px; font-size: 13px; font-weight: 600; color: #3448C5; cursor: pointer;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>Add operation</div>
+                        <sc-if value="{{ s.addOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position: absolute; top: 40px; left: 0; z-index: 20; min-width: 260px; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); padding: 4px;">
+    <sc-for list="{{ s.addOps }}" as="a" hint-placeholder-count="2">
+      <div onClick="{{ a.add }}" style="height: 34px; padding: 0 10px; display: flex; align-items: center; font-size: 13px; border-radius: 4px; cursor: pointer;" style-hover="background: #F7F8FA;">{{ a.name }}</div>
+    </sc-for>
+  </div>
+</sc-if>
+                      </div>
+                    </sc-if>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid #EAEDF2; margin-top: 8px; padding-top: 12px;">
+  <span style="font-size: 12px; color: #636D7E; width: 70px;">File name</span>
+  <span style="font-family: 'Roboto Mono', monospace; font-size: 13px; background: #fff; border: 1px solid #DFE3EA; border-radius: 4px; padding: 6px 10px;">{{ s.naming }}</span>
+  <span style="font-size: 12px; color: #8A94A6;">Example: {{ s.example }}</span>
+</div>
+      </div>
+    </sc-if>
+  </div>
+</sc-for>
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: inline-flex; align-items: center; gap: 6px; height: 30px; font-size: 13px; font-weight: 600; color: #3448C5; cursor: pointer;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>Add image rule</div>
+  <span style="font-size: 12px; color: #8A94A6;">Rules are checked top to bottom. The last rule catches every image not matched above.</span>
+</div>
+</div>
+</sc-if>
+                <sc-if value="{{ t.isVideo }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding: 16px;"><div style="display: flex; flex-direction: column; gap: 16px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 16px 20px;">
+  <sc-for list="{{ videoFields }}" as="fd" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 6px; min-width: 140px;">
+      <div style="font-size: 12px; color: #636D7E;">{{ fd.label }}</div>
+      <sc-if value="{{ fd.isOpts }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px; align-self: flex-start;">
+          <sc-for list="{{ fd.opts }}" as="o" hint-placeholder-count="2">
+            <div onClick="{{ o.onClick }}" style="height: 28px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; font-size: 13px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ fd.notOpts }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: 8px; height: 32px; min-width: 130px; padding: 0 10px; border: 1px solid #DFE3EA; border-radius: 4px; font-size: 13px; color: #0A0C0F; background: #fff; box-sizing: border-box; align-self: flex-start;">
+          <sc-if value="{{ fd.hasSwatch }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C3C9D4; background: #FFFFFF;"></span></sc-if>
+          {{ fd.val }}
+        </div>
+      </sc-if>
+      <div style="font-size: 11px; color: #8A94A6; max-width: 240px; line-height: 1.4; text-wrap: pretty;">{{ fd.rule }}</div>
+    </div>
+  </sc-for>
+</div>
+  <div style="position: relative; border-top: 1px solid #F1F3F7; padding-top: 14px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="flex: 1; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 14px; font-weight: 500;">Create captions (VTT)</span><span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; line-height: 1; white-space: nowrap; box-sizing: border-box; flex: 0 0 auto; background: #E6F4EA; color: #1B6B3A; border: 1px solid #B7DEC3;">MVP</span></div>
+        <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Generates a WebVTT captions file for each product video</div>
+      </div>
+      <div onClick="{{ vtt.toggle }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ vtt.tBg }}; display: flex; align-items: center; justify-content: {{ vtt.tJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+    </div>
+    <sc-if value="{{ vtt.on }}" hint-placeholder-val="{{ true }}"><div style="margin-top: 14px;"><div style="display: flex; flex-wrap: wrap; gap: 16px 20px;">
+  <sc-for list="{{ vtt.fields }}" as="fd" hint-placeholder-count="2">
+    <div style="display: flex; flex-direction: column; gap: 6px; min-width: 140px;">
+      <div style="font-size: 12px; color: #636D7E;">{{ fd.label }}</div>
+      <sc-if value="{{ fd.isOpts }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; background: #F1F3F7; border-radius: 6px; padding: 2px; align-self: flex-start;">
+          <sc-for list="{{ fd.opts }}" as="o" hint-placeholder-count="2">
+            <div onClick="{{ o.onClick }}" style="height: 28px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; font-size: 13px; font-weight: 500; white-space: nowrap; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; cursor: pointer;">{{ o.label }}</div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ fd.notOpts }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: 8px; height: 32px; min-width: 130px; padding: 0 10px; border: 1px solid #DFE3EA; border-radius: 4px; font-size: 13px; color: #0A0C0F; background: #fff; box-sizing: border-box; align-self: flex-start;">
+          <sc-if value="{{ fd.hasSwatch }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C3C9D4; background: #FFFFFF;"></span></sc-if>
+          {{ fd.val }}
+        </div>
+      </sc-if>
+      <div style="font-size: 11px; color: #8A94A6; max-width: 240px; line-height: 1.4; text-wrap: pretty;">{{ fd.rule }}</div>
+    </div>
+  </sc-for>
+</div></div></sc-if>
+  </div>
+</div></div>
+                </sc-if>
+                <sc-if value="{{ t.canCreate }}" hint-placeholder-val="{{ false }}">
+<div style="border-top: 1px solid #EAEDF2; padding: 14px 16px;">
+  <div style="display: flex; align-items: center; gap: 12px;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;">
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span style="font-size: 14px; font-weight: 500;">{{ t.createLabel }}</span>
+        <span style="font-size: 11px; font-weight: 600; color: #5B3DB5; background: #F1EEFC; border-radius: 4px; padding: 2px 6px;">AI generation · full review</span>
+      </div>
+      <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">{{ t.createNote }}</div>
+    </div>
+    <div onClick="{{ t.create.toggle }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ t.create.tBg }}; display: flex; align-items: center; justify-content: {{ t.create.tJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+  </div>
+</div>
+</sc-if>
+<div style="position: relative; border-top: 1px solid #EAEDF2; padding: 12px 16px; background: #FAFBFC; border-radius: 0 0 8px 8px;">
+                  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <span style="font-size: 12px; color: #636D7E; width: 70px;">File name</span>
+                    <span style="font-family: 'Roboto Mono', monospace; font-size: 13px; background: #fff; border: 1px solid #DFE3EA; border-radius: 4px; padding: 6px 10px;">{{ t.naming }}</span>
+                    <span style="font-size: 12px; color: #8A94A6;">Example: {{ t.example }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+          <sc-if value="{{ hasAddTypesD }}" hint-placeholder-val="{{ false }}">
+            <div style="position: relative; margin-top: 16px;">
+              
+              <sc-if value="{{ addTypeOpenD }}" hint-placeholder-val="{{ false }}">
+  <div style="position: absolute; top: 54px; left: 0; z-index: 20; min-width: 260px; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); padding: 4px;">
+    <sc-for list="{{ addTypesD }}" as="a" hint-placeholder-count="2">
+      <div onClick="{{ a.add }}" style="height: 34px; padding: 0 10px; display: flex; align-items: center; font-size: 13px; border-radius: 4px; cursor: pointer;" style-hover="background: #F7F8FA;">{{ a.name }}</div>
+    </sc-for>
+  </div>
+</sc-if>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const RID = (p) => 'a_' + p.replace('assets/', '').replace(/[^a-z0-9]/gi, '_');
+const A = (p) => (window.__resources && window.__resources[RID(p)]) || p;
+const GO = (name, q) => { const dc = /\.dc\.html$/.test(decodeURIComponent(location.pathname)); location.href = encodeURIComponent(name) + (dc ? '.dc.html' : '.html') + (q || ''); };
+const KEY = 'channels-redesign-scope-v1';
+const TAGS = {
+  list_public: ['Public channel list', 'mvp'],
+  list_custom: ['Custom channel list', 'mvp'],
+  list_create: ['Create custom channel', 'mvp'],
+  list_search: ['Search and filter channels', 'post'],
+  list_more: ['More public channels (Q4)', 'post'],
+  d_mand: ['Mandatory product image checks (read-only)', 'mvp'],
+  d_source: ['Link to the channel\'s published source', 'mvp'],
+  d_max: ['Editable maximum images per product', 'mvp'],
+  d_video: ['Optional: product video', 'mvp'],
+  d_lifestyle: ['Optional: lifestyle image', 'mvp'],
+  d_use: ['Optional: product use image', 'mvp'],
+  d_nutrition: ['Optional: nutrition and info panel', 'post'],
+  d_infographic: ['Optional: infographic', 'post'],
+  c_name: ['Custom channel name', 'mvp'],
+  c_fixes: ['Custom: choose product image fixes', 'mvp'],
+  c_overlay: ['Custom: add text or logo', 'mvp'],
+  c_tx: ['Custom: transformation string', 'mvp'],
+  c_flow: ['Custom: media flow', 'post'],
+  t2_summary: ['Channel list: operations summary (up to 100 characters)', 'mvp'],
+  t2_categories: ['Custom: category requirements', 'mvp'],
+  t2_shots: ['Custom: shot sequence per category', 'mvp'],
+  t2_vtt: ['Custom: create VTT captions', 'mvp'],
+  t2_naming: ['Custom: file naming per asset type', 'mvp'],
+  t3_perimage: ['Custom: per-image operations and file names', 'post'],
+  t4_create: ['Custom: create video or lifestyle image when missing', 'post'],
+};
+const PUB = [
+  { key: 'amazon', name: 'Amazon', profile: 'amazon/main', logo: A('assets/channel-amazon.png'), spec: '1:1 · 1000 px min, pure white · 85% fill · no text', images: '6' },
+  { key: 'walmart', name: 'Walmart', profile: 'walmart/primary', logo: A('assets/channel-walmart-mark.png'), spec: '1:1 · 1500 px min, 2200 px recommended · pure white', images: 'Min 4' },
+  { key: 'target', name: 'Target', profile: 'target/plus', logo: A('assets/channel-target-mark.png'), spec: '1:1 · 1200 px min, 2400 px recommended · white', images: 'Min 3' },
+];
+const CHECKS = [
+  ['File format', 'JPEG or JPG'], ['Size', 'Longest side at least 1,000 px'],
+  ['Quality', 'Minimum 72dpi, Clear, not pixelated'], ['Aspect ratio', '1:1'],
+  ['Background', 'Pure white'], ['Framing', 'Product fills 85% of the frame. Product not cut off, No text or logos outside product'],
+];
+const OPT = [
+  { key: 'video', tag: 'd_video', icon: 'videocam', title: 'Product video', desc: 'A video of the product', thumb: null },
+  { key: 'lifestyle', tag: 'd_lifestyle', icon: 'image', title: 'Lifestyle image', desc: 'The product in a scene. For example, a vase on a stool in a living room.', thumb: A('assets/polo-lifestyle.jpg') },
+  { key: 'use', tag: 'd_use', icon: 'image', title: 'Product use image', desc: 'The product being used. For example, a bracelet on a wrist.', thumb: A('assets/wshirt-pose.jpg') },
+  { key: 'nutrition', tag: 'd_nutrition', icon: 'image', title: 'Nutrition and info panel', desc: 'The nutrition or info panel, often extracted from a product image.', thumb: A('assets/drink-nutrition.jpg') },
+  { key: 'infographic', tag: 'd_infographic', icon: 'image', title: 'Infographic', desc: 'The product with information, often as text.', thumb: A('assets/drill-callouts.jpg') },
+];
+const VID = {
+  public: [['Format', 'MP4'], ['Max file size', '5 GB'], ['Resolution', 'Up to 1080p'], ['Aspect ratio', '16:9 horizontal'], ['Duration', '1–2 min']],
+  custom: [['Format', 'MP4'], ['Max file size', '5 GB'], ['Resolution', 'Up to 1080p'], ['Aspect ratio', '16:9 horizontal or 9:16 vertical'], ['Duration', '1–12 min']],
+};
+const Q4 = ['Google', 'eBay', 'Home Depot', 'Best Buy', 'Instacart', "Lowe's"];
+
+const T2_OPS = {
+  enhance: { name: 'Enhance quality', short: 'Enhance quality' },
+  bg: { name: 'Remove and replace background', short: 'Replace background' },
+  frame: { name: 'Fix product framing', short: 'Fix framing' },
+  crop: { name: 'Crop to size', short: 'Crop' },
+};
+const T2_TYPES = {
+  images: { title: 'Product images', short: 'Images', kind: 'image', icon: 'image', count: '4–8 images', naming: '{sku}_{seq}.jpg' },
+  video: { title: 'Product video', short: 'Video', kind: 'video', icon: 'videocam', naming: '{sku}_video.mp4' },
+  lifestyle: { title: 'Lifestyle image', short: 'Lifestyle', kind: 'image', icon: 'image', count: '1–2 images', naming: '{sku}_lifestyle_{seq}.jpg' },
+  use: { title: 'Product use image', short: 'Product use', kind: 'image', icon: 'image', count: '1 image', naming: '{sku}_use_{seq}.jpg' },
+  nutrition: { title: 'Nutrition and info panel', short: 'Nutrition panel', kind: 'image', icon: 'image', count: '1 image', naming: '{sku}_nutrition.jpg' },
+  infographic: { title: 'Infographic', short: 'Infographic', kind: 'image', icon: 'image', count: '1–3 images', naming: '{sku}_info_{seq}.jpg' },
+};
+const T2_ALL4 = ['enhance', 'bg', 'frame', 'crop'], T2_CUT = ['bg', 'frame', 'crop'], T2_EC = ['enhance', 'crop'];
+const T2_CATS = [
+  { key: 'all', name: 'All products', match: 'Products with no category below', count: '5 images', src: 'File name', sku: 'CAM-DSLR-10026',
+    shots: [{ seq: 1, cls: 'Front', type: 'images', thumb: A('assets/camera-front.jpg'), ops: T2_ALL4 }, { seq: 2, cls: 'Back', type: 'images', thumb: A('assets/camera-back.jpg'), ops: T2_ALL4 },
+      { seq: 3, cls: 'Top-down', type: 'images', thumb: A('assets/camera-top.jpg'), ops: T2_ALL4 }, { seq: 4, cls: 'In the box', type: 'images', thumb: A('assets/camera-inbox.jpg'), ops: T2_EC },
+      { seq: 5, cls: 'Lifestyle', type: 'lifestyle', thumb: A('assets/polo-lifestyle.jpg'), ops: T2_EC }] },
+  { key: 'shoes', name: 'Shoes', match: 'Product category is Shoes', count: '6 images', src: 'File name', sku: 'FTW-RUN-60026', over: { frame: '80%' },
+    shots: [{ seq: 1, cls: 'Side profile', type: 'images', thumb: A('assets/shoe-side.jpg'), ops: T2_CUT }, { seq: 2, cls: 'Pair', type: 'images', thumb: A('assets/shoe-pair.jpg'), ops: T2_CUT },
+      { seq: 3, cls: 'Three-quarter', type: 'images', thumb: A('assets/shoe-hero.jpg'), ops: T2_CUT }, { seq: 4, cls: 'Detail', type: 'images', thumb: A('assets/shoe-detail.jpg'), ops: T2_EC },
+      { seq: 5, cls: 'Alternate angle', type: 'images', thumb: A('assets/shoe-alt.jpg'), ops: T2_CUT }, { seq: 6, cls: 'Alternate angle', type: 'images', thumb: A('assets/shoe-alt2.jpg'), ops: T2_CUT }] },
+  { key: 'clothing', name: 'Clothing', match: 'Product category is Clothing', count: '6 images', src: 'Metadata', sku: 'APW-SHT-30026',
+    shots: [{ seq: 1, cls: 'On model, front', type: 'images', thumb: A('assets/wshirt-pose.jpg'), ops: T2_EC }, { seq: 2, cls: 'Flatlay, front', type: 'images', thumb: A('assets/wshirt-front.jpg'), ops: T2_CUT },
+      { seq: 3, cls: 'Flatlay, back', type: 'images', thumb: A('assets/wshirt-back.jpg'), ops: T2_CUT }, { seq: 4, cls: 'Full length', type: 'images', thumb: A('assets/polo-front.jpg'), ops: T2_CUT },
+      { seq: 5, cls: 'Detail', type: 'images', thumb: A('assets/wshirt-alt.jpg'), ops: T2_EC }, { seq: 6, cls: 'Lifestyle', type: 'lifestyle', thumb: A('assets/polo-lifestyle.jpg'), ops: T2_EC }] },
+];
+const PUB_V2 = [
+  { key: 'amazon', name: 'Amazon', profile: 'amazon/main', logo: A('assets/channel-amazon.png'), spec: '1:1 · 1000 px min, pure white · 85% fill · no text', images: '6', min: 1,
+    checks: [['File format', 'JPEG or JPG'], ['Size', 'Longest side at least 1,000 px'], ['Quality', 'Minimum 72dpi, Clear, not pixelated'], ['Aspect ratio', '1:1'], ['Background', 'Pure white'], ['Framing', 'Product fills 85% of the frame. Product not cut off, No text or logos outside product']] },
+  { key: 'walmart', name: 'Walmart', profile: 'walmart/primary', logo: A('assets/channel-walmart-mark.png'), spec: '1:1 · 1500 px min, 2200 px recommended · pure white', images: 'Min 4', min: 4,
+    checks: [['Size', 'At least 1500 × 1500 px, 2200 × 2200 px recommended'], ['Aspect ratio', '1:1'], ['Background', 'Pure white']] },
+  { key: 'target', name: 'Target', profile: 'target/plus', logo: A('assets/channel-target-mark.png'), spec: '1:1 · 1200 px min, 2400 px recommended · white', images: 'Min 3', min: 3,
+    checks: [['Size', 'At least 1200 × 1200 px, 2400 × 2400 px recommended'], ['Aspect ratio', '1:1'], ['Background', 'White']] },
+];
+const OPT_V2 = [
+  { key: 'video', title: 'Product video', desc: 'A video of the product', thumb: null },
+  { key: 'lifestyle', title: 'Lifestyle image', desc: 'The product in a scene. For example, a vase on a stool in a living room.', thumb: A('assets/polo-lifestyle.jpg') },
+  { key: 'use', title: 'Product use image', desc: 'The product being used. For example, a bracelet on a wrist.', thumb: A('assets/wshirt-pose.jpg') },
+];
+const VID_V2 = [['Format', 'MP4'], ['Max file size', '5 GB'], ['Resolution', 'Up to 1080p'], ['Aspect ratio', '16:9 horizontal'], ['Duration', '1–2 min']];
+
+const T2_DESC = {
+  images: 'Photos of the product itself, such as front, back and detail shots.',
+  video: 'A short MP4 showing the product, with optional captions.',
+  lifestyle: 'The product in a scene, such as a vase in a living room.',
+  use: 'The product being used, such as a bracelet on a wrist.',
+  nutrition: 'Nutrition facts and ingredients panel for food and drink.',
+  infographic: 'Feature callouts, dimensions or comparisons laid over the product.',
+};
+const T3_SLOTS = [
+  { id: 's1', order: 1, fname: '_front', label: 'Main image', ops: ['enhance', 'bg', 'frame', 'crop'], naming: '{sku}_main.jpg' },
+  { id: 's2', order: 2, fname: '_back', label: 'Back', ops: ['bg', 'frame', 'crop'], naming: '{sku}_back.jpg' },
+  { id: 's3', order: 3, fname: '_detail', label: 'Detail', ops: ['enhance', 'crop'], naming: '{sku}_detail.jpg' },
+  { id: 'rest', order: 4, label: 'All other images', ops: ['crop'], naming: '{sku}_{seq}.jpg', rest: true },
+];
+const T2_INIT = { name: 'Brand site', types: ['images', 'video', 'lifestyle'],
+  ops: { images: T2_ALL4.slice(), lifestyle: T2_EC.slice(), use: ['crop'], nutrition: ['crop'], infographic: ['crop'] },
+  open: { 'images:crop': true }, addOp: null, addType: false, upscale: '4x', shadow: 'None', cropMode: 'Exact size', cropFit: 'Pad', cropAr: '1:1',
+  res: '1080p', ar: '16:9', vtt: true, cat: 'shoes', src: {}, catB: 'shoes', slot: 1, slotOps: {}, addOpB: false };
+
+class Component extends DCLogic {
+  state = {
+    scope: (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } })(),
+    modeC: 'public', modeD: 'public', selD: 'images', maxImg: 10, filter: 'All',
+    optPub: {}, optCus: { video: true, lifestyle: true, use: true },
+    fix: { upscale: true, bg: true, frame: true, crop: true, overlay: false },
+    upscale: '4x', overlayType: 'Text', method: 'fixes',
+    chanOn: { amazon: true, walmart: true, target: false, brand: true, macys: false },
+    copied: false,
+  };
+
+  scopeOf(k) { return this.state.scope[k] || TAGS[k][1]; }
+  setScope(k) {
+    const scope = { ...this.state.scope, [k]: this.scopeOf(k) === 'mvp' ? 'post' : 'mvp' };
+    try { localStorage.setItem(KEY, JSON.stringify(scope)); } catch (e) {}
+    this.setState({ scope });
+  }
+  chip(k) {
+    const post = this.scopeOf(k) === 'post';
+    const mode = this.props.postMvpDisplay ?? 'Show';
+    const show = this.props.showScopeTags ?? true;
+    return {
+      label: post ? 'Post-MVP' : 'MVP',
+      bg: post ? '#FFF3DC' : '#E6F4EA', fg: post ? '#8A5300' : '#1B6B3A', bd: post ? '#F2D59A' : '#B7DEC3',
+      chipDisp: show ? 'flex' : 'none',
+      op: post && mode === 'Dim' ? 0.45 : 1,
+      disp: post && mode === 'Hide' ? 'none' : 'block',
+      cycle: (e) => { if (e) e.stopPropagation(); this.setScope(k); },
+    };
+  }
+  tog(on, fn) {
+    return { on, tBg: on ? '#3448C5' : '#D1D6E0', tJ: on ? 'flex-end' : 'flex-start', toggle: (e) => { if (e) e.stopPropagation(); fn(); } };
+  }
+  seg(opts, cur, set, opFor) {
+    return opts.map((o) => {
+      const v = o.value || o, a = v === cur;
+      return { label: o.label || o, bg: a ? '#fff' : 'transparent', fg: a ? '#0A0C0F' : '#636D7E', sh: a ? '0 1px 2px rgba(10,12,15,0.12)' : 'none', op: opFor ? opFor(v) : 1, onClick: () => set(v) };
+    });
+  }
+  setFix(k) { this.setState((s) => ({ fix: { ...s.fix, [k]: !s.fix[k] } })); }
+  setOpt(mode, k) {
+    const f = mode === 'public' ? 'optPub' : 'optCus';
+    this.setState((s) => ({ [f]: { ...s[f], [k]: !s[f][k] } }));
+  }
+  setChan(k) { this.setState((s) => ({ chanOn: { ...s.chanOn, [k]: !s.chanOn[k] } })); }
+
+  txString() {
+    const s = this.state, f = s.fix, p = [];
+    if (f.upscale) p.push('e_upscale');
+    if (f.bg) p.push('e_background_removal');
+    if (f.frame) p.push('e_trim', 'c_fit,w_1700,h_1700');
+    if (f.crop) p.push('c_pad,w_2000,h_2000,ar_1:1' + (f.bg ? ',b_rgb:FFFFFF' : ''));
+    if (f.overlay) p.push(s.overlayType === 'Text' ? 'l_text:Inter_48_semibold:Your%20brand,g_south_east,x_40,y_40/fl_layer_apply' : 'l_brand_logo,w_0.12,fl_relative,g_south_east,x_40,y_40/fl_layer_apply');
+    p.push('f_jpg');
+    return p.join('/');
+  }
+  fixItems() {
+    const s = this.state, f = s.fix;
+    const box = (label, val, sw) => ({ label, val, isOpts: false, notOpts: true, hasSwatch: !!sw });
+    const opts = (label, list, cur, set) => ({ label, isOpts: true, notOpts: false, opts: this.seg(list, cur, set) });
+    const items = [
+      { key: 'upscale', title: 'Enhance quality', desc: 'Upscale low-resolution originals.', fields: [opts('Upscale', ['2x', '4x'], s.upscale, (v) => this.setState({ upscale: v }))] },
+      { key: 'bg', title: 'Remove and replace background', desc: 'Replace the background with a solid color.', fields: [box('Background color (RGB)', '255, 255, 255 · white', true)] },
+      { key: 'frame', title: 'Fix product framing', desc: 'Scale the product so it fills part of the frame.', fields: [box('Product fills', '85% of the frame')] },
+      { key: 'crop', title: 'Crop to size', desc: 'Set the image dimensions.', fields: [box('Width', '2000 px'), box('Height', '2000 px'), box('Aspect ratio', '1:1')] },
+      { key: 'overlay', tag: 'c_overlay', title: 'Add text or logo', desc: 'Place a logo or a line of text on every image.',
+        fields: [opts('Type', ['Image', 'Text'], s.overlayType, (v) => this.setState({ overlayType: v }))].concat(
+          s.overlayType === 'Text'
+            ? [box('Text', 'Your brand'), box('Font', 'Inter SemiBold, 48 px'), box('Position', 'Bottom right'), box('Layout', 'Single line')]
+            : [box('Image', 'Choose image…'), box('Position', 'Bottom right'), box('Size', '12% of width')]) },
+    ];
+    return items.map((it, i) => {
+      const on = !!f[it.key];
+      const tag = it.tag ? this.chip(it.tag) : null;
+      return { ...it, n: i + 1, ...this.tog(on, () => this.setFix(it.key)), hasTag: !!tag, tag: tag || {},
+        op: tag ? tag.op : 1, disp: tag ? tag.disp : 'block',
+        bd: on ? '#C9D0F2' : '#EAEDF2', bg: on ? '#fff' : '#FAFBFC', numBg: on ? '#3448C5' : '#E3E7EE', numFg: on ? '#fff' : '#636D7E' };
+    });
+  }
+  optItems(mode) {
+    const opt = mode === 'public' ? this.state.optPub : this.state.optCus;
+    return OPT.map((o) => {
+      const on = !!opt[o.key];
+      const fields = o.key === 'video' ? VID[mode].map(([label, val]) => ({ label, val })) : [];
+      return { ...o, hasThumb: !!o.thumb, noThumb: !o.thumb, ...this.tog(on, () => this.setOpt(mode, o.key)),
+        showCfg: on && fields.length > 0, fields, hasFields: fields.length > 0, tag: this.chip(o.tag) };
+    });
+  }
+  imagesState(mode) {
+    if (mode === 'public') return 'Required · 1–' + this.state.maxImg + ' images';
+    if (this.state.method === 'tx') return 'Transformation string';
+    if (this.state.method === 'flow') return 'Media flow';
+    return Object.values(this.state.fix).filter(Boolean).length + ' steps on';
+  }
+  hdr(mode) {
+    const k = mode === 'public' ? 'amazon' : 'brand';
+    return { isPub: mode === 'public', isCus: mode === 'custom', ...this.tog(this.state.chanOn[k], () => this.setChan(k)) };
+  }
+  pills(opt) {
+    return OPT.slice(0, 3).map((o) => ({ label: o.title, icon: opt[o.key] ? 'check' : o.icon, bg: opt[o.key] ? '#EEF1FB' : '#F7F8FA', fg: opt[o.key] ? '#3448C5' : '#A6AEBC' }));
+  }
+  chips(opt) { return OPT.filter((o) => opt[o.key]).map((o) => o.title); }
+
+  copyScope() {
+    const mvp = [], post = [];
+    Object.keys(TAGS).forEach((k) => (this.scopeOf(k) === 'mvp' ? mvp : post).push('- ' + TAGS[k][0]));
+    const text = 'Channels (IMG-8140, IMG-8141)\n\nMVP\n' + mvp.join('\n') + '\n\nPost-MVP\n' + post.join('\n');
+    try { navigator.clipboard.writeText(text); } catch (e) {}
+    this.setState({ copied: true });
+    clearTimeout(this._t); this._t = setTimeout(() => this.setState({ copied: false }), 1600);
+  }
+
+  _t2() {
+    const init = { ...T2_INIT, name: this.props.channelName || '' };
+    const t = this.state.t2 || init;
+    const set = (p) => this.setState((s) => { const cur = s.t2 || init; return { t2: { ...cur, ...(typeof p === 'function' ? p(cur) : p) } }; });
+    const pad = (n) => String(n).padStart(2, '0');
+    const box = (label, val, rule, sw) => ({ label, val, rule: rule || '', isOpts: false, notOpts: true, hasSwatch: !!sw });
+    const pick = (label, list, cur, key, rule) => ({ label, rule: rule || '', isOpts: true, notOpts: false, opts: this.seg(list, cur, (v) => set({ [key]: v })) });
+    const fillOf = (cat) => (cat && cat.over && cat.over.frame) || '85%';
+    const opFields = (k, cat) => {
+      if (k === 'enhance') return [pick('Upscale', ['2x', '4x'], t.upscale, 'upscale', 'Runs only when the original is smaller than the output size')];
+      if (k === 'bg') return [box('Background color', '#FFFFFF · white', 'Hex or RGB. Pure white is 255, 255, 255', true), pick('Shadow', ['None', 'Keep natural'], t.shadow, 'shadow', 'Natural shadows stay under the product')];
+      if (k === 'frame') return [box('Product fills', fillOf(cat) + ' of the frame', 'Between 50% and 100%'), box('Edge margin', '2%', 'Space between product and edge, 0–20%')];
+      const f = [pick('Crop mode', ['Exact size', 'Keep aspect ratio', 'Aspect ratio'], t.cropMode, 'cropMode', '')];
+      if (t.cropMode === 'Exact size') f.push(box('Width', '2000 px', '500–10,000 px'), box('Height', '2000 px', '500–10,000 px'), pick('If the shape differs', ['Pad', 'Crop'], t.cropFit, 'cropFit', 'Pad adds background. Crop trims the image.'));
+      else if (t.cropMode === 'Keep aspect ratio') f.push(box('Longest side', '2000 px', '500–10,000 px. Original proportions are kept.'));
+      else f.push(pick('Aspect ratio', ['1:1', '4:5', '3:4', '16:9', 'Custom'], t.cropAr, 'cropAr', 'Width to height'), box('Shortest side at least', '1000 px', '500 px or more'));
+      return f;
+    };
+    const opSum = (k, cat) => {
+      if (k === 'enhance') return 'Upscale ' + t.upscale;
+      if (k === 'bg') return 'White background, ' + (t.shadow === 'None' ? 'no shadow' : 'natural shadow');
+      if (k === 'frame') return fillOf(cat) + ' fill, 2% edge margin';
+      if (t.cropMode === 'Exact size') return '2000 × 2000 px, ' + t.cropFit.toLowerCase() + ' if the shape differs';
+      if (t.cropMode === 'Keep aspect ratio') return 'Longest side 2000 px, proportions kept';
+      return t.cropAr + ', shortest side at least 1000 px';
+    };
+    const clip = (str) => (str.length > 100 ? str.slice(0, 99).trimEnd() + '…' : str);
+    const catA = T2_CATS.find((c) => c.key === t.cat) || T2_CATS[0];
+    const catB = T2_CATS.find((c) => c.key === t.catB) || T2_CATS[1];
+    const srcOf = (c) => t.src[c.key] || c.src;
+    const catInfo = (c) => {
+      const src = srcOf(c);
+      return { ...c, srcSeg: this.seg(['File name', 'Metadata'], src, (v) => set((x) => ({ src: { ...x.src, [c.key]: v } }))),
+        srcVal: src === 'File name' ? '{sku}_{seq}' : 'shot_type',
+        srcRule: src === 'File name' ? 'The number in the original file name sets the shot. ' + c.sku + '_03.jpg is shot 3.' : 'The shot_type field on the original sets the shot, for example shot_type = flatlay.',
+        shots: c.shots.map((s) => ({ ...s, seqLabel: pad(s.seq), typeLabel: T2_TYPES[s.type].title })) };
+    };
+    const videoFields = [box('Format', 'MP4', 'Only MP4 is accepted'), box('Max file size', '500 MB', 'Up to 5 GB'),
+      pick('Resolution', ['720p', '1080p'], t.res, 'res', 'Videos below this are flagged'), pick('Aspect ratio', ['16:9', '9:16', 'Custom'], t.ar, 'ar', '16:9 horizontal or 9:16 vertical')];
+    if (t.ar === 'Custom') videoFields.push(box('Custom ratio', '4:5', 'Width to height'));
+    videoFields.push(box('Duration', '15 to 120 seconds', 'Between 1 and 720 seconds'));
+    const vtt = { ...this.tog(t.vtt, () => set((x) => ({ vtt: !x.vtt }))), fields: [box('Language', 'English', 'One VTT file per language'), box('File name', '{sku}_video.vtt', 'Must match the video file name')] };
+    const ex = (naming, sku, seq) => naming.replace('{sku}', sku).replace('{seq}', pad(seq || 1));
+    const nTag = this.chip('t2_naming');
+    const byName = t.match3 === 'File name';
+    const perCfg = { isProd: true, showOps: !t.per, showPer: !!t.per,
+      modeSeg: this.seg([{ label: 'Same for all images', value: 'simple' }, { label: 'Per image', value: 'per' }], t.per ? 'per' : 'simple', (v) => set({ per: v === 'per' })),
+      modeNote: t.per ? 'Each image gets its own operations and file name' : 'These operations run on every product image',
+      matchSeg: this.seg(['Order', 'File name'], byName ? 'File name' : 'Order', (v) => set({ match3: v })),
+      matchRule: byName ? 'Uses the original file name, for example ' + catA.sku + '_front.jpg' : 'Uses the image position on the product, 1 is the first image',
+      slots: T3_SLOTS.filter((s) => !(t.off3 || {})[s.id]).map((s) => {
+        const ops = (t.slotOps3 || {})[s.id] || s.ops;
+        return { label: s.label, match: s.rest ? (byName ? 'Any other name' : 'Images ' + s.order + '+') : byName ? 'Name contains ' + s.fname : 'Image ' + s.order,
+          ops: ops.map((k, i) => ({ n: i + 1, name: T2_OPS[k].short, remove: () => set((x) => ({ slotOps3: { ...(x.slotOps3 || {}), [s.id]: ops.filter((o) => o !== k) } })) })),
+          noOps: !ops.length, canAdd: ops.length < 4, addOpen: t.addOp3 === s.id,
+          toggleAdd: () => set((x) => ({ addOp3: x.addOp3 === s.id ? null : s.id })),
+          addOps: Object.keys(T2_OPS).filter((k) => !ops.includes(k)).map((k) => ({ name: T2_OPS[k].name, add: () => set((x) => ({ slotOps3: { ...(x.slotOps3 || {}), [s.id]: ops.concat(k) }, addOp3: null })) })),
+          naming: s.naming, example: ex(s.naming, catA.sku, s.order), rmDisp: s.rest ? 'none' : 'flex',
+          remove: () => set((x) => ({ off3: { ...(x.off3 || {}), [s.id]: true } })) };
+      }) };
+    const byName4 = t.match4 === 'File name', per4 = t.per4 ?? false, open4 = t.open4 || { 's1:crop': true };
+    const slots4 = T3_SLOTS.filter((s) => !(t.off4 || {})[s.id]).map((s) => {
+      const ops = (t.slotOps4 || {})[s.id] || s.ops, cardOpen = (t.card4 ?? 's1') === s.id, sel = (t.sel4 || 's1') === s.id;
+      return { id: s.id, label: s.label, naming: s.naming, example: ex(s.naming, catA.sku, s.order),
+        match: s.rest ? (byName4 ? 'Any other name' : 'Images ' + s.order + '+') : byName4 ? 'Name contains ' + s.fname : 'Image ' + s.order,
+        matchHelp: s.rest ? 'Every image not matched by a rule above' : byName4 ? 'Original file names that contain ' + s.fname + ', for example ' + catA.sku + s.fname + '.jpg' : 'The image in position ' + s.order + ' on the product',
+        opsSummary: ops.map((k) => T2_OPS[k].short).join(', ') || 'Checked as uploaded', opCount: ops.length + (ops.length === 1 ? ' operation' : ' operations'),
+        ops: ops.map((k) => { const oKey = s.id + ':' + k, open = !!open4[oKey];
+          return { name: T2_OPS[k].name, sum: opSum(k, null), open, chev: open ? 'expand_less' : 'expand_more', fields: opFields(k, null), isOver: false, overLabel: '',
+            toggle: () => set((x) => { const o = x.open4 || { 's1:crop': true }; return { open4: { ...o, [oKey]: !o[oKey] } }; }),
+            remove: (e) => { if (e) e.stopPropagation(); set((x) => ({ slotOps4: { ...(x.slotOps4 || {}), [s.id]: ops.filter((o) => o !== k) } })); } }; }),
+        canAddOp: ops.length < 4, addOpen: t.addOp4 === s.id, toggleAddOp: () => set((x) => ({ addOp4: x.addOp4 === s.id ? null : s.id })),
+        addOps: Object.keys(T2_OPS).filter((k) => !ops.includes(k)).map((k) => ({ name: T2_OPS[k].name,
+          add: () => set((x) => ({ slotOps4: { ...(x.slotOps4 || {}), [s.id]: ops.concat(k) }, addOp4: null, open4: { ...(x.open4 || { 's1:crop': true }), [s.id + ':' + k]: true } })) })),
+        cardOpen, chevCard: cardOpen ? 'expand_less' : 'expand_more', cardBd: cardOpen ? '#C9D0F2' : '#EAEDF2',
+        toggleCard: () => set((x) => ({ card4: (x.card4 ?? 's1') === s.id ? 'none' : s.id })),
+        selBg: sel ? '#EEF1FB' : 'transparent', selFg: sel ? '#3448C5' : '#0A0C0F', select: () => set({ sel4: s.id, addOp4: null }),
+        rmDisp: s.rest ? 'none' : 'flex', remove: (e) => { if (e) e.stopPropagation(); set((x) => ({ off4: { ...(x.off4 || {}), [s.id]: true } })); } };
+    });
+    const perCfg4 = { ...perCfg, showOps: !per4, showPer: per4,
+      modeSeg: this.seg([{ label: 'Same for all images', value: 'simple' }, { label: 'Per image', value: 'per' }], per4 ? 'per' : 'simple', (v) => set({ per4: v === 'per' })),
+      modeNote: per4 ? 'Each image rule has its own operations, settings and file name' : 'These operations run on every product image',
+      matchSeg: this.seg(['Order', 'File name'], byName4 ? 'File name' : 'Order', (v) => set({ match4: v })),
+      matchRule: byName4 ? 'Uses the original file name, for example ' + catA.sku + '_front.jpg' : 'Uses the image position on the product, 1 is the first image',
+      slots: slots4, curSlot: [slots4.find((s) => s.id === (t.sel4 || 's1')) || slots4[0]] };
+    const create4 = t.create4 || { video: true, lifestyle: true, use: true };
+    const mkTypes = (list, sk) => list.map((key) => {
+      const d = T2_TYPES[key], isV = d.kind === 'video', ops = t.ops[key] || [];
+      const isProd = sk !== 'types' && key === 'images', is4 = sk === 'types4', per = isProd && (is4 ? per4 : !!t.per);
+      const canCreate = is4 && (key === 'video' || key === 'lifestyle' || key === 'use');
+      return { key, ...d, isPost: ['nutrition', 'infographic', 'use'].includes(key), isVideo: isV, isImage: !isV, hasCount: !isV && !per, canRemove: sk !== 'types' || key !== 'images', ...(isProd ? (is4 ? perCfg4 : perCfg) : { isProd: false, showOps: !isV, showPer: false }),
+        canCreate, create: this.tog(!!create4[key], () => set((x) => { const c = x.create4 || { video: true, lifestyle: true, use: true }; return { create4: { ...c, [key]: !c[key] } }; })),
+        createLabel: key === 'video' ? 'Create product video if the product has none' : key === 'use' ? 'Create a product use image if the product has none' : 'Create a lifestyle image if the product has none',
+        createNote: key === 'video' ? 'Built from the product images with AI, using the settings above. Every created video needs full review.' : key === 'use' ? 'Shows the main product image in use, for example worn or held, in a generated scene. Every created image needs full review.' : 'Places the main product image in a generated scene. Every created image needs full review.',
+        count: key === 'images' && catA.key !== 'all' ? catA.count : d.count,
+        example: ex(d.naming, catA.sku), namingTag: per ? { ...nTag, disp: 'none' } : nTag,
+        remove: () => set((x) => ({ [sk]: (x[sk] || (sk === 'types4' ? [] : T2_INIT.types)).filter((y) => y !== key) })),
+        ops: ops.map((k) => {
+          const oKey = key + ':' + k, open = !!t.open[oKey], ov = k === 'frame' && catA.over && catA.over.frame;
+          return { name: T2_OPS[k].name, sum: opSum(k, catA), open, chev: open ? 'expand_less' : 'expand_more', fields: opFields(k, catA),
+            isOver: !!ov, overLabel: ov ? 'Set for ' + catA.name : '',
+            toggle: () => set((x) => ({ open: { ...x.open, [oKey]: !x.open[oKey] } })),
+            remove: (e) => { if (e) e.stopPropagation(); set((x) => ({ ops: { ...x.ops, [key]: (x.ops[key] || []).filter((y) => y !== k) } })); } };
+        }),
+        canAddOp: !isV && ops.length < 4, addOpen: t.addOp === key,
+        toggleAddOp: () => set((x) => ({ addOp: x.addOp === key ? null : key })),
+        addOps: Object.keys(T2_OPS).filter((k) => !ops.includes(k)).map((k) => ({ name: T2_OPS[k].name,
+          add: () => set((x) => ({ ops: { ...x.ops, [key]: (x.ops[key] || []).concat(k) }, addOp: null, open: { ...x.open, [key + ':' + k]: true } })) })) };
+    });
+    const typesA = mkTypes(t.types, 'types'), types3 = t.types3 || t.types, typesC = mkTypes(types3, 'types3');
+    const types4 = t.types4 || [], typesD = mkTypes(types4, 'types4');
+    const addTypesD = Object.keys(T2_TYPES).filter((k) => !types4.includes(k)).map((k) => ({ name: T2_TYPES[k].title, add: () => set((x) => ({ types4: (x.types4 || []).concat(k), addType4: null })) }));
+    const addTypesC = Object.keys(T2_TYPES).filter((k) => !types3.includes(k)).map((k) => ({ name: T2_TYPES[k].title, add: () => set((x) => ({ types3: (x.types3 || x.types).concat(k), addType3: false })) }));
+    const addTypesA = Object.keys(T2_TYPES).filter((k) => !t.types.includes(k)).map((k) => ({ name: T2_TYPES[k].title, add: () => set((x) => ({ types: x.types.concat(k), addType: false })) }));
+    const tail = (hasV) => [hasV && 'Video', hasV && t.vtt && 'VTT captions'].filter(Boolean);
+    const shortOps = (list) => list.map((o) => T2_OPS[o].short).join(', ');
+    const uA = []; t.types.forEach((k) => { if (T2_TYPES[k].kind === 'image') (t.ops[k] || []).forEach((o) => { if (!uA.includes(o)) uA.push(o); }); });
+    const sumA = clip([shortOps(uA), ...tail(t.types.includes('video')), (T2_CATS.length - 1) + ' category rules'].filter(Boolean).join(' · '));
+    const slotOps = (c, s) => t.slotOps[c.key + ':' + s.seq] || s.ops;
+    const uB = []; let shotCount = 0; T2_CATS.forEach((c) => c.shots.forEach((s) => { shotCount++; slotOps(c, s).forEach((o) => { if (!uB.includes(o)) uB.push(o); }); }));
+    const sumB = clip([shortOps(Object.keys(T2_OPS).filter((o) => uB.includes(o))), ...tail(true), T2_CATS.length + ' shot lists'].filter(Boolean).join(' · '));
+    const onT = this.state.chanOn || {};
+    const hasImg3 = types3.includes('images');
+    const rows = (sum, col, col2, col3) => [
+      { open: () => (this.props.onOpenCustom ? this.props.onOpenCustom() : GO('Custom Channel')), name: t.name || 'Untitled channel', icon: 'public', sum, len: sum.length + ' of 100 characters', col, ...this.tog(onT.brand, () => this.setChan('brand')) },
+      { name: "Macy's wholesale", icon: 'folder', sum: 'Replace background, Fix framing, Crop · Video', len: '45 of 100 characters', col: col2, ...this.tog(onT.macys, () => this.setChan('macys')) },
+      { name: 'EU site', icon: 'public', sum: 'Enhance quality, Crop · Video · VTT captions', len: '44 of 100 characters', col: col3, ...this.tog(true, () => {}) },
+    ];
+    const listA = rows(sumA, t.types.map((k) => T2_TYPES[k].short).join(' · '), 'Images · Video', 'Images · Video · Infographic');
+    const listC = rows(clip([...(hasImg3 ? [t.per ? 'Per-image operations (' + T3_SLOTS.length + ' rules)' : shortOps(t.ops.images || [])] : []), ...tail(types3.includes('video'))].filter(Boolean).join(' · ') || 'No operations'), types3.map((k) => T2_TYPES[k].short).join(' · ') || 'None', 'Images · Video', 'Images · Video · Infographic');
+    const listD = rows(clip([...(types4.includes('images') ? [per4 ? 'Per-image operations (' + slots4.length + ' rules)' : shortOps(t.ops.images || [])] : []), ...tail(types4.includes('video')),
+      ...['video', 'lifestyle'].filter((k) => types4.includes(k) && create4[k]).map((k) => 'Create ' + T2_TYPES[k].short.toLowerCase() + ' if missing')].filter(Boolean).join(' · ') || 'No operations'),
+      types4.map((k) => T2_TYPES[k].short).join(' · ') || 'None', 'Images · Video', 'Images · Video · Infographic');
+    const listB = rows(sumB, T2_CATS.length + ' categories · ' + shotCount + ' shots', '1 category · 7 shots', '2 categories · 10 shots');
+    const catTabsA = T2_CATS.map((c) => { const a = c.key === catA.key; return { label: c.name, fg: a ? '#3448C5' : '#636D7E', fw: a ? 600 : 500, sh: a ? 'inset 0 -2px 0 #3448C5' : 'none', onClick: () => set({ cat: c.key }) }; });
+    const catRailB = T2_CATS.map((c) => { const a = c.key === catB.key; return { name: c.name, count: c.count, bg: a ? '#EEF1FB' : 'transparent', fg: a ? '#3448C5' : '#0A0C0F', onClick: () => set({ catB: c.key, slot: 1, addOpB: false }) }; });
+    const rowsB = catB.shots.map((s) => { const ops = slotOps(catB, s), sel = s.seq === t.slot;
+      return { seqLabel: pad(s.seq), thumb: s.thumb, cls: s.cls, typeLabel: T2_TYPES[s.type].title, opChips: ops.map((o) => T2_OPS[o].short), noOps: !ops.length,
+        bg: sel ? '#F4F6FE' : '#fff', sh: sel ? 'inset 3px 0 0 #3448C5' : 'none', onClick: () => set({ slot: s.seq, addOpB: false }) }; });
+    const sb = catB.shots.find((s) => s.seq === t.slot) || catB.shots[0];
+    const sKey = catB.key + ':' + sb.seq, sOps = slotOps(catB, sb);
+    const sNaming = sb.type === 'images' ? '{sku}_{seq}.jpg' : T2_TYPES[sb.type].naming;
+    const drawerB = { thumb: sb.thumb, title: 'Shot ' + pad(sb.seq) + ' · ' + sb.cls,
+      fields: [box('Shot type', sb.cls, srcOf(catB) === 'File name' ? 'Matched by ' + pad(sb.seq) + ' in the original file name' : 'Matched by shot_type on the original'), box('Asset type', T2_TYPES[sb.type].title, '')],
+      ops: sOps.map((k) => ({ name: T2_OPS[k].name, fields: opFields(k, catB), remove: () => set((x) => ({ slotOps: { ...x.slotOps, [sKey]: sOps.filter((o) => o !== k) } })) })),
+      canAdd: sOps.length < 4, addOpen: !!t.addOpB, toggleAdd: () => set((x) => ({ addOpB: !x.addOpB })),
+      addOps: Object.keys(T2_OPS).filter((k) => !sOps.includes(k)).map((k) => ({ name: T2_OPS[k].name, add: () => set((x) => ({ slotOps: { ...x.slotOps, [sKey]: sOps.concat(k) }, addOpB: false })) })),
+      naming: sNaming, example: ex(sNaming, catB.sku, sb.seq) };
+    return {
+      onBack: () => { if (this.props.onBack) this.props.onBack(); else GO('Channel List'); }, showTabs: !this.props.embedded,
+      t2name: t.name, onT2Name: (e) => { const v = e.target.value; set({ name: v }); },
+      t2hdr: this.tog(onT.brand, () => this.setChan('brand')),
+      videoFields, vtt, listA, listB, typesA, addTypesA, hasAddTypes: addTypesA.length > 0,
+      pickTypes: Object.keys(T2_TYPES).map((k) => { const on = types4.includes(k), d = T2_TYPES[k];
+        return { key: k, title: d.title, icon: d.icon, desc: T2_DESC[k] || '', isPost: ['nutrition', 'infographic', 'use'].includes(k), on,
+          bd: on ? '#3448C5' : '#EAEDF2', bg: on ? '#F7F8FE' : '#fff', iconBg: on ? '#EEF1FB' : '#F1F3F7', iconFg: on ? '#3448C5' : '#636D7E',
+          boxBd: on ? '#3448C5' : '#C3C9D4', boxBg: on ? '#3448C5' : '#fff',
+          toggle: () => set((x) => { const cur = x.types4 || []; return { types4: on ? cur.filter((y) => y !== k) : Object.keys(T2_TYPES).filter((y) => y === k || cur.includes(y)) }; }) }; }),
+      noTypes: types4.length === 0, hasTypes: types4.length > 0,
+      listD, typesD, addTypesD, hasAddTypesD: false, reqNoteD: types4.length ? 'Add only what this channel needs. Operations run in the order listed.' : 'No asset types yet. Add the ones this channel needs.',
+      addTypeOpenD: t.addType4 === 'D', toggleAddTypeD: () => set((x) => ({ addType4: x.addType4 === 'D' ? null : 'D' })),
+      addTypeOpenE: t.addType4 === 'E', toggleAddTypeE: () => set((x) => ({ addType4: x.addType4 === 'E' ? null : 'E' })),
+      listC, typesC, addTypesC, hasAddTypesC: addTypesC.length > 0, addTypeOpenC: !!t.addType3, toggleAddTypeC: () => set((x) => ({ addType3: !x.addType3 })),
+      reqNoteC: types3.length ? 'Add only what this channel needs. Operations run in the order listed.' : 'No asset types yet. Add the ones this channel needs.',
+      addTypeOpen: !!t.addType, toggleAddType: () => set((x) => ({ addType: !x.addType })),
+      catTabsA, isCatA: catA.key !== 'all', catA: catInfo(catA),
+      reqNoteA: catA.key === 'all' ? 'Required for every product. Operations run in the order listed.' : catA.name + ' products use these. Changes for ' + catA.name + ' are marked.',
+      catRailB, catB: catInfo(catB), rowsB, drawerB, videoExampleB: catB.sku + '_video.mp4', noop: () => {},
+    };
+  }
+
+  _pub() {
+    const s = this.state, on = s.pubOn || { amazon: true, walmart: true, target: false }, opt = s.pubOpt5 || { amazon: { video: true } };
+    const tg = (k) => ({ tBg: on[k] ? '#3448C5' : '#D1D6E0', tJ: on[k] ? 'flex-end' : 'flex-start', toggle: (e) => { if (e) e.stopPropagation(); this.setState((x) => ({ pubOn: { ...on, [k]: !on[k] } })); } });
+    const chips = (o) => OPT_V2.filter((x) => o[x.key]).map((x) => x.title);
+    const pubList5 = PUB_V2.map((p) => { const ch = chips(opt[p.key] || {}); return { ...p, optChips: ch, optNone: !ch.length, ...tg(p.key), open: () => (this.props.onOpenPublic ? this.props.onOpenPublic(p.key) : GO('Public Channel')) }; });
+    const p = PUB_V2[0], o = opt[p.key] || {}, max = s.pubMax5 ?? 10;
+    const setMax = (v) => this.setState({ pubMax5: Math.max(p.min, Math.min(10, v)) });
+    const cr = s.pubCreate5 || { video: true };
+    const NAME5 = { images: ['{asin}.MAIN.jpg, then {asin}.PT01.jpg to .PT08.jpg', 'B0C1XK7Q2D.MAIN.jpg'], video: ['{asin}.video.mp4', 'B0C1XK7Q2D.video.mp4'],
+      lifestyle: ['{asin}.PT{nn}.jpg, after the product images', 'B0C1XK7Q2D.PT06.jpg'], use: ['{asin}.PT{nn}.jpg, after the product images', 'B0C1XK7Q2D.PT07.jpg'] };
+    const pd = { ...p, ...tg(p.key), max, naming: NAME5.images[0], example: NAME5.images[1], dec: () => setMax(max - 1), inc: () => setMax(max + 1),
+      minNote: p.name + ' sets the minimum. Lower the maximum if you list fewer images.',
+      checks: p.checks.map(([label, val]) => ({ label, val })),
+      opt: OPT_V2.map((x) => { const v = !!o[x.key]; const fields = x.key === 'video' ? VID_V2.map(([label, val]) => ({ label, val })) : [];
+        const cc = x.key === 'video' || x.key === 'lifestyle';
+        return { ...x, isPost: x.key === 'use', on: v, naming: (NAME5[x.key] || [])[0], example: (NAME5[x.key] || [])[1], canCreate: cc, showCreate: cc && v,
+          create: { tBg: cr[x.key] ? '#3448C5' : '#D1D6E0', tJ: cr[x.key] ? 'flex-end' : 'flex-start', toggle: () => this.setState({ pubCreate5: { ...cr, [x.key]: !cr[x.key] } }) },
+          createLabel: x.key === 'video' ? 'Create product video if the product has none' : 'Create a lifestyle image if the product has none',
+          createNote: x.key === 'video' ? 'Built from the product images with AI, to ' + p.name + "'s video rules. Every created video needs full review." : 'Places the main product image in a generated scene. Every created image needs full review.',
+          hasThumb: !!x.thumb, noThumb: !x.thumb, showCfg: v && fields.length > 0, fields, tBg: v ? '#3448C5' : '#D1D6E0', tJ: v ? 'flex-end' : 'flex-start',
+          toggle: () => this.setState({ pubOpt5: { ...opt, [p.key]: { ...o, [x.key]: !v } } }) }; }) };
+    return { pubList5, pd, goList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) };
+  }
+  renderVals() {
+    try { return { ...this._rv(), ...this._t2(), ...this._pub(), showTabs: !this.props.embedded, goDash: () => GO('Channel Readiness', '?tab=Dashboard'), goProducts: () => GO('Channel Readiness', '?tab=Products'), goChanList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) }; } catch (e) { console.error('RV ' + (e && e.stack || e)); return {}; }
+  }
+  _rv() {
+    const s = this.state;
+    const sc = {}; Object.keys(TAGS).forEach((k) => { sc[k] = this.chip(k); });
+    const nM = Object.keys(TAGS).filter((k) => this.scopeOf(k) === 'mvp').length;
+    const staticOpt = { walmart: { video: true }, target: {} };
+    const pubRows = PUB.map((c) => {
+      const opt = c.key === 'amazon' ? s.optPub : staticOpt[c.key];
+      const ch = this.chips(opt);
+      return { ...c, optChips: ch, optNone: ch.length === 0, optPills: this.pills(opt), images: c.key === 'amazon' ? '1–' + s.maxImg : c.images, ...this.tog(s.chanOn[c.key], () => this.setChan(c.key)) };
+    });
+    const f = s.fix;
+    const brandSetup = s.method === 'tx' ? 'Transformation string' : s.method === 'flow' ? 'Media flow'
+      : [f.upscale && 'Upscale ' + s.upscale, f.bg && 'White background', f.frame && '85% framing', f.crop && '2000 × 2000 px', f.overlay && (s.overlayType === 'Text' ? 'Text overlay' : 'Logo overlay')].filter(Boolean).join(' · ') || 'No fixes on';
+    const cusRows = [
+      { key: 'brand', name: 'Brand site', icon: 'public', setup: brandSetup, images: 'Any', opt: s.optCus },
+      { key: 'macys', name: "Macy's wholesale", icon: 'folder', setup: 'Transformation string', images: 'Any', opt: { video: false } },
+    ].map((c) => { const ch = this.chips(c.opt); return { ...c, optChips: ch, optNone: ch.length === 0, optPills: this.pills(c.opt), ...this.tog(s.chanOn[c.key], () => this.setChan(c.key)) }; });
+
+    const modeSeg = (field) => this.seg([{ label: 'Public · Amazon', value: 'public' }, { label: 'Custom · Brand site', value: 'custom' }], s[field], (v) => this.setState({ [field]: v }))
+      .map((m) => ({ ...m, bg: m.fg === '#0A0C0F' ? '#0A0C0F' : 'transparent', fg: m.fg === '#0A0C0F' ? '#fff' : '#636D7E' }));
+    const methodSeg = this.seg([{ label: 'Choose fixes', value: 'fixes' }, { label: 'Transformation string', value: 'tx' }, { label: 'Media flow', value: 'flow' }], s.method, (v) => this.setState({ method: v }),
+      (v) => (v === 'flow' ? sc.c_flow.op : v === 'tx' ? sc.c_tx.op : 1));
+
+    const optD = this.optItems(s.modeD);
+    const navD = [{ key: 'images', title: 'Product images', state: this.imagesState(s.modeD), on: true, hasTag: false, tag: {}, op: 1, disp: 'block' }]
+      .concat(optD.map((o) => ({ key: o.key, title: o.title, state: o.on ? 'On' : 'Off', on: o.on, hasTag: true, tag: o.tag, op: o.tag.op, disp: o.tag.disp })))
+      .map((n) => { const sel = n.key === s.selD; return { ...n, bg: sel ? '#EEF1FB' : 'transparent', fg: sel ? '#3448C5' : '#0A0C0F', dot: n.key === 'images' ? '#0A0C0F' : n.on ? '#3448C5' : '#C3C9D4', onClick: () => this.setState({ selD: n.key }) }; });
+    const curO = optD.find((o) => o.key === s.selD) || optD[0];
+    const chName = s.modeD === 'public' ? 'Amazon' : 'Brand site';
+    const cur = { ...curO, askLabel: 'Check ' + curO.title.toLowerCase() + 's for ' + chName, fieldsOp: curO.on ? 1 : 0.5 };
+    const summaryD = [{ title: 'Product images', val: this.imagesState(s.modeD).replace('Required · ', ''), fg: '#0A0C0F' }]
+      .concat(optD.filter((o) => o.tag.disp !== 'none').map((o) => ({ title: o.title, val: o.on ? 'Required' : 'Not checked', fg: o.on ? '#0A0C0F' : '#8A94A6' })));
+    if (s.modeD === 'public') summaryD.splice(1, 0, { title: 'Image checks', val: CHECKS.length + ' from Amazon', fg: '#0A0C0F' });
+
+    return {
+      sc, scopeCounts: nM + ' MVP · ' + (Object.keys(TAGS).length - nM) + ' Post-MVP',
+      copyScope: () => this.copyScope(), copyLabel: s.copied ? 'Copied' : 'Copy scope list',
+      resetScope: () => { try { localStorage.removeItem(KEY); } catch (e) {} this.setState({ scope: {} }); },
+      pubRows, cusRows, q4: Q4,
+      filterSeg: this.seg(['All', 'Public', 'Custom'], s.filter, (v) => this.setState({ filter: v })),
+      showPubCards: s.filter !== 'Custom', showCusCards: s.filter !== 'Public',
+      checks: CHECKS.map(([label, val]) => ({ label, val })),
+      maxImg: s.maxImg,
+      decMax: () => this.setState((x) => ({ maxImg: Math.max(1, x.maxImg - 1) })),
+      incMax: () => this.setState((x) => ({ maxImg: Math.min(10, x.maxImg + 1) })),
+      modeSegC: modeSeg('modeC'), modeSegD: modeSeg('modeD'),
+      hC: this.hdr(s.modeC), hD: this.hdr(s.modeD),
+      methodSeg, isFixes: s.method === 'fixes', isTx: s.method === 'tx', isFlow: s.method === 'flow',
+      fixItems: this.fixItems(), txString: this.txString(),
+      optC: this.optItems(s.modeC),
+      navD, cur, summaryD,
+      selImgPub: s.selD === 'images' && s.modeD === 'public',
+      selImgCus: s.selD === 'images' && s.modeD === 'custom',
+      selOther: s.selD !== 'images',
+    };
+  }
+}
+</script>
+</body>
+</html>

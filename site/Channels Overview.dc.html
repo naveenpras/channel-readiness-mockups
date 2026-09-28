@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #EEF0F4; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+</style>
+</helmet>
+<section style="display: flex; flex-direction: column; gap: 32px; padding: 48px; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; width: 1328px;">
+  <div>
+    <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em;">Channels</div>
+    <div style="font-size: 13px; color: #636D7E; margin-top: 6px; max-width: 900px; line-height: 1.5;">Each screen is its own page. Edit a page and this overview updates. Open a page on its own to share or publish it.</div>
+  </div>
+  <div data-screen-label="01 Channel list" style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-size: 13px; font-weight: 600; color: #636D7E;">01</span>
+      <span style="font-size: 15px; font-weight: 600;">Channel list</span>
+      <a href="Channel List.dc.html" style="font-size: 13px;">Open page</a>
+      <span style="font-size: 12px; color: #8A94A6; font-family: 'Roboto Mono', monospace;">Channel List.dc.html</span>
+    </div>
+    <iframe src="Channel%20List.dc.html" title="Channel List" style="width: 1280px; height: 700px; border: 1px solid #DFE3EA; border-radius: 8px; background: #fff;"></iframe>
+  </div>
+  <div data-screen-label="02 Public channel · Amazon" style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-size: 13px; font-weight: 600; color: #636D7E;">02</span>
+      <span style="font-size: 15px; font-weight: 600;">Public channel · Amazon</span>
+      <a href="Public Channel.dc.html" style="font-size: 13px;">Open page</a>
+      <span style="font-size: 12px; color: #8A94A6; font-family: 'Roboto Mono', monospace;">Public Channel.dc.html</span>
+    </div>
+    <iframe src="Public%20Channel.dc.html" title="Public Channel" style="width: 1280px; height: 1300px; border: 1px solid #DFE3EA; border-radius: 8px; background: #fff;"></iframe>
+  </div>
+  <div data-screen-label="03 Custom channel · Brand site" style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-size: 13px; font-weight: 600; color: #636D7E;">03</span>
+      <span style="font-size: 15px; font-weight: 600;">Custom channel · Brand site</span>
+      <a href="Custom Channel.dc.html" style="font-size: 13px;">Open page</a>
+      <span style="font-size: 12px; color: #8A94A6; font-family: 'Roboto Mono', monospace;">Custom Channel.dc.html</span>
+    </div>
+    <iframe src="Custom%20Channel.dc.html" title="Custom Channel" style="width: 1280px; height: 1500px; border: 1px solid #DFE3EA; border-radius: 8px; background: #fff;"></iframe>
+  </div>
+  <div data-screen-label="04 Create custom channel" style="display: flex; flex-direction: column; gap: 10px;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-size: 13px; font-weight: 600; color: #636D7E;">04</span>
+      <span style="font-size: 15px; font-weight: 600;">Create custom channel</span>
+      <a href="Create Custom Channel.dc.html" style="font-size: 13px;">Open page</a>
+      <span style="font-size: 12px; color: #8A94A6; font-family: 'Roboto Mono', monospace;">Create Custom Channel.dc.html</span>
+    </div>
+    <iframe src="Create%20Custom%20Channel.dc.html" title="Create Custom Channel" style="width: 1280px; height: 900px; border: 1px solid #DFE3EA; border-radius: 8px; background: #fff;"></iframe>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="">
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

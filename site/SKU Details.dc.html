@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+  @keyframes cc-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cc-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+</style>
+</helmet>
+
+<div style="position: relative; min-height: 100vh; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
+
+  <div>
+      <div style="padding: 20px 32px 0;">
+        <a href="Channel Readiness.dc.html" onClick="{{ goHome }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;">
+          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>
+          Products
+        </a>
+      </div>
+
+      <div style="padding: 16px 32px 0;">
+        <div style="font-size: 13px; color: #8A94A6; letter-spacing: 0.01em;">{{ editSkuCode }}</div>
+        <div style="font-size: clamp(20px, 5.5vw, 28px); font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; overflow-wrap: break-word; max-width: 100%;">{{ editName }}</div>
+      </div>
+
+      <div style="padding: 20px 32px 0;">
+        <sc-if value="{{ hasMissing }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: rgba(206,25,13,0.06); border: 1px solid rgba(206,25,13,0.24); border-radius: 8px; padding: 12px 14px;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="error" size="18" hint-size="18px,18px" color="#CE190D"></x-import>
+            <div style="flex: 1 1 200px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">{{ missingMessage }}</div>
+            <a href="{{ missingHref }}" style="height: 32px; padding: 0 14px; border-radius: 4px; background: #CE190D; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; white-space: nowrap;" style-hover="background: #A8140A; color: #fff; text-decoration: none;">Review missing</a>
+          </div>
+        </sc-if>
+        <sc-if value="{{ rerunBannerOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: rgba(52,72,197,0.06); border: 1px solid rgba(52,72,197,0.18); border-radius: 8px; padding: 12px 14px;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="info" size="18" hint-size="18px,18px" color="#3448C5"></x-import>
+            <div style="flex: 1 1 200px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">Originals changed. Re-run the readiness check to refresh asset variations for the affected channels.</div>
+            <div onClick="{{ openRerunModal }}" style="height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 auto; white-space: nowrap; margin-left: 28px;" style-hover="background: #2B3BAD;">Run tool again</div>
+          </div>
+        </sc-if><div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px; margin-top: 34px;">
+          <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Originals</div>
+          
+        </div>
+        <div style="display: flex; gap: 18px; overflow-x: auto; padding: 18px 0 4px;">
+          <sc-for list="{{ positions }}" as="p" hint-placeholder-count="6">
+            <div style="width: 132px; flex: 0 0 132px;">
+              <sc-if value="{{ p.filled }}" hint-placeholder-val="{{ true }}">
+                <div onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="position: relative;">
+                  <image-slot id="{{ p.id }}" src="{{ p.img }}" shape="rounded" radius="8" fit="contain" no-controls="" placeholder="{{ p.label }} photo" style="width: 132px; height: 132px; display: block;"></image-slot>
+                  <div onClick="{{ p.toggleMenu }}" style="position: absolute; top: 6px; right: 6px; z-index: 6; width: 24px; height: 24px; border-radius: 4px; background: rgba(255,255,255,0.92); box-shadow: 0 1px 3px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; opacity: {{ p.kebabOpacity }}; pointer-events: {{ p.kebabEvents }}; transition: opacity 120ms ease;" style-hover="background: #fff;">
+                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="more_vert" size="16" hint-size="16px,16px"></x-import>
+                  </div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px;">
+                  <sc-for list="{{ p.activeChips }}" as="chip" hint-placeholder-count="1">
+                    <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: {{ chip.tint }}; color: {{ chip.color }};">{{ chip.name }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div onClick="{{ addOriginal }}" style="width: 132px; flex: 0 0 132px; height: 132px; border: 1px dashed #C4CBD8; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #3448C5; cursor: pointer; background: #fff;" style-hover="background: rgba(52,72,197,0.06); border-color: #3448C5;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="22" hint-size="22px,22px"></x-import>
+            <span style="font-size: 12px; font-weight: 600;">Add original</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ assetsChanged }}" hint-placeholder-val="{{ false }}">
+          
+        </sc-if>
+      </div>
+
+      <div style="padding: 34px 32px 0;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px;">
+          <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Asset variations</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 28px; margin-top: 4px; border-bottom: 1px solid #EAEDF2; overflow-x: auto;">
+          <sc-for list="{{ chPills }}" as="pill" hint-placeholder-count="6">
+            <a href="{{ pill.href }}" style="display: flex; align-items: center; gap: 8px; padding: 12px 2px; border-bottom: 2px solid transparent; text-decoration: none; color: #636D7E; white-space: nowrap; cursor: pointer;" style-hover="color: #0A0C0F; border-bottom-color: #C4CBD8;">
+              {{ pill.badge }}
+              <span style="font-size: 14px; font-weight: 600;">{{ pill.name }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding: 34px 32px 48px;">
+        
+        <sc-for list="{{ enrichRows }}" as="row" hint-placeholder-count="6">
+          <div id="{{ row.anchorId }}" style="padding: 20px 0; border-top: 1px solid #EAEDF2; scroll-margin-top: 24px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              {{ row.badge }}
+              <span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">{{ row.name }}</span>
+              
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px 14px; margin-top: 14px;">
+              <sc-for list="{{ row.items }}" as="item" hint-placeholder-count="6">
+                <div style="width: 104px; flex: 0 0 104px; position: relative;">
+                  <sc-if value="{{ item.hasAssetImg }}" hint-placeholder-val="{{ true }}">
+                    <div style="position: relative;">
+                      <image-slot id="{{ item.slotId }}" src="{{ item.img }}" shape="rounded" radius="4" fit="contain" no-controls="" placeholder="{{ item.label }}" style="width: 104px; height: 104px; display: block;"></image-slot>
+                      <div onClick="{{ item.openDetail }}" style="position: absolute; inset: 0; z-index: 5; cursor: pointer; border-radius: 4px; transition: background 120ms ease;" style-hover="background: rgba(10,12,15,0.08);"></div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ item.isMissingOther }}" hint-placeholder-val="{{ false }}">
+                    <div style="width: 104px; height: 104px; border: 1px dashed #C4CBD8; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                      <span style="font-size: 11px; color: #8A94A6;">Missing</span>
+                      <div onClick="{{ item.replace }}" style="display: flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 4px; background: #F1F3F7; color: #3448C5; font-size: 12px; font-weight: 500; cursor: pointer;" style-hover="background: rgba(52,72,197,0.10);">
+                        <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="14" hint-size="14px,14px"></x-import>
+                        Add
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ showAssetLabels }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size: 11px; color: #636D7E; margin-top: 6px; text-align: center;">{{ item.label }}</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{ kebabPanel }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeKebabMenu }}" style="position: fixed; inset: 0; z-index: 69;"></div>
+      <div style="position: fixed; top: {{ kebabPanel.top }}px; left: {{ kebabPanel.left }}px; z-index: 70; min-width: 176px; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.20); padding: 4px;">
+        <div onClick="{{ kebabPanel.replace }}" style="display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
+          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="16" hint-size="16px,16px"></x-import>
+          Replace
+        </div>
+        <div onClick="{{ kebabPanel.unlink }}" style="display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
+          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="16" hint-size="16px,16px"></x-import>
+          Unlink from SKU
+        </div>
+        <div style="height: 1px; background: #EAEDF2; margin: 4px 2px;"></div>
+        <div style="font-size: 11px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 10px 4px;">Add Label</div>
+        <sc-for list="{{ kebabPanel.labelOptions }}" as="opt" hint-placeholder-count="3">
+          <div onClick="{{ opt.toggle }}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
+            <span>{{ opt.name }}</span>
+            <sc-if value="{{ opt.checked }}" hint-placeholder-val="{{ false }}">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="16" hint-size="16px,16px" color="#323A45"></x-import>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div style="height: 1px; background: #EAEDF2; margin: 4px 2px;"></div>
+        <div style="display: flex; align-items: center; gap: 4px; padding: 4px 2px;">
+          <input value="{{ kebabPanel.customDraft }}" onChange="{{ kebabPanel.onCustomDraft }}" onKeyDown="{{ kebabPanel.onCustomKeyDown }}" placeholder="Custom label…" style="flex: 1; min-width: 0; height: 30px; padding: 0 8px; border: 1px solid #D1D6E0; border-radius: 4px; font-family: inherit; font-size: 12px; outline: none; box-sizing: border-box;">
+          <div onClick="{{ kebabPanel.addCustom }}" style="flex: 0 0 auto; width: 28px; height: 28px; border-radius: 4px; background: #F1F3F7; color: #3448C5; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: rgba(52,72,197,0.10);">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ rerunModalOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeRerunModal }}" style="position: fixed; inset: 0; background: rgba(10,12,15,0.5); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 24px; animation: cc-fade 140ms ease;">
+        <div onClick="{{ stopClick }}" style="width: 100%; max-width: 480px; background: #fff; border-radius: 12px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); overflow: hidden;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #EAEDF2;">
+            <div style="font-size: 16px; font-weight: 600;">Re-run readiness check</div>
+            <div onClick="{{ closeRerunModal }}" style="width: 30px; height: 30px; border-radius: 4px; color: #636D7E; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="18" hint-size="18px,18px"></x-import>
+            </div>
+          </div>
+          <div style="padding: 20px 24px;">
+            <div style="font-size: 13px; color: #636D7E; margin-bottom: 14px; line-height: 1.5;">Choose which channels to check again against the updated originals.</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <sc-for list="{{ rerunChannels }}" as="rc" hint-placeholder-count="6">
+                <div onClick="{{ rc.toggle }}" style="display: flex; align-items: center; gap: 12px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 10px 14px; cursor: pointer;">
+                  <div style="width: 36px; height: 20px; border-radius: 9999px; background: {{ rc.trackBg }}; position: relative; flex: 0 0 auto; transition: background 120ms ease;">
+                    <div style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; position: absolute; top: 2px; left: {{ rc.knobLeft }}; transition: left 120ms ease; box-shadow: 0 1px 2px rgba(0,0,0,0.15);"></div>
+                  </div>
+                  {{ rc.badge }}
+                  <span style="font-size: 14px; font-weight: 600; flex: 1;">{{ rc.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid #EAEDF2;">
+            <div onClick="{{ closeRerunModal }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: #F1F3F7; color: #0A0C0F; font-size: 13px; font-weight: 500; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E7EAF1;">Cancel</div>
+            <div onClick="{{ confirmRerun }}" style="height: 36px; padding: 0 18px; border-radius: 4px; background: {{ runBtnBg }}; color: {{ runBtnColor }}; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="15" hint-size="15px,15px"></x-import>Run tool
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ rerunToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0A0C0F; color: #fff; padding: 12px 18px; border-radius: 4px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 60; display: flex; align-items: center; gap: 8px;">
+        <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="16" hint-size="16px,16px" color="#22AA00"></x-import>{{ rerunToast }}
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ detailPanelOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeDetailPanel }}" style="position: fixed; inset: 0; background: rgba(10,12,15,0.4); z-index: 40; animation: cc-fade 140ms ease;"></div>
+      <div style="position: fixed; top: 0; right: 0; height: 100vh; width: 800px; background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,0.16); z-index: 41; display: flex; flex-direction: column; animation: cc-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; border-bottom: 1px solid #EAEDF2; flex: 0 0 auto;">
+          <div style="font-size: 16px; font-weight: 600;">{{ detailLabel }}</div>
+          <div onClick="{{ closeDetailPanel }}" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="18" hint-size="18px,18px"></x-import>
+          </div>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px;">
+          <div style="width: 100%; aspect-ratio: 1; background: #F7F8FA; border: 1px solid #EAEDF2; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box; position: relative;">
+            <div onClick="{{ detailPrev }}" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 9999px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; opacity: {{ detailPrevOpacity }};" style-hover="background: #F7F8FA;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_left" size="22" hint-size="22px,22px" color="#323A45"></x-import>
+            </div>
+            <div onClick="{{ detailNext }}" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 9999px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; opacity: {{ detailNextOpacity }};" style-hover="background: #F7F8FA;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_right" size="22" hint-size="22px,22px" color="#323A45"></x-import>
+            </div>
+            <sc-if value="{{ detailIsImg }}" hint-placeholder-val="{{ false }}">
+              <image-slot id="{{ detailPreviewId }}" src="{{ detailImg }}" shape="rect" fit="contain" no-controls="" placeholder="{{ detailLabel }}" style="width: 100%; height: 100%; display: block;"></image-slot>
+            </sc-if>
+            <sc-if value="{{ detailIsMissing }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; color: #A6AEBC;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ detailIcon }}" size="48" hint-size="48px,48px"></x-import>
+                <span style="font-size: 13px; color: #8A94A6;">No asset yet</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="margin-top: 20px; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EAEDF2;">
+              <span style="font-size: 12px; color: #8A94A6;">Required size</span>
+              <span style="font-size: 13px; font-weight: 600; color: #0A0C0F;">{{ detailReqSize }}</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EAEDF2;">
+              <span style="font-size: 12px; color: #8A94A6;">Actual size</span>
+              <span style="font-size: 13px; font-weight: 600; color: {{ detailActColor }};">{{ detailActSize }}</span>
+            </div>
+            <sc-if value="{{ detailActUnder }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size: 11px; color: #CE190D; padding: 0 0 8px; line-height: 1.4;">{{ detailActNote }}</div>
+            </sc-if>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0;">
+              <span style="font-size: 12px; color: #8A94A6;">Format</span>
+              <span style="font-size: 13px; font-weight: 600; color: #0A0C0F;">{{ detailFormat }}</span>
+            </div>
+          </div>
+        </div>
+        <sc-if value="{{ detailHasAsset }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; gap: 8px; padding: 16px 20px; border-top: 1px solid #EAEDF2; flex: 0 0 auto;">
+            <div onClick="{{ detailReplace }}" style="flex: 1; height: 40px; border-radius: 4px; background: #F1F3F7; color: #323A45; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #E7EAF1;">Replace</div>
+            <div onClick="{{ detailRemove }}" style="flex: 1; height: 40px; border-radius: 4px; background: rgba(206,25,13,0.10); color: #CE190D; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: rgba(206,25,13,0.18);">Remove</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ detailIsMissing }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; gap: 8px; padding: 16px 20px; border-top: 1px solid #EAEDF2; flex: 0 0 auto;">
+            <div onClick="{{ detailUpload }}" style="flex: 1; height: 40px; border-radius: 4px; background: #3448C5; color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #2B3BAD;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud_upload" size="15" hint-size="15px,15px" color="#ffffff"></x-import>Upload
+            </div>
+            <div onClick="{{ detailGenerate }}" style="flex: 1; height: 40px; border-radius: 4px; background: #F1F3F7; color: #323A45; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #E7EAF1;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="15" hint-size="15px,15px"></x-import>Generate
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ galleryOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeGallery }}" style="position: fixed; inset: 0; background: rgba(10,12,15,0.4); z-index: 44; animation: cc-fade 140ms ease;"></div>
+      <div style="position: fixed; top: 0; right: 0; height: 100vh; width: 520px; background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,0.16); z-index: 45; display: flex; flex-direction: column; animation: cc-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; border-bottom: 1px solid #EAEDF2; flex: 0 0 auto;">
+          <div>
+            <div style="font-size: 16px; font-weight: 600;">Replace from media library</div>
+            <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">{{ galleryTargetLabel }}</div>
+          </div>
+          <div onClick="{{ closeGallery }}" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="18" hint-size="18px,18px"></x-import>
+          </div>
+        </div>
+        <div style="padding: 16px 20px 0; flex: 0 0 auto;">
+          <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
+            <input value="{{ gallerySearch }}" onChange="{{ onGallerySearch }}" placeholder="Search media library" style="flex: 1; min-width: 0; border: none; outline: none; font-family: inherit; font-size: 13px; color: #0A0C0F; background: transparent;">
+          </div>
+          <div style="font-size: 12px; color: #8A94A6; margin-top: 10px;">{{ galleryCountLabel }}</div>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 14px 20px 20px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            <sc-for list="{{ galleryItems }}" as="g" hint-placeholder-count="6">
+              <div onClick="{{ g.pick }}" style="cursor: pointer;">
+                <div style="height: 104px; border: 1px solid #EAEDF2; border-radius: 4px; background: #F7F8FA; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                  {{ g.thumb }}
+                </div>
+                <div style="font-size: 12px; color: #0A0C0F; margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ g.name }}</div>
+                <div style="font-size: 11px; color: #8A94A6;">{{ g.meta }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ galleryEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 40px 0; text-align: center; font-size: 13px; color: #8A94A6;">No media matches that search.</div>
+          </sc-if>
+        </div>
+        <div style="display: flex; gap: 8px; padding: 16px 20px; border-top: 1px solid #EAEDF2; flex: 0 0 auto;">
+          <div onClick="{{ galleryUpload }}" style="flex: 1; height: 38px; border-radius: 4px; background: #F1F3F7; color: #323A45; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;" style-hover="background: #E7EAF1;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud_upload" size="15" hint-size="15px,15px"></x-import>Upload new
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ replacePanelOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeReplacePanel }}" style="position: fixed; inset: 0; background: rgba(10,12,15,0.4); z-index: 40; animation: cc-fade 140ms ease;"></div>
+      <div style="position: fixed; top: 0; right: 0; height: 100vh; width: 420px; background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,0.16); z-index: 41; display: flex; flex-direction: column; animation: cc-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; border-bottom: 1px solid #EAEDF2; flex: 0 0 auto;">
+          <div>
+            <div style="font-size: 16px; font-weight: 600;">Replace image</div>
+            <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">{{ replaceItemLabel }}</div>
+          </div>
+          <div onClick="{{ closeReplacePanel }}" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="18" hint-size="18px,18px"></x-import>
+          </div>
+        </div>
+        <div style="display: flex; gap: 6px; padding: 16px 20px 0; flex: 0 0 auto;">
+          <div onClick="{{ setTabUpload }}" style="flex: 1; text-align: center; height: 34px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer; background: {{ uploadTabBg }}; color: {{ uploadTabColor }};">Upload</div>
+          <div onClick="{{ setTabGenerate }}" style="flex: 1; text-align: center; height: 34px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; cursor: pointer; background: {{ genTabBg }}; color: {{ genTabColor }};">Generate</div>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px;">
+          <sc-if value="{{ tabIsUpload }}" hint-placeholder-val="{{ true }}">
+            <div onClick="{{ triggerUpload }}" style="border: 1px dashed #C4CBD8; border-radius: 4px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #636D7E; cursor: pointer;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud_upload" size="30" hint-size="30px,30px"></x-import>
+              <div style="font-size: 14px; font-weight: 600; color: #0A0C0F;">Drag and drop or click to upload</div>
+              <div style="font-size: 12px; color: #8A94A6;">PNG or JPG up to 50MB</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tabIsGenerate }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size: 12px; font-weight: 600; color: #636D7E; margin-bottom: 6px;">Describe the image you want</div>
+            <textarea value="{{ genPrompt }}" onChange="{{ onGenPrompt }}" placeholder="e.g. Same unit, front three-quarter view on a clean white background" style="width: 100%; height: 120px; padding: 10px 12px; border: 1px solid #D1D6E0; border-radius: 4px; font-family: inherit; font-size: 13px; box-sizing: border-box; outline: none; resize: none;"></textarea>
+          </sc-if>
+        </div>
+        <div style="padding: 16px 20px; border-top: 1px solid #EAEDF2; flex: 0 0 auto;">
+          <sc-if value="{{ tabIsUpload }}" hint-placeholder-val="{{ true }}">
+            <div onClick="{{ triggerUpload }}" style="height: 38px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #2B3BAD;">Choose file</div>
+          </sc-if>
+          <sc-if value="{{ tabIsGenerate }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeReplacePanel }}" style="height: 38px; border-radius: 4px; background: {{ genBtnBg }}; color: {{ genBtnColor }}; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="15" hint-size="15px,15px"></x-import>Generate
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAssetLabels&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Display&quot;}}">
+const PAGE = (name) => encodeURIComponent(name) + (/\.dc\.html$/.test(decodeURIComponent(location.pathname)) ? '.dc.html' : '.html');
+const RID = (p) => 'a_' + p.replace('assets/', '').replace(/[^a-z0-9]/gi, '_');
+const A = (p) => (window.__resources && window.__resources[RID(p)]) || p;
+const CHANNELS = [
+  { key: 'amazon', name: 'Amazon', initial: 'A', color: '#F08804', w: 104, h: 104, ready: [5, 6] },
+  { key: 'aplus', name: 'Amazon A+', short: 'Amazon A+', initial: 'A+', color: '#232A33', w: 118, h: 74, ready: [3, 4] },
+  { key: 'walmart', name: 'Walmart', initial: 'W', color: '#0071CE', w: 104, h: 104, ready: [4, 4] },
+  { key: 'target', name: 'Target', initial: 'T', color: '#CC0000', w: 104, h: 104, ready: [2, 5] },
+  { key: 'google', name: 'Google Merchant', short: 'Google', initial: 'G', color: '#4285F4', w: 112, h: 84, ready: [3, 3] },
+  { key: 'brand', name: 'Brand Site & App', short: 'Brand Site', initial: 'BS', color: '#7B4FD8', w: 84, h: 104, ready: [5, 6] },
+];
+
+// The five asset types this SKU is checked for, in listing order.
+const ENRICH_TYPES = [
+  { type: 'Main image', sub: 'produced by Cloudinary AI', ai: true },
+  { type: 'Product image 1', sub: 'studio packshot', ai: false },
+  { type: 'Product image 2', sub: 'studio packshot', ai: false },
+  { type: 'Product image 3', sub: 'studio packshot', ai: false },
+  { type: 'Lifestyle image', sub: 'in-context shot', ai: false },
+];
+
+// Every SKU in the catalogue, with its own originals and per-channel readiness.
+// `status` is one verdict per channel, in CHANNELS order.
+const PRODUCTS = {
+  'CAM-DSLR-10026': {
+    name: 'DSLR Camera Body 24MP — APS-C Sensor, 4K Video, Vari-Angle Touchscreen',
+    status: ['fix', 'miss', 'fix', 'miss', 'ok', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Front', caption: 'Studio capture', img: A('assets/camera-front.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Top-down', caption: 'Studio capture', img: A('assets/camera-top.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Rear panel', caption: 'Studio capture', img: A('assets/camera-back.jpg') },
+      { pos: 4, id: 'orig-back', label: 'In-box', caption: 'Studio capture', img: A('assets/camera-inbox.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/camera-front.jpg'),
+      'Product image 1': A('assets/camera-top.jpg'),
+      'Product image 2': A('assets/camera-back.jpg'),
+      'Product image 3': A('assets/camera-inbox.jpg'),
+      'Lifestyle image': A('assets/camera-inbox.jpg'),
+    },
+    actual: {
+      'Main image': '1200 × 1600', 'Product image 1': '1200 × 1600', 'Product image 2': '1200 × 1600',
+      'Product image 3': '1200 × 1600', 'Lifestyle image': '1200 × 1600',
+    },
+    library: [
+      { name: 'Camera body front', img: A('assets/camera-front.jpg'), meta: 'JPG · 1200 × 1600' },
+      { name: 'Camera body top-down', img: A('assets/camera-top.jpg'), meta: 'JPG · 1200 × 1600' },
+      { name: 'Camera body rear panel', img: A('assets/camera-back.jpg'), meta: 'JPG · 1200 × 1600' },
+      { name: 'Camera body in-box', img: A('assets/camera-inbox.jpg'), meta: 'JPG · 1200 × 1600' },
+    ],
+  },
+  'BEV-NRG-20026': {
+    name: 'Energy Drink Berry 12 oz — Zero Sugar, 200mg Caffeine, Sparkling',
+    status: ['ok', 'ok', 'fix', 'ok', 'ok', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Front', caption: 'Studio capture', img: A('assets/drink-front.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Nutrition', caption: 'Studio capture', img: A('assets/drink-nutrition.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Multipack', caption: 'Studio capture', img: A('assets/drink-multipack.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Flavour art', caption: 'Marketing art', img: A('assets/drink-flavor.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/drink-front.jpg'),
+      'Product image 1': A('assets/drink-nutrition.jpg'),
+      'Product image 2': A('assets/drink-multipack.jpg'),
+      'Product image 3': A('assets/drink-flavor.jpg'),
+      'Lifestyle image': A('assets/drink-multipack.jpg'),
+    },
+    actual: {
+      'Main image': '2500 × 2500', 'Product image 1': '1946 × 1946', 'Product image 2': '1946 × 1946',
+      'Product image 3': '1946 × 1946', 'Lifestyle image': '1946 × 1946',
+    },
+    library: [
+      { name: 'Can front packshot', img: A('assets/drink-front.jpg'), meta: 'JPG · 2500 × 2500' },
+      { name: 'Can nutrition panel', img: A('assets/drink-nutrition.jpg'), meta: 'JPG · 1946 × 1946' },
+      { name: 'Twelve-pack', img: A('assets/drink-multipack.jpg'), meta: 'JPG · 1946 × 1946' },
+      { name: 'Flavour marketing art', img: A('assets/drink-flavor.jpg'), meta: 'JPG · 1946 × 1946' },
+    ],
+  },
+  'APW-SHT-30026': {
+    name: "Women's Chambray Shirt — Puff Sleeve, Button Front, Relaxed Fit",
+    status: ['ok', 'miss', 'ok', 'ok', 'ok', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Front', caption: 'On-model capture', img: A('assets/wshirt-front.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Back', caption: 'On-model capture', img: A('assets/wshirt-back.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Alt pose', caption: 'On-model capture', img: A('assets/wshirt-alt.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Detail pose', caption: 'On-model capture', img: A('assets/wshirt-pose.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/wshirt-front.jpg'),
+      'Product image 1': A('assets/wshirt-back.jpg'),
+      'Product image 2': A('assets/wshirt-alt.jpg'),
+      'Product image 3': A('assets/wshirt-pose.jpg'),
+      'Lifestyle image': A('assets/wshirt-pose.jpg'),
+    },
+    actual: {
+      'Main image': '2585 × 3456', 'Product image 1': '1060 × 1408', 'Product image 2': '2671 × 3456',
+      'Product image 3': '2442 × 3456', 'Lifestyle image': '2442 × 3456',
+    },
+    library: [
+      { name: 'Chambray shirt front', img: A('assets/wshirt-front.jpg'), meta: 'JPG · 2585 × 3456' },
+      { name: 'Chambray shirt back', img: A('assets/wshirt-back.jpg'), meta: 'JPG · 1060 × 1408' },
+      { name: 'Chambray shirt alt pose', img: A('assets/wshirt-alt.jpg'), meta: 'JPG · 2671 × 3456' },
+      { name: 'Chambray shirt detail pose', img: A('assets/wshirt-pose.jpg'), meta: 'JPG · 2442 × 3456' },
+    ],
+  },
+  'APM-POL-40026': {
+    name: "Men's Piqué Polo Maroon — Cotton Blend, Ribbed Collar, Regular Fit",
+    status: ['ok', 'ok', 'ok', 'prog', 'ok', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Front', caption: 'On-model capture', img: A('assets/polo-front.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Back', caption: 'On-model capture', img: A('assets/polo-back.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Three-quarter', caption: 'On-model capture', img: A('assets/polo-angle.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Alt pose', caption: 'On-model capture', img: A('assets/polo-alt.jpg') },
+      { pos: 5, id: 'orig-detail', label: 'Full length', caption: 'On-model capture', img: A('assets/polo-lifestyle.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/polo-front.jpg'),
+      'Product image 1': A('assets/polo-back.jpg'),
+      'Product image 2': A('assets/polo-angle.jpg'),
+      'Product image 3': A('assets/polo-alt.jpg'),
+      'Lifestyle image': A('assets/polo-lifestyle.jpg'),
+    },
+    actual: {
+      'Main image': '2304 × 3456', 'Product image 1': '2304 × 3456', 'Product image 2': '2304 × 3456',
+      'Product image 3': '2304 × 3456', 'Lifestyle image': '2304 × 3456',
+    },
+    library: [
+      { name: 'Polo front', img: A('assets/polo-front.jpg'), meta: 'JPG · 2304 × 3456' },
+      { name: 'Polo back', img: A('assets/polo-back.jpg'), meta: 'JPG · 2304 × 3456' },
+      { name: 'Polo three-quarter', img: A('assets/polo-angle.jpg'), meta: 'JPG · 2304 × 3456' },
+      { name: 'Polo alt pose', img: A('assets/polo-alt.jpg'), meta: 'JPG · 2304 × 3456' },
+      { name: 'Polo full length', img: A('assets/polo-lifestyle.jpg'), meta: 'JPG · 2304 × 3456' },
+    ],
+  },
+  'TLS-DRL-50026': {
+    name: 'Cordless Drill/Driver 20V Brushless, Bare Tool — Variable Speed, LED, Metal Chuck',
+    status: ['fix', 'ok', 'fix', 'miss', 'prog', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Hero', caption: 'Studio capture', img: A('assets/drill-hero.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Chuck detail', caption: 'Studio capture', img: A('assets/drill-detail.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Trigger detail', caption: 'Studio capture', img: A('assets/drill-detail2.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Callouts', caption: 'Annotated overlay', img: A('assets/drill-callouts.jpg') },
+      { pos: 5, id: 'orig-detail', label: 'Battery chart', caption: 'Infographic', img: A('assets/drill-battery.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/drill-hero.jpg'),
+      'Product image 1': A('assets/drill-detail.jpg'),
+      'Product image 2': A('assets/drill-detail2.jpg'),
+      'Product image 3': A('assets/drill-callouts.jpg'),
+      'Lifestyle image': A('assets/drill-battery.jpg'),
+    },
+    actual: {
+      'Main image': '1080 × 1080', 'Product image 1': '960 × 960', 'Product image 2': '960 × 960',
+      'Product image 3': '1080 × 1080', 'Lifestyle image': '1500 × 1500',
+    },
+    library: [
+      { name: 'Drill hero packshot', img: A('assets/drill-hero.jpg'), meta: 'JPG · 1080 × 1080' },
+      { name: 'Drill chuck detail', img: A('assets/drill-detail.jpg'), meta: 'JPG · 960 × 960' },
+      { name: 'Drill trigger detail', img: A('assets/drill-detail2.jpg'), meta: 'JPG · 960 × 960' },
+      { name: 'Drill feature callouts', img: A('assets/drill-callouts.jpg'), meta: 'JPG · 1080 × 1080' },
+      { name: 'Battery compatibility chart', img: A('assets/drill-battery.jpg'), meta: 'JPG · 1500 × 1500' },
+    ],
+  },
+  'FTW-RUN-60026': {
+    name: 'Running Shoe Black/Gold — Lightweight Mesh Upper, Cushioned Midsole',
+    status: ['ok', 'ok', 'ok', 'ok', 'ok', 'ok'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Hero pair', caption: 'Studio capture', img: A('assets/shoe-hero.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Pair front', caption: 'Studio capture', img: A('assets/shoe-pair.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Side profile', caption: 'Studio capture', img: A('assets/shoe-side.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Pair alt', caption: 'Studio capture', img: A('assets/shoe-alt.jpg') },
+      { pos: 5, id: 'orig-detail', label: 'Side detail', caption: 'Studio capture', img: A('assets/shoe-detail.jpg') },
+      { pos: 6, id: 'orig-outsole', label: 'Outsole', caption: 'Studio capture', img: A('assets/shoe-alt2.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/shoe-hero.jpg'),
+      'Product image 1': A('assets/shoe-side.jpg'),
+      'Product image 2': A('assets/shoe-pair.jpg'),
+      'Product image 3': A('assets/shoe-detail.jpg'),
+      'Lifestyle image': A('assets/shoe-alt.jpg'),
+    },
+    actual: {
+      'Main image': '2880 × 3456', 'Product image 1': '2880 × 3456', 'Product image 2': '2880 × 3456',
+      'Product image 3': '2880 × 3456', 'Lifestyle image': '2880 × 3456',
+    },
+    library: [
+      { name: 'Shoe hero pair', img: A('assets/shoe-hero.jpg'), meta: 'JPG · 2880 × 3456' },
+      { name: 'Shoe pair front', img: A('assets/shoe-pair.jpg'), meta: 'JPG · 2880 × 3456' },
+      { name: 'Shoe side profile', img: A('assets/shoe-side.jpg'), meta: 'JPG · 2880 × 3456' },
+      { name: 'Shoe pair alt', img: A('assets/shoe-alt.jpg'), meta: 'JPG · 2880 × 3456' },
+      { name: 'Shoe side detail', img: A('assets/shoe-detail.jpg'), meta: 'JPG · 2880 × 3456' },
+      { name: 'Shoe outsole', img: A('assets/shoe-alt2.jpg'), meta: 'JPG · 2880 × 3456' },
+    ],
+  },
+  'HHS-WIP-70026': {
+    name: 'Disinfecting Wipes Lemon 75 ct — Kills 99.9% of Bacteria, Multi-Surface',
+    status: ['fix', 'miss', 'miss', 'miss', 'ok', 'miss'],
+    angles: [
+      { pos: 1, id: 'orig-front', label: 'Lemon front', caption: 'Studio capture', img: A('assets/wipes-lemon-front.jpg') },
+      { pos: 2, id: 'orig-angle', label: 'Lemon back', caption: 'Studio capture', img: A('assets/wipes-lemon-back.jpg') },
+      { pos: 3, id: 'orig-side', label: 'Fresh front', caption: 'Studio capture', img: A('assets/wipes-fresh-front.jpg') },
+      { pos: 4, id: 'orig-back', label: 'Fresh back', caption: 'Studio capture', img: A('assets/wipes-fresh-back.jpg') },
+    ],
+    typeImg: {
+      'Main image': A('assets/wipes-lemon-front.jpg'),
+      'Product image 1': A('assets/wipes-lemon-back.jpg'),
+      'Product image 2': A('assets/wipes-fresh-front.jpg'),
+      'Product image 3': A('assets/wipes-fresh-back.jpg'),
+      'Lifestyle image': A('assets/wipes-fresh-front.jpg'),
+    },
+    actual: {
+      'Main image': '1000 × 1000', 'Product image 1': '1000 × 1000', 'Product image 2': '1000 × 1000',
+      'Product image 3': '1000 × 1000', 'Lifestyle image': '1000 × 1000',
+    },
+    library: [
+      { name: 'Wipes lemon front', img: A('assets/wipes-lemon-front.jpg'), meta: 'JPG · 1000 × 1000' },
+      { name: 'Wipes lemon back', img: A('assets/wipes-lemon-back.jpg'), meta: 'JPG · 1000 × 1000' },
+      { name: 'Wipes fresh front', img: A('assets/wipes-fresh-front.jpg'), meta: 'JPG · 1000 × 1000' },
+      { name: 'Wipes fresh back', img: A('assets/wipes-fresh-back.jpg'), meta: 'JPG · 1000 × 1000' },
+    ],
+  },
+};
+
+// Which SKU this screen is showing. Channel Readiness links here with ?sku=...
+const ACTIVE_SKU = (function () {
+  try {
+    const q = new URLSearchParams(window.location.search).get('sku');
+    if (q && PRODUCTS[q]) return q;
+  } catch (e) { /* no URL access, fall through to the default */ }
+  return 'TLS-DRL-50026';
+})();
+
+const PRODUCT = PRODUCTS[ACTIVE_SKU];
+
+// One readiness verdict per channel expands into a cell per asset type.
+const CELL_PATTERN = {
+  ok: ['ok', 'ok', 'ok', 'ok', 'ok'],
+  fix: ['fix', 'ok', 'fix', 'ok', 'ok'],
+  miss: ['ok', 'ok', 'missing', 'ok', 'missing'],
+  prog: ['ok', 'ok', 'ok', 'fix', 'ok'],
+};
+
+const ENRICH = ENRICH_TYPES.map((t, i) => ({
+  type: t.type, sub: t.sub, ai: t.ai,
+  cells: CHANNELS.reduce((acc, c, ci) => {
+    const st = (CELL_PATTERN[PRODUCT.status[ci]] || CELL_PATTERN.ok)[i];
+    acc[c.key] = st === 'missing' ? ['missing'] : [st, i + 1];
+    return acc;
+  }, {}),
+}));
+
+const ANGLES = PRODUCT.angles;
+
+const TYPE_IMG = PRODUCT.typeImg;
+
+const LIBRARY = PRODUCT.library;
+
+const LABEL_TAGS = [
+  { name: 'Product', tint: 'rgba(52,72,197,0.12)', color: '#3448C5' },
+  { name: 'Lifestyle', tint: 'rgba(221,88,189,0.14)', color: '#B23F9C' },
+  { name: 'Infographic', tint: 'rgba(34,170,0,0.12)', color: '#22AA00' },
+];
+
+function slugify(str) { return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+
+const REQ_SIZE = {
+  'Main image': '2000 × 2000',
+  'Product image 1': '2000 × 2000',
+  'Product image 2': '2000 × 2000',
+  'Product image 3': '2000 × 2000',
+  'Lifestyle image': '1600 × 1067',
+};
+
+// What each capture actually is, against the requirement above.
+const ACTUAL_SIZE = PRODUCT.actual;
+
+class Component extends DCLogic {
+  state = { reorder: false, chFilter: null, pillMenu: null, removedChannels: [], preview: null,
+    detailPanelOpen: false, detailChannel: null, detailIndex: 0,
+    replacePanelOpen: false, replaceItemLabel: '', replaceSlotId: null, replaceTab: 'upload', genPrompt: '',
+    assetsChanged: false, rerunModalOpen: false, rerunChannelOn: { amazon: true, aplus: true, walmart: true, target: true, google: true, brand: true }, rerunToast: null, removedItems: {}, filledItems: {}, originalLabels: {}, kebabMenu: null, kebabTop: 0, kebabLeft: 0, customDrafts: {}, extraOriginals: [], hoverOrig: null, unlinked: [], origImg: {},
+    galleryOpen: false, galleryTarget: null, gallerySearch: '', rerunBannerOpen: true };
+
+  componentDidMount() {
+    this._onSlotPick = (e) => {
+      const id = e.detail && e.detail.id;
+      if (id && id.indexOf('orig-') === 0) this.setState({ assetsChanged: true });
+    };
+    document.addEventListener('image-slot:pick', this._onSlotPick);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('image-slot:pick', this._onSlotPick);
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+  }
+
+  addCustomLabel(id) {
+    const val = (this.state.customDrafts[id] || '').trim();
+    if (!val) return;
+    this.setState((st) => {
+      const cur = st.originalLabels[id] || [];
+      const next = cur.includes(val) ? cur : [...cur, val];
+      return { originalLabels: { ...st.originalLabels, [id]: next }, customDrafts: { ...st.customDrafts, [id]: '' } };
+    });
+  }
+  openReplacePanel(label, slotId, tab) { this.setState({ replacePanelOpen: true, replaceItemLabel: label, replaceSlotId: slotId, replaceTab: tab || 'upload' }); }
+  triggerUpload() {
+    const id = this.state.replaceSlotId;
+    this.setState((st) => {
+      const removedItems = { ...st.removedItems }; delete removedItems[id];
+      return { replacePanelOpen: false, removedItems, filledItems: { ...st.filledItems, [id]: true } };
+    }, () => { const el = document.getElementById(id); if (el && el.openFilePicker) el.openFilePicker(); });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const cols = CHANNELS;
+
+    const badgeFor = (c, size) => React.createElement('span', { style: { width: size + 'px', height: size + 'px', borderRadius: '6px',
+      background: c.color, color: '#fff', fontSize: Math.round(size * 0.42) + 'px', fontWeight: 700, display: 'flex',
+      alignItems: 'center', justifyContent: 'center', flex: '0 0 auto' } }, c.initial);
+
+    const enrichRows = cols.filter((c) => !s.removedChannels.includes(c.key)).map((c) => {
+      const items = ENRICH.filter((r) => r.cells[c.key] && r.cells[c.key][0] !== 'na').map((r, idx) => {
+        const st = r.cells[c.key][0];
+        const slotId = 'enrich-' + c.key + '-' + slugify(r.type);
+        const removed = !!s.removedItems[slotId];
+        const forced = !!s.filledItems[slotId];
+        const hasAsset = forced || ((st === 'ok' || st === 'fix') && !removed);
+        const isMissing = !hasAsset;
+        const img = TYPE_IMG[r.type] || PRODUCT.typeImg['Main image'];
+        const reqSize = REQ_SIZE[r.type] || '';
+        const actSize = ACTUAL_SIZE[r.type] || '';
+        // Flag when the capture is smaller than the channel needs on its long edge.
+        const longEdge = (v) => Math.max.apply(null, (v || '').split('×').map((n) => parseInt(n, 10) || 0));
+        const actUnder = !!(reqSize && actSize && longEdge(actSize) < longEdge(reqSize));
+        const doReplace = (e) => { e.stopPropagation(); this.openReplacePanel(r.type, slotId); };
+        const doRemove = (e) => { e.stopPropagation(); this.setState((st2) => {
+          const filledItems = { ...st2.filledItems }; delete filledItems[slotId];
+          return { removedItems: { ...st2.removedItems, [slotId]: true }, filledItems };
+        }); };
+        return {
+          label: r.type, hasAsset, isMissing,
+          hasAssetImg: hasAsset, isMissingOther: isMissing,
+          generate: (e) => { e.stopPropagation(); },
+          slotId, img, reqSize, actSize, actUnder, previewId: slotId + '-detail',
+          replace: doReplace, remove: doRemove,
+          openDetail: (e) => { e.stopPropagation(); this.setState({ detailPanelOpen: true, detailChannel: c.key, detailIndex: idx }); },
+        };
+      });
+      return { name: c.short || c.name, badge: badgeFor(c, 28), items, anchorId: 'ch-' + c.key, key: c.key };
+    });
+
+    const detailRow = enrichRows.find((row) => row.key === s.detailChannel) || null;
+    const detailItems = detailRow ? detailRow.items : [];
+    const detailCount = detailItems.length;
+    const detailIdx = detailCount ? Math.max(0, Math.min(s.detailIndex, detailCount - 1)) : 0;
+    const detailItem = detailItems[detailIdx] || null;
+
+    const goHome = (e) => { if (e) e.preventDefault(); window.location.href = PAGE('Channel Readiness'); };
+    return { goHome,
+      editSkuCode: ACTIVE_SKU,
+      editName: PRODUCT.name,
+      showAssetLabels: this.props.showAssetLabels ?? true,
+
+      chPills: CHANNELS.filter((c) => !s.removedChannels.includes(c.key)).map((c) => ({
+        name: c.short || c.name,
+        badge: badgeFor(c, 20),
+        href: '#ch-' + c.key,
+      })),
+
+      reorderOn: s.reorder, reorderOff: !s.reorder,
+      toggleReorder: () => this.setState({ reorder: !s.reorder }),
+      addOriginal: () => {
+        const n = s.extraOriginals.length + 1;
+        const item = { pos: ANGLES.length + n, id: 'orig-extra-' + n, label: 'New original', caption: 'Uploaded', img: '' };
+        this.setState({ extraOriginals: [...s.extraOriginals, item] });
+        setTimeout(() => { const el = document.getElementById(item.id); if (el && el.openFilePicker) el.openFilePicker(); }, 60);
+      },
+      positions: [...ANGLES, ...s.extraOriginals].filter((a) => !s.unlinked.includes(a.id)).map((a) => {
+        const active = s.originalLabels[a.id] || [];
+        return {
+          pos: a.pos, id: a.id, label: a.label, caption: a.caption, img: s.origImg[a.id] || a.img, filled: true, empty: false,
+          onEnter: () => { if (this.state.hoverOrig !== a.id) this.setState({ hoverOrig: a.id }); },
+          onLeave: () => { if (this.state.hoverOrig === a.id) this.setState({ hoverOrig: null }); },
+          kebabOpacity: (s.hoverOrig === a.id || s.kebabMenu === a.id) ? '1' : '0',
+          kebabEvents: (s.hoverOrig === a.id || s.kebabMenu === a.id) ? 'auto' : 'none',
+          toggleMenu: (e) => {
+            e.stopPropagation();
+            if (s.kebabMenu === a.id) { this.setState({ kebabMenu: null }); return; }
+            const r = e.currentTarget.getBoundingClientRect();
+            this.setState({ kebabMenu: a.id, kebabTop: r.bottom + 6, kebabLeft: Math.max(8, r.right - 176) });
+          },
+          activeChips: active.map((name) => ({ name, tint: '#F1F3F7', color: '#323A45' })),
+        };
+      }),
+
+      closeKebabMenu: () => this.setState({ kebabMenu: null }),
+      kebabPanel: (() => {
+        if (!s.kebabMenu) return null;
+        const id = s.kebabMenu;
+        const active = s.originalLabels[id] || [];
+        return {
+          top: s.kebabTop, left: s.kebabLeft,
+          replace: () => this.setState({ kebabMenu: null, galleryOpen: true, galleryTarget: id, gallerySearch: '' }),
+          unlink: () => this.setState((st2) => ({ kebabMenu: null, hoverOrig: null, unlinked: [...st2.unlinked, id], assetsChanged: true })),
+          labelOptions: LABEL_TAGS.map((tag) => ({
+            name: tag.name, color: tag.color, checked: active.includes(tag.name),
+            toggle: (e) => { e.stopPropagation(); this.setState((st2) => {
+              const cur = st2.originalLabels[id] || [];
+              const next = cur.includes(tag.name) ? cur.filter((n) => n !== tag.name) : [...cur, tag.name];
+              return { originalLabels: { ...st2.originalLabels, [id]: next } };
+            }); },
+          })),
+          customDraft: s.customDrafts[id] || '',
+          onCustomDraft: (e) => this.setState((st2) => ({ customDrafts: { ...st2.customDrafts, [id]: e.target.value } })),
+          addCustom: (e) => { e.stopPropagation(); this.addCustomLabel(id); },
+          onCustomKeyDown: (e) => { if (e.key === 'Enter') { e.stopPropagation(); this.addCustomLabel(id); } },
+        };
+      })(),
+
+      hasMissing: (() => enrichRows.some((row) => row.items.some((it) => it.isMissing)))(),
+      missingMessage: (() => {
+        const n = enrichRows.reduce((acc, row) => acc + row.items.filter((it) => it.isMissing).length, 0);
+        const chs = enrichRows.filter((row) => row.items.some((it) => it.isMissing));
+        const where = chs.length === 1 ? chs[0].name : chs.length + ' channels';
+        return n + (n === 1 ? ' asset variation is' : ' asset variations are') + ' missing on ' + where + '. Those listings will fail channel validation until the assets are added.';
+      })(),
+      missingHref: (() => {
+        const first = enrichRows.find((row) => row.items.some((it) => it.isMissing));
+        return first ? '#ch-' + first.key : '#';
+      })(),
+
+      galleryOpen: s.galleryOpen,
+      galleryTargetLabel: (() => {
+        const a = [...ANGLES, ...s.extraOriginals].find((x) => x.id === s.galleryTarget);
+        return a ? 'Replacing ' + a.label : '';
+      })(),
+      gallerySearch: s.gallerySearch,
+      onGallerySearch: (e) => this.setState({ gallerySearch: e.target.value }),
+      closeGallery: () => this.setState({ galleryOpen: false, galleryTarget: null }),
+      galleryItems: LIBRARY.filter((it) => it.name.toLowerCase().includes(s.gallerySearch.trim().toLowerCase())).map((it) => ({
+        name: it.name, img: it.img, meta: it.meta,
+        thumb: React.createElement('img', { src: it.img, alt: it.name, style: { maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' } }),
+        pick: () => this.setState((st2) => ({
+          origImg: { ...st2.origImg, [st2.galleryTarget]: it.img },
+          galleryOpen: false, galleryTarget: null, assetsChanged: true,
+        })),
+      })),
+      galleryCountLabel: (() => {
+        const n = LIBRARY.filter((it) => it.name.toLowerCase().includes(s.gallerySearch.trim().toLowerCase())).length;
+        return n + ' asset' + (n === 1 ? '' : 's');
+      })(),
+      galleryEmpty: LIBRARY.filter((it) => it.name.toLowerCase().includes(s.gallerySearch.trim().toLowerCase())).length === 0,
+      galleryUpload: () => {
+        const id = s.galleryTarget;
+        this.setState({ galleryOpen: false, galleryTarget: null });
+        setTimeout(() => { const el = document.getElementById(id); if (el && el.openFilePicker) el.openFilePicker(); }, 40);
+      },
+
+      enrichRows,
+
+      assetsChanged: s.assetsChanged,
+      rerunBannerOpen: s.rerunBannerOpen !== false,
+      openRerunModal: () => this.setState({ rerunModalOpen: true, rerunBannerOpen: false }),
+      closeRerunModal: () => this.setState({ rerunModalOpen: false }),
+      stopClick: (e) => e.stopPropagation(),
+      rerunModalOpen: s.rerunModalOpen,
+      rerunChannels: CHANNELS.map((c) => ({
+        label: c.short || c.name, badge: badgeFor(c, 22),
+        trackBg: s.rerunChannelOn[c.key] ? '#3448C5' : '#D1D6E0',
+        knobLeft: s.rerunChannelOn[c.key] ? '18px' : '2px',
+        toggle: () => this.setState((st) => ({ rerunChannelOn: { ...st.rerunChannelOn, [c.key]: !st.rerunChannelOn[c.key] } })),
+      })),
+      runBtnBg: Object.values(s.rerunChannelOn).some(Boolean) ? '#3448C5' : '#F1F3F7',
+      runBtnColor: Object.values(s.rerunChannelOn).some(Boolean) ? '#fff' : '#A6AEBC',
+      confirmRerun: () => {
+        const n = Object.values(s.rerunChannelOn).filter(Boolean).length;
+        if (!n) return;
+        if (this._toastTimer) clearTimeout(this._toastTimer);
+        this.setState({ rerunModalOpen: false, assetsChanged: false, rerunToast: `Readiness check re-run for ${n} channel${n === 1 ? '' : 's'}.` });
+        this._toastTimer = setTimeout(() => this.setState({ rerunToast: null }), 3000);
+      },
+      rerunToast: s.rerunToast,
+
+      detailPanelOpen: s.detailPanelOpen,
+      detailLabel: detailItem ? (detailRow.name + ' - ' + detailItem.label) : '',
+      detailImg: detailItem ? detailItem.img : '',
+      detailPreviewId: detailItem ? detailItem.previewId : 'detail-preview-default',
+      detailReqSize: detailItem ? detailItem.reqSize : '',
+      detailActSize: detailItem ? detailItem.actSize : '',
+      detailActColor: detailItem && detailItem.actUnder ? '#CE190D' : '#0A0C0F',
+      detailActNote: detailItem && detailItem.actUnder ? 'Below the required size — upscale or recapture' : '',
+      detailActUnder: !!(detailItem && detailItem.actUnder),
+      detailIcon: 'image',
+      detailHasAsset: detailItem ? detailItem.hasAsset : false,
+      detailIsMissing: detailItem ? !detailItem.hasAsset : false,
+      detailIsImg: detailItem ? detailItem.hasAssetImg : false,
+      detailFormat: detailItem ? 'JPG' : '',
+      detailReplace: (e) => { if (!detailItem) return; this.setState({ detailPanelOpen: false }); detailItem.replace(e); },
+      detailRemove: (e) => { if (detailItem) detailItem.remove(e); },
+      detailUpload: () => { if (detailItem) this.openReplacePanel(detailItem.label, detailItem.slotId, 'upload'); },
+      detailGenerate: () => { if (detailItem) this.openReplacePanel(detailItem.label, detailItem.slotId, 'generate'); },
+      detailPrev: () => this.setState((st) => ({ detailIndex: Math.max(0, st.detailIndex - 1) })),
+      detailNext: () => this.setState((st) => ({ detailIndex: Math.min(detailCount - 1, st.detailIndex + 1) })),
+      detailPrevOpacity: detailIdx <= 0 ? '0.3' : '1',
+      detailNextOpacity: detailIdx >= detailCount - 1 ? '0.3' : '1',
+      closeDetailPanel: () => this.setState({ detailPanelOpen: false }),
+
+      replacePanelOpen: s.replacePanelOpen,
+      replaceItemLabel: s.replaceItemLabel,
+      closeReplacePanel: () => this.setState({ replacePanelOpen: false }),
+      triggerUpload: () => this.triggerUpload(),
+      tabIsUpload: s.replaceTab === 'upload', tabIsGenerate: s.replaceTab === 'generate',
+      setTabUpload: () => this.setState({ replaceTab: 'upload' }),
+      setTabGenerate: () => this.setState({ replaceTab: 'generate' }),
+      uploadTabBg: s.replaceTab === 'upload' ? '#3448C5' : '#F1F3F7', uploadTabColor: s.replaceTab === 'upload' ? '#fff' : '#323A45',
+      genTabBg: s.replaceTab === 'generate' ? '#3448C5' : '#F1F3F7', genTabColor: s.replaceTab === 'generate' ? '#fff' : '#323A45',
+      genPrompt: s.genPrompt, onGenPrompt: (e) => this.setState({ genPrompt: e.target.value }),
+      genBtnBg: s.genPrompt.trim() ? '#3448C5' : '#F1F3F7', genBtnColor: s.genPrompt.trim() ? '#fff' : '#A6AEBC',
+    };
+  }
+}
+
+</script>
+</body>
+</html>
