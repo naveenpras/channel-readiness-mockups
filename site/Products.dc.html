@@ -23,7 +23,7 @@
 </style>
 </helmet>
 
-<div style="display: flex; height: 100vh; min-height: 720px; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; overflow: hidden;">
+<div data-screen-label="Products" style="display: flex; height: 100vh; min-height: 720px; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; overflow: hidden;">
 
   <div style="width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
     <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;">
@@ -79,157 +79,7 @@
       
     </div>
 
-    <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 28px 32px 48px;">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
-          <div>
-            <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Readiness Dashboard</div>
-            
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px; flex: 0 0 auto;">
-            
-            <div onClick="{{ openBulk }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; border: 1px solid #3448C5; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #2A3AA3; border-color: #2A3AA3;">
-              Create Asset Variations
-            </div>
-          </div>
-        </div>
-
-        <sc-if value="{{ dashboardBannerOpen }}" hint-placeholder-val="{{ true }}">
-          <div style="margin-top: 20px; border: 1px solid #DFE4F2; border-radius: 10px; padding: 24px; box-shadow: 0 1px 2px rgba(10,12,15,0.04); background-color: #F7F8FE; background-image: radial-gradient(760px 220px at 12% -10%, rgba(52,72,197,0.11), rgba(52,72,197,0) 70%), radial-gradient(620px 240px at 92% 115%, rgba(123,79,216,0.10), rgba(123,79,216,0) 72%), linear-gradient(180deg, #FAFBFF 0%, #F3F5FD 100%);">
-            <div style="position: relative; display: flex; align-items: center; justify-content: center; padding: 2px 32px 0;">
-              <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em; text-align: center;">Catalog In, Channel-Ready Out</div>
-              <div onClick="{{ dismissDashboardBanner }}" style="position: absolute; top: -4px; right: -4px; width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #8A94A6; cursor: pointer;" style-hover="background: #EFF1F5; color: #0A0C0F;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="16" hint-size="16px,16px"></x-import>
-              </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); align-items: stretch; gap: 12px; margin-top: 18px;">
-          <div style="min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: rgba(255,255,255,0.86); border: 1px solid #E4E8F5; border-radius: 10px; box-shadow: 0 1px 3px rgba(10,12,15,0.05); padding: 12px 14px; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 9px;">
-              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="link" size="16" hint-size="16px,16px"></x-import>
-              </span>
-              <div style="font-size: 14px; font-weight: 600;">1 · Set up products</div>
-            </div>
-            <div style="min-height: 64px; width: 100%; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; min-width: 0;">
-              <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 600; color: #3448C5; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.28); border-radius: 4px; padding: 5px 8px; flex: 0 0 auto;">SKU</span>
-              <span style="width: 14px; height: 2px; background: rgba(52,72,197,0.28); border-radius: 2px; flex: 0 0 auto;"></span>
-              <span style="display: flex; flex: 0 0 auto;">
-                <sc-for list="{{ bannerTiles }}" as="t" hint-placeholder-count="3">
-                  <span style="width: 40px; height: 40px; border-radius: 8px; background: {{ t.bg }}; color: {{ t.fg }}; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(10,12,15,0.14); display: flex; align-items: center; justify-content: center; margin-left: -10px; flex: 0 0 auto;">
-                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="18" hint-size="18px,18px"></x-import>
-                  </span>
-                </sc-for>
-              </span>
-            </div>
-            <div style="font-size: 13px; color: #636D7E;">Link each SKU to its assets.</div>
-          </div>
-
-
-          <div style="min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: rgba(255,255,255,0.86); border: 1px solid #E4E8F5; border-radius: 10px; box-shadow: 0 1px 3px rgba(10,12,15,0.05); padding: 12px 14px; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 9px;">
-              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import>
-              </span>
-              <div style="font-size: 14px; font-weight: 600;">2 · Run variations</div>
-            </div>
-            <div style="height: 64px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; min-width: 0;">
-              <sc-for list="{{ bannerChannels }}" as="c" hint-placeholder-count="4">
-                <span style="width: 38px; height: 38px; border-radius: 8px; background: #fff; border: 1px solid #EAEDF2; box-shadow: 0 1px 4px rgba(10,12,15,0.10); display: flex; align-items: center; justify-content: center; padding: 5px; box-sizing: border-box; flex: 0 0 auto;">{{ c.badge }}</span>
-              </sc-for>
-            </div>
-            <div style="font-size: 13px; color: #636D7E;">Pick channels, crop to spec.</div>
-          </div>
-
-
-          <div style="min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: rgba(255,255,255,0.86); border: 1px solid #E4E8F5; border-radius: 10px; box-shadow: 0 1px 3px rgba(10,12,15,0.05); padding: 12px 14px; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 9px;">
-              <span style="width: 28px; height: 28px; border-radius: 9999px; background: #F4F6FB; border: 1px solid rgba(52,72,197,0.24); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="16" hint-size="16px,16px"></x-import>
-              </span>
-              <div style="font-size: 14px; font-weight: 600;">3 · Review results</div>
-            </div>
-            <div style="height: 64px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0;">
-              <sc-for list="{{ bannerResults }}" as="t" hint-placeholder-count="5">
-                <span style="width: {{ t.w }}; height: 40px; border-radius: 7px; background: {{ t.bg }}; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(10,12,15,0.14); color: {{ t.fg }}; display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 0 0 auto;">
-                  <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ t.icon }}" size="14" hint-size="14px,14px"></x-import>
-                </span>
-              </sc-for>
-            </div>
-            <div style="font-size: 13px; color: #636D7E;">Check what was created, then ship.</div>
-          </div>
-            </div>
-          </div>
-        </sc-if>
-
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 22px;">
-          <sc-for list="{{ statCards }}" as="c" hint-placeholder-count="5">
-            <div style="background: #fff; border: 1px solid #EAEDF2; border-radius: 8px; padding: 20px;">
-              <div style="font-size: 32px; font-weight: 700; color: {{ c.color }}; letter-spacing: -0.02em;">{{ c.value }}</div>
-              <div style="font-size: 13px; color: #636D7E; margin-top: 8px; line-height: 1.4;">{{ c.label }}</div>
-              <div style="height: 3px; border-radius: 9999px; background: #EAEDF2; margin-top: 14px; overflow: hidden;">
-                <div style="height: 100%; width: {{ c.barPct }}; background: {{ c.barColor }};"></div>
-              </div>
-            </div>
-          </sc-for>
-        </div>
-
-        <div style="margin-top: 34px;">
-          <div style="display: flex; align-items: baseline; gap: 10px;">
-            <div style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em;">Bulk variation runs</div>
-            <div style="font-size: 13px; color: #8A94A6;">{{ runsSubtitle }}</div>
-          </div>
-          <div style="margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 8px; overflow-x: auto;">
-            <div style="min-width: 880px;">
-            <div style="display: flex; align-items: center; height: 40px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2; padding: 0 16px; font-size: 12px; font-weight: 600; color: #636D7E;">
-              <div style="flex: 1 1 280px; min-width: 200px;">Run</div>
-              <div style="flex: 0 0 110px;">Products</div>
-              <div style="flex: 0 0 150px;">Channels</div>
-              <div style="flex: 0 0 190px;">Started</div>
-              <div style="flex: 0 0 190px;">Status</div>
-              <div style="flex: 0 0 24px;"></div>
-            </div>
-            <sc-for list="{{ runs }}" as="run" hint-placeholder-count="4">
-              <div onClick="{{ run.open }}" style="display: flex; align-items: center; min-height: 60px; padding: 0 16px; border-bottom: 1px solid #EAEDF2; cursor: {{ run.cursor }}; background: #fff;" style-hover="background: #FAFBFC;">
-                <div style="flex: 1 1 280px; min-width: 200px; padding-right: 16px;">
-                  <div style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ run.name }}</div>
-                  <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">{{ run.source }}</div>
-                </div>
-                <div style="flex: 0 0 110px; font-size: 14px; color: #323A45;">{{ run.productCount }}</div>
-                <div style="flex: 0 0 150px; display: flex; align-items: center; gap: 4px;">{{ run.channelBadges }}</div>
-                <div style="flex: 0 0 190px; font-size: 13px; color: #636D7E;">{{ run.started }}</div>
-                <div style="flex: 0 0 190px;">
-                  <sc-if value="{{ run.isRunning }}" hint-placeholder-val="{{ false }}">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                      <span style="display: flex; color: #3448C5; animation: cc-spin 1.4s linear infinite;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="15" hint-size="15px,15px"></x-import></span>
-                      <div style="flex: 1;">
-                        <div style="font-size: 12px; font-weight: 600; color: #3448C5;">{{ run.statusLabel }}</div>
-                        <div style="height: 3px; border-radius: 9999px; background: #EAEDF2; margin-top: 5px; overflow: hidden; width: 110px;">
-                          <div style="height: 100%; width: {{ run.pct }}; background: #3448C5; transition: width 300ms ease;"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </sc-if>
-                  <sc-if value="{{ run.isDone }}" hint-placeholder-val="{{ true }}">
-                    <span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px 0 6px; border-radius: 9999px; background: {{ run.chipBg }}; color: {{ run.chipColor }}; font-size: 12px; font-weight: 600;">
-                      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ run.chipIcon }}" size="14" hint-size="14px,14px"></x-import>
-                      {{ run.statusLabel }}
-                    </span>
-                  </sc-if>
-                </div>
-                <div style="flex: 0 0 24px; display: flex; justify-content: flex-end; color: #C4CBD8;">
-                  <sc-if value="{{ run.isDone }}" hint-placeholder-val="{{ true }}">
-                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_right" size="18" hint-size="18px,18px"></x-import>
-                  </sc-if>
-                </div>
-              </div>
-            </sc-for>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </sc-if>
+    
 
     <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ true }}">
       <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
@@ -371,11 +221,7 @@
       </div>
     </sc-if>
 
-    <sc-if value="{{ isChannels }}" hint-placeholder-val="{{ false }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto;">
-        <dc-import name="Channel List" embedded="{{ true }}" on-open-public="{{ openPublicCh }}" on-open-custom="{{ openCustomCh }}" on-create="{{ openNewChannel }}" hint-size="100%,760px"></dc-import>
-      </div>
-    </sc-if>
+    
 
     <sc-if value="{{ chKebab }}" hint-placeholder-val="{{ false }}">
       <div onClick="{{ closeChKebab }}" style="position: fixed; inset: 0; z-index: 69;"></div>
@@ -387,24 +233,11 @@
       </div>
     </sc-if>
 
-    <sc-if value="{{ isChannelConfig }}" hint-placeholder-val="{{ false }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto; animation: cc-fade 140ms ease;">
-        <dc-import name="Custom Channel" embedded="{{ true }}" channel-name="{{ cfgName }}" on-back="{{ backToChannels }}" hint-size="100%,900px"></dc-import>
-      </div>
-    </sc-if>
+    
 
-    <sc-if value="{{ isPublicDetail }}" hint-placeholder-val="{{ false }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto; animation: cc-fade 140ms ease;">
-        <dc-import name="Public Channel" embedded="{{ true }}" on-back="{{ backToChannels }}" hint-size="100%,1200px"></dc-import>
-      </div>
-    </sc-if>
+    
 
-    <sc-if value="{{ isConfiguration }}" hint-placeholder-val="{{ false }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 28px 32px 48px;">
-        <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Configuration</div>
-        <div style="font-size: 14px; color: #636D7E; margin-top: 8px;">TBD</div>
-      </div>
-    </sc-if>
+    
 
     <sc-if value="{{ isChannelSetup }}" hint-placeholder-val="{{ false }}">
       <div style="position: absolute; inset: 0; background: #fff; overflow-y: auto; z-index: 6; animation: cc-fade 140ms ease;">
@@ -500,11 +333,7 @@
       </div>
     </sc-if>
 
-    <sc-if value="{{ isNewChannel }}" hint-placeholder-val="{{ false }}">
-      <div style="flex: 1; min-height: 0; overflow-y: auto; animation: cc-fade 140ms ease;">
-        <dc-import name="Create Custom Channel" embedded="{{ true }}" on-back="{{ backToChannels }}" hint-size="100%,900px"></dc-import>
-      </div>
-    </sc-if>
+    
 
     <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
       <div style="position: absolute; inset: 0; background: #fff; overflow-y: auto; z-index: 5; animation: cc-fade 140ms ease;">
@@ -2014,7 +1843,7 @@ const CUS_SUM = {
   eu: ['Enhance quality, Crop · Video · VTT captions', 'Images · Video · Infographic'],
 };
 class Component extends DCLogic {
-  state = { tab: (() => { try { const t = new URLSearchParams(location.search).get('tab'); if (t === 'Channels' && location.protocol === 'file:') { location.replace(PAGE('Channel List')); } return t; } catch (e) { return null; } })(), expanded: null, skuDrawer: null, picker: false, modal: false, modalMode: 'link', sel: [], skuQuery: '', sku: null, create: false, newSku: '', newDesc: '',
+  state = { tab: 'Products', expanded: null, skuDrawer: null, picker: false, modal: false, modalMode: 'link', sel: [], skuQuery: '', sku: null, create: false, newSku: '', newDesc: '',
     screen: this.props.initialScreen || 'table', editSku: this.props.initialEditSku || null, menuRow: null, chFilter: null, reorder: false, drawer: null, fix: null, manage: null,
     confirmDelete: null, deleted: [], chanKey: null, baseKey: null, removedChannels: [], pillMenu: null, channelOn: {}, dashboardBannerOpen: true, chOrder: null, dragKey: null, dragOverKey: null,
     dupChannels: [], hoverCh: null, chKebabKey: null, chKebabTop: 0, chKebabLeft: 0,
@@ -2449,7 +2278,10 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const ex = this.extractResult();
-    const tab = s.tab || this.props.initialTab || 'Dashboard';
+    const tab = 'Products';
+    const away = s.screen === 'channel' ? (s.chanKey === 'brand' ? 'Custom Channel' : 'Public Channel') : s.screen === 'newChannel' ? 'Create Custom Channel'
+      : (s.tab && s.tab !== tab) ? ({ Dashboard: 'Dashboard', Products: 'Products', Channels: 'Channel List' }[s.tab] || 'Channel Readiness') : null;
+    if (away && !this._leaving) { this._leaving = true; setTimeout(() => { window.location.href = PAGE(away) + (away === 'Channel Readiness' ? '?tab=' + s.tab : ''); }, 0); }
     const tq = (s.tagQuery || '').trim().toLowerCase();
     const prodVisible = ROWS.filter((r) => !s.deleted.includes(r.sku))
       .filter((r) => (tq ? (TAGS[r.sku] || []).some((t) => t.toLowerCase() === tq) : true));
@@ -2816,7 +2648,7 @@ class Component extends DCLogic {
       openPublicCh: (k) => this.setState({ screen: 'channel', chanKey: k || 'amazon' }),
       openCustomCh: () => this.setState({ screen: 'channel', chanKey: 'brand' }),
       noop: () => {},
-      tabs: this.props.pageNav ? [['Dashboard', 'Dashboard'], ['Products', 'Products'], ['Channels', 'Channel List'], ['Configuration', 'Channel Readiness']].map(([k, pg]) => ({ key: k, label: k, weight: k === tab ? 600 : 400, color: k === tab ? '#0A0C0F' : '#636D7E', underline: k === tab ? 'inset 0 -2px 0 #3448C5' : 'none', onClick: () => { window.location.href = PAGE(pg) + (k === 'Configuration' ? '?tab=Configuration' : ''); } })) : [
+      tabs: true ? [['Dashboard', 'Dashboard'], ['Products', 'Products'], ['Channels', 'Channel List'], ['Configuration', 'Channel Readiness']].map(([k, pg]) => ({ key: k, label: k, weight: k === tab ? 600 : 400, color: k === tab ? '#0A0C0F' : '#636D7E', underline: k === tab ? 'inset 0 -2px 0 #3448C5' : 'none', onClick: () => { window.location.href = PAGE(pg) + (k === 'Configuration' ? '?tab=Configuration' : ''); } })) : [
         { key: 'Dashboard', label: 'Dashboard', onClick: () => this.setState({ tab: 'Dashboard' }) },
         { key: 'Products', label: 'Products', onClick: () => this.setState({ tab: 'Products' }) },
         { key: 'Channels', label: 'Channels', onClick: () => (location.protocol === 'file:' ? (window.location.href = PAGE('Channel List')) : this.setState({ tab: 'Channels' })) },

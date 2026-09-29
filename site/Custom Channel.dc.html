@@ -17,17 +17,59 @@
   a:hover { color: #2B3BAD; text-decoration: underline; }
 </style>
 </helmet>
-<div data-screen-label="Custom channel" style="padding: 24px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
-<div style="background: #fff; border: 1px solid #DFE3EA; border-radius: 8px; box-shadow: 0 1px 3px rgba(10,12,15,0.06);">
+<div data-screen-label="Custom channel" style="display: flex; min-height: 100%; background: #fff;">
+<sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="position: sticky; top: 0; height: calc(100vh - 32px); align-self: flex-start; width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
+    <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud" size="26" hint-size="26px,26px"></x-import>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="home" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Home</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #3448C5; background: rgba(52,72,197,0.10); cursor: pointer;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="photo_library" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Assets</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Image</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="videocam" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Video</span>
+    </div>
+    <div style="width: 52px; height: 56px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer; text-align: center;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="tune" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em; line-height: 1.1;">Media<br>Flows</span>
+    </div>
+    <div style="flex: 1;"></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="settings" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Settings</span>
+    </div>
+  </div>
+<div style="position: sticky; top: 0; height: calc(100vh - 40px); align-self: flex-start; width: 246px; flex: 0 0 246px; border-right: 1px solid #EAEDF2; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto;">
+    <div style="display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Home</div>
+    <div style="font-size: 11px; font-weight: 600; color: #8A94A6; letter-spacing: 0.01em; padding: 16px 12px 6px;">Media Library</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Folders</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Collections</div>
+    <a href="Dashboard.dc.html" style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #3448C5; background: rgba(52,72,197,0.10); text-decoration: none;">Channel Readiness</a>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Structured Metadata</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Reports</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Activity Reports</div>
+  </div></sc-if>
+<div style="flex: 1; min-width: 0;">
         <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="display: flex; gap: 28px; padding: 0 32px; border-bottom: 1px solid #EAEDF2;">
-          <div onClick="{{ goDash }}" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; cursor: pointer;" style-hover="color: #0A0C0F;">Dashboard</div>
-          <div onClick="{{ goProducts }}" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; cursor: pointer;" style-hover="color: #0A0C0F;">Products</div>
-          <div onClick="{{ goChanList }}" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 600; color: #0A0C0F; box-shadow: inset 0 -2px 0 #3448C5; cursor: pointer;">Channels</div>
+          <a href="Dashboard.dc.html" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 400; color: #636D7E; text-decoration: none;" style-hover="color: #0A0C0F; text-decoration: none;">Dashboard</a>
+          <a href="Products.dc.html" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 400; color: #636D7E; text-decoration: none;" style-hover="color: #0A0C0F; text-decoration: none;">Products</a>
+          <a href="Channel%20List.dc.html" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 600; color: #0A0C0F; box-shadow: inset 0 -2px 0 #3448C5; text-decoration: none;">Channels</a>
+          <a href="Channel%20Readiness.dc.html?tab=Configuration" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 400; color: #636D7E; text-decoration: none;" style-hover="color: #0A0C0F; text-decoration: none;">Configuration</a>
         </div></sc-if>
-        <div style="padding: 20px 40px 0;">
+        <div style="padding: 20px 32px 0;">
           <div onClick="{{ onBack }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E; cursor: pointer;" style-hover="color: #3448C5;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>Channels</div>
         </div>
-        <div style="display: flex; align-items: center; gap: 14px; padding: 16px 40px 20px; border-bottom: 1px solid #EAEDF2;">
+        <div style="display: flex; align-items: center; gap: 14px; padding: 16px 32px 20px; border-bottom: 1px solid #EAEDF2;">
           <span style="width: 44px; height: 44px; border-radius: 8px; background: #EEF1FB; color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 44px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="public" size="24" hint-size="24px,24px"></x-import></span>
           <div style="flex: 1; min-width: 0;">
             <div style="display: flex; align-items: center; gap: 8px; color: #8A94A6;">
@@ -40,7 +82,7 @@
           <div onClick="{{ t2hdr.toggle }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ t2hdr.tBg }}; display: flex; align-items: center; justify-content: {{ t2hdr.tJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
           <div style="height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer; margin-left: 8px;" style-hover="background: #2B3BAD;">Save changes</div>
         </div>
-        <div style="padding: 0 40px 48px; max-width: 1000px;">
+        <div style="padding: 0 32px 48px; max-width: 1000px;">
           
 
           <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px; padding-bottom: 12px; border-bottom: 1px solid #EAEDF2;">
@@ -714,7 +756,7 @@ class Component extends DCLogic {
     return { pubList5, pd, goList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) };
   }
   renderVals() {
-    try { return { ...this._rv(), ...this._t2(), ...this._pub(), showTabs: !this.props.embedded, goDash: () => GO('Channel Readiness', '?tab=Dashboard'), goProducts: () => GO('Channel Readiness', '?tab=Products'), goChanList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) }; } catch (e) { console.error('RV ' + (e && e.stack || e)); return {}; }
+    try { return { ...this._rv(), ...this._t2(), ...this._pub(), showTabs: !this.props.embedded, goDash: () => GO('Dashboard'), goProducts: () => GO('Products'), goChanList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) }; } catch (e) { console.error('RV ' + (e && e.stack || e)); return {}; }
   }
   _rv() {
     const s = this.state;
