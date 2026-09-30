@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<style>
+  html, body { margin: 0; padding: 0; background: #F1F3F7; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</helmet>
+<section data-screen-label="Turn 1" style="padding: 48px; display: flex; flex-direction: column; gap: 24px;">
+  <div>
+    <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Create products</div>
+    <div style="font-size: 14px; color: #636D7E; margin-top: 6px; max-width: 760px; line-height: 1.5;">Chosen direction (1a): group assets into products by file name pattern, or create and edit a single SKU by hand. Opens from “Create New Product” on the Products page. Every frame is interactive.</div>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start;">
+    <div id="1a" style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">1a</span>
+        <span style="font-size: 16px; font-weight: 600;">Modal: type the pattern, review as a list</span>
+        <a href="Create Product A.dc.html" style="font-size: 13px;">Open page</a>
+      </div>
+      <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Keeps the current dialog. Start from a saved pattern or a new one, edit it as text, and see every product in a dense list. Expand a row to see how each file name was read.</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+        <div style="width: 1000px; height: 980px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Create Product A" hint-size="1000px,980px"></dc-import></div>
+        <div style="width: 1000px; height: 980px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Create Product A" initial-tab="manual" initial-sku="FTW-RUN-60026" hint-size="1000px,980px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

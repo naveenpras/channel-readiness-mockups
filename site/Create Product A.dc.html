@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<script src="product-patterns.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</helmet>
+<div data-screen-label="Create products (modal)" style="min-height: 100vh; box-sizing: border-box; padding: 40px 24px; background: {{ backdrop }}; display: flex; justify-content: center; align-items: flex-start; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
+  <div style="width: 880px; max-width: 100%; height: 900px; display: flex; flex-direction: column; background: #fff; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.16); overflow: hidden;">
+    <div style="display: flex; align-items: flex-start; justify-content: space-between; padding: 24px 28px 0;">
+      <div>
+        <div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Create products</div>
+        <div style="font-size: 13px; color: #636D7E; margin-top: 4px;">Group assets into products by file name, or add a single SKU by hand.</div>
+      </div>
+      <div onClick="{{ close }}" style="color: #636D7E; cursor: pointer; display: flex;" style-hover="color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="20" hint-size="20px,20px"></x-import></div>
+    </div>
+    <div style="display: flex; gap: 28px; padding: 0 28px; margin-top: 16px; border-bottom: 1px solid #EAEDF2;">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2">
+        <div onClick="{{ t.onClick }}" style="padding: 12px 2px 10px; font-size: 14px; font-weight: {{ t.weight }}; color: {{ t.color }}; box-shadow: {{ t.line }}; cursor: pointer;">{{ t.label }}</div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ showExtract }}" hint-placeholder-val="{{ true }}">
+      <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 28px 24px;">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px;">
+          <div style="position: relative;">
+            <div style="font-size: 12px; font-weight: 500; color: #323A45; margin-bottom: 6px;">Choose pattern</div>
+            <div onClick="{{ toggleMenu }}" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C6CDDA; border-radius: 4px; display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff;" style-hover="border-color: #3448C5;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="bookmarks" size="16" hint-size="16px,16px"></x-import>
+              <span style="flex: 1; font-size: 14px;">{{ startLabel }}</span>
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="18" hint-size="18px,18px"></x-import>
+            </div>
+            <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; top: 68px; left: 0; right: 0; z-index: 10; background: #fff; border: 1px solid #DFE3EA; border-radius: 6px; box-shadow: 0 4px 12px rgba(10,12,15,0.12); padding: 6px 0;">
+                <div style="padding: 6px 12px; font-size: 11px; font-weight: 600; color: #8A94A6;">Saved patterns</div>
+                <sc-for list="{{ savedList }}" as="sv" hint-placeholder-count="3">
+                  <div onClick="{{ sv.pick }}" style="padding: 8px 12px; cursor: pointer; background: {{ sv.bg }};" style-hover="background: #F7F8FA;">
+                    <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 600;"><span>{{ sv.name }}</span><span style="font-weight: 400; color: #8A94A6; font-size: 12px;">{{ sv.used }}</span></div>
+                    <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E; margin-top: 2px;">{{ sv.pattern }}</div>
+                  </div>
+                </sc-for>
+                <div style="height: 1px; background: #EAEDF2; margin: 6px 0;"></div>
+                <div onClick="{{ newPattern }}" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; font-size: 13px; font-weight: 600; color: #3448C5; cursor: pointer;" style-hover="background: #F7F8FA;">
+                  <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>New pattern
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 500; color: #323A45; margin-bottom: 6px;">Folder</div>
+            <select value="{{ folder }}" onChange="{{ onFolder }}" style="width: 100%; height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 14px; background: #fff; color: #0A0C0F;">
+              <sc-for list="{{ folders }}" as="f" hint-placeholder-count="3"><option value="{{ f.key }}" selected="{{ f.sel }}">{{ f.label }}</option></sc-for>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px;">
+            <div style="font-size: 12px; font-weight: 500; color: #323A45;">File name pattern</div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 12px;">
+              <sc-if value="{{ stSaved }}" hint-placeholder-val="{{ true }}"><span style="color: #636D7E;">Saved pattern · {{ savedUsed }}</span></sc-if>
+              <sc-if value="{{ stModified }}" hint-placeholder-val="{{ false }}">
+                <span style="color: #8A5300;">Edited from {{ savedName }}</span>
+                <span onClick="{{ updateSaved }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Update saved pattern</span>
+                <span onClick="{{ resetPattern }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Reset</span>
+              </sc-if>
+              <sc-if value="{{ stNew }}" hint-placeholder-val="{{ false }}"><span style="color: #636D7E;">New pattern</span></sc-if>
+            </div>
+          </div>
+          <input value="{{ pattern }}" onChange="{{ onPattern }}" placeholder="e.g. product-variant_sku-position" spellcheck="false" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1px solid {{ patBorder }}; border-radius: 4px; font-family: 'Roboto Mono', monospace; font-size: 15px; color: #0A0C0F; outline: none;">
+          <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; color: #B3261E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="error" size="16" hint-size="16px,16px"></x-import>{{ error }}</div>
+          </sc-if>
+          <sc-if value="{{ noError }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px;">
+              <sc-for list="{{ tokChips }}" as="c" hint-placeholder-count="4">
+                
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="font-size: 12px; color: #8A94A6; margin-top: 8px; line-height: 1.5;">Wrap each part of the name in braces. <span style="font-family: 'Roboto Mono', monospace; color: #323A45;">{sku}</span> is the SKU; other parts are saved on each asset as metadata. Name a part <span style="font-family: 'Roboto Mono', monospace; color: #323A45;">{ignore}</span> to skip it.</div>
+        </div>
+
+        <sc-if value="{{ noError }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; padding-top: 16px; border-top: 1px solid #EAEDF2;">
+            <div style="font-size: 15px; font-weight: 600;">{{ summary }}</div>
+            <div style="font-size: 12px; color: #636D7E;">{{ summarySub }}</div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;">
+            <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+              <div onClick="{{ f.onClick }}" style="height: 28px; padding: 0 10px; border-radius: 14px; border: 1px solid {{ f.bd }}; background: {{ f.bg }}; color: {{ f.fg }}; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer;">{{ f.label }}<span style="font-weight: 600;">{{ f.count }}</span></div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ showProducts }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 6px;">
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+                <div style="border-bottom: 1px solid #EAEDF2;">
+                  <div onClick="{{ r.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer;" style-hover="background: #F7F8FA;">
+                    <span style="color: #8A94A6; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ r.chev }}" size="18" hint-size="18px,18px"></x-import></span>
+                    <div style="display: flex; gap: 2px; flex: 0 0 auto;">
+                      <sc-for list="{{ r.thumbs }}" as="th" hint-placeholder-count="2"><span style="display: flex;"><img src="{{ th.src }}" alt="" style="width: 36px; height: 36px; object-fit: cover; border-radius: 3px; background: #F1F3F7; display: block;"></span></sc-for>
+                      <sc-if value="{{ r.more }}" hint-placeholder-val="{{ false }}"><span style="width: 36px; height: 36px; border-radius: 3px; background: #F1F3F7; color: #636D7E; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">{{ r.moreLabel }}</span></sc-if>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ r.sku }}</span><span style="font-size: 13px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.name }}</span></div>
+                      <div style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #8A94A6; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.fileHint }}</div>
+                    </div>
+                    <span style="font-size: 12px; color: #636D7E; flex: 0 0 auto;">{{ r.countLabel }}</span>
+                    <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; white-space: nowrap; flex: 0 0 auto; background: {{ r.bBg }}; color: {{ r.bFg }}; border: 1px solid {{ r.bBd }};">{{ r.badge }}</span>
+                  </div>
+                  <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding: 4px 12px 14px 42px; display: flex; flex-direction: column; gap: 6px;">
+                      <sc-for list="{{ r.files }}" as="f" hint-placeholder-count="2">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <img src="{{ f.src }}" alt="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px; background: #F1F3F7; flex: 0 0 48px;">
+                          <div style="flex: 1; min-width: 0;">
+                            <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; display: flex; flex-wrap: wrap;">
+                              <sc-for list="{{ f.parts }}" as="pt" hint-placeholder-count="4"><span style="background: {{ pt.bg }}; color: {{ pt.fg }}; font-weight: {{ pt.fw }}; border-radius: 2px; padding: 1px 1px;">{{ pt.text }}</span></sc-for>
+                              <span style="color: #8A94A6;">.jpg</span>
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
+                              <sc-for list="{{ f.meta }}" as="m" hint-placeholder-count="2"><span style="font-size: 11px; color: #323A45; background: #F1F3F7; border-radius: 3px; padding: 2px 6px;">{{ m.label }}</span></sc-for>
+                            </div>
+                          </div>
+                          <span style="font-size: 12px; font-weight: 500; color: {{ f.stFg }};">{{ f.stLabel }}</span>
+                        </div>
+                      </sc-for>
+                      <sc-if value="{{ r.hasExisting }}" hint-placeholder-val="{{ false }}">
+                        <div style="font-size: 12px; color: #636D7E; margin-top: 6px;">Already on this product, unchanged</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                          <sc-for list="{{ r.existing }}" as="e" hint-placeholder-count="1">
+                            <div style="display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border: 1px solid #EAEDF2; border-radius: 4px; opacity: 0.7;">
+                              <img src="{{ e.src }}" alt="" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px;">
+                              <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #636D7E;">{{ e.id }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; justify-content: center; gap: 16px; padding: 12px; font-size: 13px; font-weight: 500;">
+                  <span onClick="{{ showMore }}" style="color: #3448C5; cursor: pointer;">{{ moreLabel }}</span>
+                  <span onClick="{{ showAll }}" style="color: #3448C5; cursor: pointer;">Show all</span>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showUnmatched }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 6px;">
+              <sc-for list="{{ unmatched }}" as="u" hint-placeholder-count="3">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid #F1F3F7;">
+                  <img src="{{ u.src }}" alt="" style="width: 36px; height: 36px; object-fit: cover; border-radius: 3px;">
+                  <span style="flex: 1; font-family: 'Roboto Mono', monospace; font-size: 12px;">{{ u.id }}.jpg</span>
+                  <span style="font-size: 12px; color: #8A94A6;">Doesn't fit the pattern, not added</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 28px; border-top: 1px solid #EAEDF2;">
+        <sc-if value="{{ offerSavePat }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ toggleSavePat }}" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
+            <span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid {{ spBd }}; background: {{ spBg }}; color: #fff; display: flex; align-items: center; justify-content: center;"><sc-if value="{{ savePat }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
+            Save pattern as
+          </div>
+          <input value="{{ patName }}" onChange="{{ onPatName }}" placeholder="Pattern name" style="width: 200px; height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 13px;">
+        </sc-if>
+        <div style="flex: 1;"></div>
+        <div onClick="{{ close }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Cancel</div>
+        <div onClick="{{ saveProducts }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: {{ saveBg }}; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">{{ saveLabel }}</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showManual }}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px 28px 24px;">
+        <div style="font-size: 12px; font-weight: 500; color: #323A45; margin-bottom: 6px;">SKU</div>
+        <div style="display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border: 1px solid #C6CDDA; border-radius: 4px; color: #8A94A6;">
+          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="18" hint-size="18px,18px"></x-import>
+          <input value="{{ mQ }}" onChange="{{ onMQ }}" placeholder="Type a SKU, for example FTW-RUN-60026" spellcheck="false" style="flex: 1; min-width: 0; border: none; font-family: 'Roboto Mono', monospace; font-size: 15px; color: #0A0C0F; outline: none;">
+        </div>
+        <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 6px; border: 1px solid #EAEDF2; border-radius: 6px; padding: 4px 0;">
+            <sc-for list="{{ suggestions }}" as="sg" hint-placeholder-count="2">
+              <div onClick="{{ sg.pick }}" style="display: flex; align-items: center; gap: 12px; padding: 8px 12px; cursor: pointer;" style-hover="background: #F7F8FA;">
+                <img src="{{ sg.src }}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 3px;">
+                <span style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ sg.sku }}</span>
+                <span style="flex: 1; font-size: 13px; color: #323A45;">{{ sg.name }}</span>
+                <span style="font-size: 12px; color: #8A94A6;">{{ sg.count }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ showCreateNew }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ pickNew }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #3448C5; font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: #F7F8FA;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add_circle" size="18" hint-size="18px,18px"></x-import>{{ createLabel }}
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasPicked }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 14px 16px; border: 1px solid #EAEDF2; border-radius: 6px;">
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 600;">{{ pSku }}</span>
+                <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: {{ pBBg }}; color: {{ pBFg }}; border: 1px solid {{ pBBd }};">{{ pBadge }}</span>
+              </div>
+              <div style="font-size: 13px; color: #636D7E; margin-top: 4px;">{{ pSub }}</div>
+            </div>
+            <span onClick="{{ changeSku }}" style="font-size: 13px; font-weight: 500; color: #3448C5; cursor: pointer;">Change SKU</span>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
+            <div style="font-size: 14px; font-weight: 600;">{{ assetsTitle }}</div>
+            <div onClick="{{ togglePicker }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #F7F8FA;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>{{ pickerBtn }}
+            </div>
+          </div>
+          <sc-if value="{{ noTiles }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 10px; padding: 24px; border: 1px dashed #C6CDDA; border-radius: 6px; font-size: 13px; color: #636D7E; text-align: center;">No assets yet. Add assets from the media library.</div>
+          </sc-if>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 10px;">
+            <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="3">
+              <div style="position: relative; border: 1px solid {{ t.bd }}; border-radius: 6px; overflow: hidden; background: #fff;">
+                <img src="{{ t.src }}" alt="" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block; opacity: {{ t.op }};">
+                <div style="padding: 6px 8px;">
+                  <div style="font-family: 'Roboto Mono', monospace; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: {{ t.strike }};">{{ t.id }}</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 11px;">
+                    <span style="font-weight: 600; color: {{ t.tagFg }};">{{ t.tag }}</span>
+                    <span onClick="{{ t.act }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">{{ t.actLabel }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 16px; padding: 14px; border: 1px solid #DFE3EA; border-radius: 6px; background: #FAFBFC;">
+              <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; background: #fff; border: 1px solid #C6CDDA; border-radius: 4px; color: #8A94A6;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
+                <input value="{{ pQ }}" onChange="{{ onPQ }}" placeholder="Search the media library" style="flex: 1; border: none; font-size: 13px; outline: none; background: transparent;">
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 10px;">
+                <sc-for list="{{ libTiles }}" as="l" hint-placeholder-count="6">
+                  <div onClick="{{ l.toggle }}" style="position: relative; border: 2px solid {{ l.bd }}; border-radius: 6px; overflow: hidden; cursor: pointer; background: #fff;">
+                    <img src="{{ l.src }}" alt="" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
+                    <span style="position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; border-radius: 3px; border: 1px solid {{ l.boxBd }}; background: {{ l.boxBg }}; color: #fff; display: flex; align-items: center; justify-content: center;"><sc-if value="{{ l.on }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
+                    <div style="padding: 4px 6px; font-family: 'Roboto Mono', monospace; font-size: 10px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ l.id }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 28px; border-top: 1px solid #EAEDF2;">
+        <div style="font-size: 13px; color: #636D7E;">{{ mSummary }}</div>
+        <div style="flex: 1;"></div>
+        <div onClick="{{ close }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Cancel</div>
+        <div onClick="{{ mSave }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: {{ mSaveBg }}; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">{{ mSaveLabel }}</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showDone }}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 40px; text-align: center;">
+        <span style="color: #1B7F4B; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="40" hint-size="40px,40px"></x-import></span>
+        <div style="font-size: 18px; font-weight: 600;">{{ doneTitle }}</div>
+        <div style="font-size: 13px; color: #636D7E; max-width: 460px; line-height: 1.5;">{{ doneSub }}</div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <div onClick="{{ again }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">Create more</div>
+          <a href="Products.dc.html" onClick="{{ close }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; text-decoration: none;">View products</a>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;embedded&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;onClose&quot;: {&quot;editor&quot;: null, &quot;tsType&quot;: &quot;() =&gt; void&quot;}, &quot;initialTab&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;extract&quot;, &quot;manual&quot;], &quot;default&quot;: &quot;extract&quot;, &quot;tsType&quot;: &quot;'extract' | 'manual'&quot;}, &quot;initialSku&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+const NEW_B = { label: 'New product', bg: '#E7F6EE', fg: '#1B7F4B', bd: '#BFE5CF' };
+const UPD_B = { bg: '#EEF1FB', fg: '#3448C5', bd: '#C9D1F2' };
+const NOC_B = { label: 'No change', bg: '#F1F3F7', fg: '#636D7E', bd: '#DFE3EA' };
+const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+class Component extends DCLogic {
+  state = { tab: this.props.initialTab || 'extract', savedId: 'fw', pattern: '{product}-{variant}_{sku}-{position}', folder: 'footwear', filter: 'all', open: { '60026': true }, limit: 25, menu: false, savePat: true, patName: null, done: null,
+    mQ: this.props.initialSku || '', mSku: this.props.initialSku || null, mAdd: [], mRemove: [], picker: false, pQ: '' };
+  componentDidMount() { if (!window.PP) this._t = setInterval(() => { if (window.PP) { clearInterval(this._t); this.forceUpdate(); } }, 50); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const P = window.PP, s = this.state, set = (x) => this.setState(x);
+    const tabs = [['extract', 'Extract SKU from file names'], ['manual', 'Manually create']].map(([k, l]) => ({ label: l, weight: s.tab === k ? 600 : 400, color: s.tab === k ? '#0A0C0F' : '#636D7E', line: s.tab === k ? 'inset 0 -2px 0 #3448C5' : 'none', onClick: () => set({ tab: k, done: null }) }));
+    const chrome = { backdrop: this.props.embedded ? 'transparent' : '#8C9099', close: (e) => { if (this.props.onClose) { if (e && e.preventDefault) e.preventDefault(); this.props.onClose(); } else if (!e || e.currentTarget.tagName !== 'A') window.location.href = 'Products.dc.html'; } };
+    if (!P) return { ...chrome, tabs, showExtract: false, showManual: false, showDone: false };
+    const saved = P.SAVED.find((x) => x.id === s.savedId);
+    const status = !saved ? 'new' : saved.pattern === s.pattern ? 'saved' : 'modified';
+    const r = P.run(s.folder, s.pattern), st = r.stats;
+    const list = s.filter === 'all' ? r.products : r.products.filter((p) => p.status === s.filter);
+    const rows = list.slice(0, s.limit).map((p) => {
+      const n = p.files.length, open = !!s.open[p.sku];
+      const b = p.status === 'new' ? NEW_B : p.status === 'updated' ? { ...UPD_B, label: 'Updated · +' + plural(p.newCount, 'asset') } : NOC_B;
+      return {
+        sku: p.sku, name: p.name || 'No name yet', thumbs: p.files.slice(0, n > 4 ? 3 : 4).map((f) => ({ src: f.img })), more: n > 4, moreLabel: '+' + (n - 3),
+        fileHint: p.files.slice(0, 2).map((f) => f.id).join(', ') + (n > 2 ? '  +' + (n - 2) + ' more' : ''), countLabel: plural(n, 'file'),
+        badge: b.label, bBg: b.bg, bFg: b.fg, bBd: b.bd, open, chev: open ? 'expand_less' : 'expand_more',
+        toggle: () => set((x) => ({ open: { ...x.open, [p.sku]: !x.open[p.sku] } })),
+        files: open ? p.files.map((f) => ({ src: f.img, parts: f.parts.map((pt) => ({ text: pt.text, bg: pt.isSku ? '#E3E8FA' : pt.tok && !P.isIgnore(pt.tok) ? '#F1F3F7' : 'transparent', fg: pt.isSku ? '#1F2F99' : pt.tok ? '#0A0C0F' : '#8A94A6', fw: pt.isSku ? 600 : 400 })),
+          meta: f.meta.map((m) => ({ label: m.key + ': ' + m.val })), stLabel: f.already ? 'Already linked' : p.status === 'new' ? 'Added' : 'New asset', stFg: f.already ? '#8A94A6' : '#1B7F4B' })) : [],
+        hasExisting: open && p.existing.length > 0, existing: p.existing.map((a) => ({ src: a.img, id: a.id })),
+      };
+    });
+    const F = [['all', 'All', st.products], ['new', 'New', st.created], ['updated', 'Updated', st.updated], ['unchanged', 'No change', st.unchanged], ['unmatched', 'Not matched', st.unmatched]]
+      .filter((f) => f[0] === 'all' || f[2] > 0 || f[0] === s.filter)
+      .map(([k, l, c]) => ({ label: l, count: c, bg: s.filter === k ? '#EEF1FB' : '#fff', bd: s.filter === k ? '#3448C5' : '#DFE3EA', fg: s.filter === k ? '#3448C5' : '#323A45', onClick: () => set({ filter: k, limit: 25 }) }));
+    const left = list.length - s.limit;
+    const patName = s.patName != null ? s.patName : saved ? saved.name + ' (edited)' : '';
+    const canSave = !r.error && st.products > 0;
+    // manual
+    const picked = s.mSku ? (P.findSku(s.mSku) || { sku: s.mSku.trim(), name: '', assets: [], isNew: true }) : null;
+    const exact = P.findSku(s.mQ);
+    const onProduct = new Set(picked ? picked.assets.map((a) => a.id).concat(s.mAdd) : []);
+    const tiles = picked ? picked.assets.map((a) => { const rm = s.mRemove.includes(a.id); return { src: a.img, id: a.id, bd: '#EAEDF2', op: rm ? 0.35 : 1, strike: rm ? 'line-through' : 'none', tag: rm ? 'Will be removed' : '', tagFg: '#B3261E', actLabel: rm ? 'Undo' : 'Remove', act: () => set((x) => ({ mRemove: rm ? x.mRemove.filter((i) => i !== a.id) : [...x.mRemove, a.id] })) }; })
+      .concat(s.mAdd.map((id) => { const a = P.LIBRARY.find((l) => l.id === id); return { src: a.img, id, bd: '#BFE5CF', op: 1, strike: 'none', tag: 'Will be added', tagFg: '#1B7F4B', actLabel: 'Remove', act: () => set((x) => ({ mAdd: x.mAdd.filter((i) => i !== id) })) }; })) : [];
+    const libTiles = s.picker ? P.searchLib(s.pQ, 40).filter((a) => !(picked && picked.assets.some((x) => x.id === a.id))).slice(0, 18).map((a) => { const on = s.mAdd.includes(a.id); return { src: a.img, id: a.id, on, bd: on ? '#3448C5' : '#EAEDF2', boxBd: on ? '#3448C5' : '#C6CDDA', boxBg: on ? '#3448C5' : '#fff', toggle: () => set((x) => ({ mAdd: on ? x.mAdd.filter((i) => i !== a.id) : [...x.mAdd, a.id] })) }; }) : [];
+    const changes = s.mAdd.length + s.mRemove.length;
+    const mCan = picked && (picked.isNew || changes > 0);
+    const kept = picked ? picked.assets.length - s.mRemove.length + s.mAdd.length : 0;
+    const done = s.done;
+    return {
+      ...chrome,
+      tabs, showDone: !!done, showExtract: !done && s.tab === 'extract', showManual: !done && s.tab === 'manual',
+      doneTitle: done && done.title, doneSub: done && done.sub, again: () => set({ done: null, mSku: null, mQ: '', mAdd: [], mRemove: [], picker: false }),
+      menuOpen: s.menu, toggleMenu: () => set({ menu: !s.menu }), startLabel: saved ? saved.name : 'New pattern',
+      savedList: P.SAVED.map((sv) => ({ ...sv, bg: sv.id === s.savedId ? '#F7F8FE' : '#fff', pick: () => set({ savedId: sv.id, pattern: sv.pattern, folder: sv.folder, menu: false, open: {}, limit: 25, filter: 'all', patName: null }) })),
+      newPattern: () => set({ savedId: null, pattern: '', menu: false, open: {}, filter: 'all', patName: null }),
+      folders: P.FOLDERS.map((f) => ({ key: f.key, label: f.label, sel: f.key === s.folder })), folder: s.folder, onFolder: (e) => set({ folder: e.target.value, open: {}, filter: 'all', limit: 25 }),
+      pattern: s.pattern, onPattern: (e) => set({ pattern: e.target.value, limit: 25 }), patBorder: r.error && s.pattern ? '#B3261E' : '#3448C5',
+      stSaved: status === 'saved', stModified: status === 'modified', stNew: status === 'new', savedName: saved && saved.name, savedUsed: saved && saved.used,
+      resetPattern: () => set({ pattern: saved.pattern }), updateSaved: () => { saved.pattern = s.pattern; saved.used = 'Updated today'; this.forceUpdate(); },
+      hasError: !!r.error, noError: !r.error, error: r.error,
+      tokChips: r.toks.map((t) => t === 'sku' ? { tok: '{sku}', role: 'product SKU', bg: '#E3E8FA', fg: '#1F2F99' } : P.isIgnore(t) ? { tok: '{' + t + '}', role: 'skipped', bg: '#F7F8FA', fg: '#8A94A6' } : { tok: '{' + t + '}', role: 'asset metadata', bg: '#F1F3F7', fg: '#323A45' }),
+      summary: plural(st.products, 'product') + ' from ' + plural(st.files, 'file'),
+      summarySub: st.created + ' new · ' + st.updated + ' existing updated · ' + st.unmatched + ' of ' + st.total + ' files not matched',
+      filters: F, showProducts: s.filter !== 'unmatched', showUnmatched: s.filter === 'unmatched',
+      unmatched: r.unmatched.slice(0, 60).map((u) => ({ src: u.img, id: u.id })),
+      rows, hasMore: left > 0, moreLabel: 'Show ' + Math.min(25, left) + ' more', showMore: () => set({ limit: s.limit + 25 }), showAll: () => set({ limit: 100000 }),
+      offerSavePat: status !== 'saved' && !r.error, savePat: s.savePat, toggleSavePat: () => set({ savePat: !s.savePat }), spBd: s.savePat ? '#3448C5' : '#C6CDDA', spBg: s.savePat ? '#3448C5' : '#fff',
+      patName, onPatName: (e) => set({ patName: e.target.value }),
+      saveBg: canSave ? '#3448C5' : '#A6AEBC', saveLabel: canSave ? 'Save ' + plural(st.products, 'product') : 'Save products',
+      saveProducts: () => {
+        if (!canSave) return;
+        let patMsg = '';
+        if (status !== 'saved' && s.savePat) { const nm = patName || 'Untitled pattern'; const id = 'u' + Date.now(); P.SAVED.push({ id, name: nm, pattern: s.pattern, folder: s.folder, used: 'Created today' }); patMsg = ' Pattern saved as “' + nm + '”.'; this.setState({ savedId: id, patName: null }); }
+        const meta = r.toks.filter((t) => t !== 'sku' && !P.isIgnore(t));
+        set({ done: { title: plural(st.created, 'product') + ' created, ' + st.updated + ' updated', sub: plural(st.newLinks, 'asset') + ' linked.' + (meta.length ? ' ' + meta.join(', ') + ' saved on each asset as metadata.' : '') + patMsg } });
+      },
+      mQ: s.mQ, onMQ: (e) => set({ mQ: e.target.value, mSku: null, mAdd: [], mRemove: [] }),
+      showSuggest: !picked && !!s.mQ.trim(), suggestions: picked ? [] : P.suggest(s.mQ).map((x) => ({ sku: x.sku, name: x.name, src: x.assets[0] && x.assets[0].img, count: plural(x.assets.length, 'asset'), pick: () => set({ mSku: x.sku, mQ: x.sku }) })),
+      showCreateNew: !!s.mQ.trim() && !exact, createLabel: 'Create new SKU “' + s.mQ.trim() + '”', pickNew: () => set({ mSku: s.mQ.trim(), picker: true }),
+      hasPicked: !!picked, pSku: picked && picked.sku,
+      pBadge: picked && picked.isNew ? 'New SKU' : 'Existing product', pBBg: picked && picked.isNew ? NEW_B.bg : UPD_B.bg, pBFg: picked && picked.isNew ? NEW_B.fg : UPD_B.fg, pBBd: picked && picked.isNew ? NEW_B.bd : UPD_B.bd,
+      pSub: picked ? (picked.isNew ? 'This SKU is not in your catalog yet. Saving creates it.' : picked.name + ' · ' + plural(picked.assets.length, 'asset') + ' linked') : '',
+      changeSku: () => set({ mSku: null, mQ: '', mAdd: [], mRemove: [], picker: false }),
+      assetsTitle: 'Assets (' + kept + ')', noTiles: tiles.length === 0, tiles,
+      pickerOpen: s.picker, togglePicker: () => set({ picker: !s.picker }), pickerBtn: s.picker ? 'Done adding' : 'Add assets', pQ: s.pQ, onPQ: (e) => set({ pQ: e.target.value }), libTiles,
+      mSummary: !picked ? 'Pick an existing SKU or type a new one.' : changes ? [s.mAdd.length && plural(s.mAdd.length, 'asset') + ' to add', s.mRemove.length && s.mRemove.length + ' to remove'].filter(Boolean).join(' · ') : picked.isNew ? 'No assets added yet' : 'No changes yet',
+      mSaveBg: mCan ? '#3448C5' : '#A6AEBC', mSaveLabel: picked && picked.isNew ? 'Create product' : 'Save changes',
+      mSave: () => { if (!mCan) return; set({ done: { title: picked.isNew ? 'Product ' + picked.sku + ' created' : picked.sku + ' updated', sub: [s.mAdd.length && plural(s.mAdd.length, 'asset') + ' added', s.mRemove.length && plural(s.mRemove.length, 'asset') + ' removed'].filter(Boolean).join(', ') + (changes ? '.' : 'No assets linked yet.') } }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1066,6 +1066,11 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: rgba(10,12,15,0.45); z-index: 60; overflow-y: auto; animation: cc-fade 140ms ease;">
+      <dc-import name="Create Product A" embedded="{{ true }}" on-close="{{ closeCreate }}" hint-size="100%,980px"></dc-import>
+    </div>
+  </sc-if>
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position: fixed; inset: 0; background: rgba(10,12,15,0.45); z-index: 50; display: flex; align-items: center; justify-content: center; animation: cc-fade 140ms ease;">
       <sc-if value="{{ modalForm }}" hint-placeholder-val="{{ true }}">
@@ -2977,7 +2982,7 @@ class Component extends DCLogic {
       createLabel: 'Create new SKU “' + s.skuQuery.trim() + '”',
       pickNew: () => this.setState({ sku: s.skuQuery.trim() }),
 
-      openCreate: () => this.setState({ modal: true, modalMode: 'create', picker: false, sel: [], sku: null, skuQuery: '' }),
+      openCreate: () => this.setState({ createOpen: true }), createOpen: !!s.createOpen, closeCreate: () => this.setState({ createOpen: false }),
       selectAssetsLabel: sel.length === 0 ? 'Select assets' : 'Change selection',
       selectionCountLabel: sel.length + (sel.length === 1 ? ' asset selected' : ' assets selected'),
 
