@@ -40,7 +40,7 @@
             <div style="font-size: 12px; font-weight: 500; color: #323A45; margin-bottom: 6px;">Choose pattern</div>
             <div onClick="{{ toggleMenu }}" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C6CDDA; border-radius: 4px; display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff;" style-hover="border-color: #3448C5;">
               <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="bookmarks" size="16" hint-size="16px,16px"></x-import>
-              <span style="flex: 1; font-size: 14px;">{{ startLabel }}</span>
+              <span style="flex: 1; min-width: 0; font-size: 14px; font-family: {{ startFont }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ startLabel }}</span>
               <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="18" hint-size="18px,18px"></x-import>
             </div>
             <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
@@ -48,8 +48,7 @@
                 <div style="padding: 6px 12px; font-size: 11px; font-weight: 600; color: #8A94A6;">Saved patterns</div>
                 <sc-for list="{{ savedList }}" as="sv" hint-placeholder-count="3">
                   <div onClick="{{ sv.pick }}" style="padding: 8px 12px; cursor: pointer; background: {{ sv.bg }};" style-hover="background: #F7F8FA;">
-                    <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 600;"><span>{{ sv.name }}</span><span style="font-weight: 400; color: #8A94A6; font-size: 12px;">{{ sv.used }}</span></div>
-                    <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E; margin-top: 2px;">{{ sv.pattern }}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;"><span style="font-family: 'Roboto Mono', monospace; font-size: 13px; color: #0A0C0F;">{{ sv.pattern }}</span><span style="color: #8A94A6; font-size: 12px; white-space: nowrap;">{{ sv.used }}</span></div>
                   </div>
                 </sc-for>
                 <div style="height: 1px; background: #EAEDF2; margin: 6px 0;"></div>
@@ -71,16 +70,11 @@
           <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px;">
             <div style="font-size: 12px; font-weight: 500; color: #323A45;">File name pattern</div>
             <div style="display: flex; align-items: center; gap: 10px; font-size: 12px;">
-              <sc-if value="{{ stSaved }}" hint-placeholder-val="{{ true }}"><span style="color: #636D7E;">Saved pattern · {{ savedUsed }}</span></sc-if>
-              <sc-if value="{{ stModified }}" hint-placeholder-val="{{ false }}">
-                <span style="color: #8A5300;">Edited from {{ savedName }}</span>
-                <span onClick="{{ updateSaved }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Update saved pattern</span>
-                <span onClick="{{ resetPattern }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Reset</span>
-              </sc-if>
-              <sc-if value="{{ stNew }}" hint-placeholder-val="{{ false }}"><span style="color: #636D7E;">New pattern</span></sc-if>
+              <sc-if value="{{ stSaved }}" hint-placeholder-val="{{ true }}"><span style="color: #636D7E;">Saved pattern · {{ savedUsed }} · can't be edited</span><span onClick="{{ copyPattern }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">{{ copyLabel }}</span></sc-if>
+              <sc-if value="{{ stNew }}" hint-placeholder-val="{{ false }}"><span style="color: #636D7E;">New pattern · saved when you create the products</span></sc-if>
             </div>
           </div>
-          <input value="{{ pattern }}" onChange="{{ onPattern }}" placeholder="e.g. product-variant_sku-position" spellcheck="false" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1px solid {{ patBorder }}; border-radius: 4px; font-family: 'Roboto Mono', monospace; font-size: 15px; color: #0A0C0F; outline: none;">
+          <input value="{{ pattern }}" onChange="{{ onPattern }}" readOnly="{{ patLocked }}" placeholder="e.g. {product}-{variant}_{sku}-{position}" spellcheck="false" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1px solid {{ patBorder }}; border-radius: 4px; font-family: 'Roboto Mono', monospace; font-size: 15px; color: {{ patFg }}; background: {{ patBg }}; outline: none;">
           <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; color: #B3261E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="error" size="16" hint-size="16px,16px"></x-import>{{ error }}</div>
           </sc-if>
@@ -107,51 +101,27 @@
 
           <sc-if value="{{ showProducts }}" hint-placeholder-val="{{ true }}">
             <div style="margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 6px;">
-              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
-                <div style="border-bottom: 1px solid #EAEDF2;">
-                  <div onClick="{{ r.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer;" style-hover="background: #F7F8FA;">
-                    <span style="color: #8A94A6; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ r.chev }}" size="18" hint-size="18px,18px"></x-import></span>
-                    <div style="display: flex; gap: 2px; flex: 0 0 auto;">
-                      <sc-for list="{{ r.thumbs }}" as="th" hint-placeholder-count="2"><span style="display: flex;"><img src="{{ th.src }}" alt="" style="width: 36px; height: 36px; object-fit: cover; border-radius: 3px; background: #F1F3F7; display: block;"></span></sc-for>
-                      <sc-if value="{{ r.more }}" hint-placeholder-val="{{ false }}"><span style="width: 36px; height: 36px; border-radius: 3px; background: #F1F3F7; color: #636D7E; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">{{ r.moreLabel }}</span></sc-if>
+              <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) minmax(0, 1.3fr) 128px; gap: 16px; padding: 8px 12px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2; font-size: 11px; font-weight: 600; color: #636D7E; border-radius: 6px 6px 0 0;">
+                <span>Product</span><span>New files</span><span>Already linked</span><span>Result</span>
+              </div>
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) minmax(0, 1.3fr) 128px; gap: 16px; align-items: center; padding: 7px 12px; border-bottom: 1px solid #F1F3F7;">
+                  <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                    <span style="display: flex; flex: 0 0 32px;"><img src="{{ r.thumb }}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 3px; background: #F1F3F7; display: block;"></span>
+                    <div style="min-width: 0;">
+                      <div style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ r.sku }}</div>
+                      <div style="font-size: 11px; color: #636D7E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.name }}</div>
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                      <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ r.sku }}</span><span style="font-size: 13px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.name }}</span></div>
-                      <div style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #8A94A6; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.fileHint }}</div>
-                    </div>
-                    <span style="font-size: 12px; color: #636D7E; flex: 0 0 auto;">{{ r.countLabel }}</span>
-                    <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; white-space: nowrap; flex: 0 0 auto; background: {{ r.bBg }}; color: {{ r.bFg }}; border: 1px solid {{ r.bBd }};">{{ r.badge }}</span>
                   </div>
-                  <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
-                    <div style="padding: 4px 12px 14px 42px; display: flex; flex-direction: column; gap: 6px;">
-                      <sc-for list="{{ r.files }}" as="f" hint-placeholder-count="2">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                          <img src="{{ f.src }}" alt="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px; background: #F1F3F7; flex: 0 0 48px;">
-                          <div style="flex: 1; min-width: 0;">
-                            <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; display: flex; flex-wrap: wrap;">
-                              <sc-for list="{{ f.parts }}" as="pt" hint-placeholder-count="4"><span style="background: {{ pt.bg }}; color: {{ pt.fg }}; font-weight: {{ pt.fw }}; border-radius: 2px; padding: 1px 1px;">{{ pt.text }}</span></sc-for>
-                              <span style="color: #8A94A6;">.jpg</span>
-                            </div>
-                            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;">
-                              <sc-for list="{{ f.meta }}" as="m" hint-placeholder-count="2"><span style="font-size: 11px; color: #323A45; background: #F1F3F7; border-radius: 3px; padding: 2px 6px;">{{ m.label }}</span></sc-for>
-                            </div>
-                          </div>
-                          <span style="font-size: 12px; font-weight: 500; color: {{ f.stFg }};">{{ f.stLabel }}</span>
-                        </div>
-                      </sc-for>
-                      <sc-if value="{{ r.hasExisting }}" hint-placeholder-val="{{ false }}">
-                        <div style="font-size: 12px; color: #636D7E; margin-top: 6px;">Already on this product, unchanged</div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                          <sc-for list="{{ r.existing }}" as="e" hint-placeholder-count="1">
-                            <div style="display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border: 1px solid #EAEDF2; border-radius: 4px; opacity: 0.7;">
-                              <img src="{{ e.src }}" alt="" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px;">
-                              <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #636D7E;">{{ e.id }}</span>
-                            </div>
-                          </sc-for>
-                        </div>
-                      </sc-if>
-                    </div>
-                  </sc-if>
+                  <div title="{{ r.newAll }}" style="min-width: 0; display: flex; align-items: baseline; gap: 6px;">
+                    <span style="font-size: 12px; font-weight: 600; color: {{ r.newFg }}; flex: 0 0 auto;">{{ r.newCount }}</span>
+                    <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.newHint }}</span>
+                  </div>
+                  <div title="{{ r.oldAll }}" style="min-width: 0; display: flex; align-items: baseline; gap: 6px;">
+                    <span style="font-size: 12px; font-weight: 600; color: #8A94A6; flex: 0 0 auto;">{{ r.oldCount }}</span>
+                    <span style="font-family: 'Roboto Mono', monospace; font-size: 11px; color: #8A94A6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.oldHint }}</span>
+                  </div>
+                  <span style="justify-self: start; display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; white-space: nowrap; background: {{ r.bBg }}; color: {{ r.bFg }}; border: 1px solid {{ r.bBd }};">{{ r.badge }}</span>
                 </div>
               </sc-for>
               <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
@@ -177,11 +147,7 @@
       </div>
       <div style="display: flex; align-items: center; gap: 12px; padding: 14px 28px; border-top: 1px solid #EAEDF2;">
         <sc-if value="{{ offerSavePat }}" hint-placeholder-val="{{ false }}">
-          <div onClick="{{ toggleSavePat }}" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
-            <span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid {{ spBd }}; background: {{ spBg }}; color: #fff; display: flex; align-items: center; justify-content: center;"><sc-if value="{{ savePat }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
-            Save pattern as
-          </div>
-          <input value="{{ patName }}" onChange="{{ onPatName }}" placeholder="Pattern name" style="width: 200px; height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 13px;">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="bookmarks" size="16" hint-size="16px,16px"></x-import>This pattern is saved for reuse when you create the products.</div>
         </sc-if>
         <div style="flex: 1;"></div>
         <div onClick="{{ close }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Cancel</div>
@@ -307,27 +273,23 @@ class Component extends DCLogic {
     const chrome = { backdrop: this.props.embedded ? 'transparent' : '#8C9099', close: (e) => { if (this.props.onClose) { if (e && e.preventDefault) e.preventDefault(); this.props.onClose(); } else if (!e || e.currentTarget.tagName !== 'A') window.location.href = 'Products.dc.html'; } };
     if (!P) return { ...chrome, tabs, showExtract: false, showManual: false, showDone: false };
     const saved = P.SAVED.find((x) => x.id === s.savedId);
-    const status = !saved ? 'new' : saved.pattern === s.pattern ? 'saved' : 'modified';
+    const status = saved ? 'saved' : 'new';
     const r = P.run(s.folder, s.pattern), st = r.stats;
     const list = s.filter === 'all' ? r.products : r.products.filter((p) => p.status === s.filter);
+    const hint = (arr) => arr.length ? arr[0].id + (arr.length > 1 ? '  +' + (arr.length - 1) + ' more' : '') : '—';
     const rows = list.slice(0, s.limit).map((p) => {
-      const n = p.files.length, open = !!s.open[p.sku];
-      const b = p.status === 'new' ? NEW_B : p.status === 'updated' ? { ...UPD_B, label: 'Updated · +' + plural(p.newCount, 'asset') } : NOC_B;
-      return {
-        sku: p.sku, name: p.name || 'No name yet', thumbs: p.files.slice(0, n > 4 ? 3 : 4).map((f) => ({ src: f.img })), more: n > 4, moreLabel: '+' + (n - 3),
-        fileHint: p.files.slice(0, 2).map((f) => f.id).join(', ') + (n > 2 ? '  +' + (n - 2) + ' more' : ''), countLabel: plural(n, 'file'),
-        badge: b.label, bBg: b.bg, bFg: b.fg, bBd: b.bd, open, chev: open ? 'expand_less' : 'expand_more',
-        toggle: () => set((x) => ({ open: { ...x.open, [p.sku]: !x.open[p.sku] } })),
-        files: open ? p.files.map((f) => ({ src: f.img, parts: f.parts.map((pt) => ({ text: pt.text, bg: pt.isSku ? '#E3E8FA' : pt.tok && !P.isIgnore(pt.tok) ? '#F1F3F7' : 'transparent', fg: pt.isSku ? '#1F2F99' : pt.tok ? '#0A0C0F' : '#8A94A6', fw: pt.isSku ? 600 : 400 })),
-          meta: f.meta.map((m) => ({ label: m.key + ': ' + m.val })), stLabel: f.already ? 'Already linked' : p.status === 'new' ? 'Added' : 'New asset', stFg: f.already ? '#8A94A6' : '#1B7F4B' })) : [],
-        hasExisting: open && p.existing.length > 0, existing: p.existing.map((a) => ({ src: a.img, id: a.id })),
-      };
+      const nw = p.files.filter((f) => !f.already), old = p.files.filter((f) => f.already).concat(p.existing);
+      const b = p.status === 'new' ? NEW_B : p.status === 'updated' ? { ...UPD_B, label: 'Updated' } : NOC_B;
+      return { sku: p.sku, name: p.name || 'No name yet', thumb: (nw[0] || p.files[0]).img,
+        newCount: nw.length ? nw.length + ' new' : '0', newFg: nw.length ? '#1B7F4B' : '#A6AEBC', newHint: nw.length ? hint(nw) : '', newAll: nw.map((f) => f.id).join('\n'),
+        oldCount: old.length ? String(old.length) : '', oldHint: hint(old), oldAll: old.map((f) => f.id).join('\n'),
+        badge: b.label, bBg: b.bg, bFg: b.fg, bBd: b.bd };
     });
     const F = [['all', 'All', st.products], ['new', 'New', st.created], ['updated', 'Updated', st.updated], ['unchanged', 'No change', st.unchanged], ['unmatched', 'Not matched', st.unmatched]]
       .filter((f) => f[0] === 'all' || f[2] > 0 || f[0] === s.filter)
       .map(([k, l, c]) => ({ label: l, count: c, bg: s.filter === k ? '#EEF1FB' : '#fff', bd: s.filter === k ? '#3448C5' : '#DFE3EA', fg: s.filter === k ? '#3448C5' : '#323A45', onClick: () => set({ filter: k, limit: 25 }) }));
     const left = list.length - s.limit;
-    const patName = s.patName != null ? s.patName : saved ? saved.name + ' (edited)' : '';
+    
     const canSave = !r.error && st.products > 0;
     // manual
     const picked = s.mSku ? (P.findSku(s.mSku) || { sku: s.mSku.trim(), name: '', assets: [], isNew: true }) : null;
@@ -344,13 +306,14 @@ class Component extends DCLogic {
       ...chrome,
       tabs, showDone: !!done, showExtract: !done && s.tab === 'extract', showManual: !done && s.tab === 'manual',
       doneTitle: done && done.title, doneSub: done && done.sub, again: () => set({ done: null, mSku: null, mQ: '', mAdd: [], mRemove: [], picker: false }),
-      menuOpen: s.menu, toggleMenu: () => set({ menu: !s.menu }), startLabel: saved ? saved.name : 'New pattern',
-      savedList: P.SAVED.map((sv) => ({ ...sv, bg: sv.id === s.savedId ? '#F7F8FE' : '#fff', pick: () => set({ savedId: sv.id, pattern: sv.pattern, folder: sv.folder, menu: false, open: {}, limit: 25, filter: 'all', patName: null }) })),
-      newPattern: () => set({ savedId: null, pattern: '', menu: false, open: {}, filter: 'all', patName: null }),
-      folders: P.FOLDERS.map((f) => ({ key: f.key, label: f.label, sel: f.key === s.folder })), folder: s.folder, onFolder: (e) => set({ folder: e.target.value, open: {}, filter: 'all', limit: 25 }),
-      pattern: s.pattern, onPattern: (e) => set({ pattern: e.target.value, limit: 25 }), patBorder: r.error && s.pattern ? '#B3261E' : '#3448C5',
-      stSaved: status === 'saved', stModified: status === 'modified', stNew: status === 'new', savedName: saved && saved.name, savedUsed: saved && saved.used,
-      resetPattern: () => set({ pattern: saved.pattern }), updateSaved: () => { saved.pattern = s.pattern; saved.used = 'Updated today'; this.forceUpdate(); },
+      menuOpen: s.menu, toggleMenu: () => set({ menu: !s.menu }), startLabel: saved ? saved.pattern : 'New pattern', startFont: saved ? "'Roboto Mono', monospace" : 'inherit',
+      savedList: P.SAVED.map((sv) => ({ ...sv, bg: sv.id === s.savedId ? '#F7F8FE' : '#fff', pick: () => set({ savedId: sv.id, pattern: sv.pattern, folder: sv.folder, menu: false, limit: 25, filter: 'all' }) })),
+      copyLabel: s.copied ? 'Copied' : 'Copy pattern',
+      copyPattern: () => { const t = s.pattern; const done = () => { set({ copied: true }); clearTimeout(this._ct); this._ct = setTimeout(() => this.setState({ copied: false }), 1500); }; try { navigator.clipboard.writeText(t).then(done, done); } catch (e) { done(); } },
+      newPattern: () => set({ savedId: null, pattern: '', menu: false, filter: 'all' }),
+      folders: P.FOLDERS.map((f) => ({ key: f.key, label: f.label, sel: f.key === s.folder })), folder: s.folder, onFolder: (e) => set({ folder: e.target.value, filter: 'all', limit: 25 }),
+      pattern: s.pattern, patLocked: !!saved, onPattern: (e) => { if (!saved) set({ pattern: e.target.value, limit: 25 }); }, patBorder: r.error && s.pattern ? '#B3261E' : saved ? '#DFE3EA' : '#3448C5', patBg: saved ? '#F7F8FA' : '#fff', patFg: saved ? '#636D7E' : '#0A0C0F',
+      stSaved: status === 'saved', stNew: status === 'new', savedUsed: saved && saved.used,
       hasError: !!r.error, noError: !r.error, error: r.error,
       tokChips: r.toks.map((t) => t === 'sku' ? { tok: '{sku}', role: 'product SKU', bg: '#E3E8FA', fg: '#1F2F99' } : P.isIgnore(t) ? { tok: '{' + t + '}', role: 'skipped', bg: '#F7F8FA', fg: '#8A94A6' } : { tok: '{' + t + '}', role: 'asset metadata', bg: '#F1F3F7', fg: '#323A45' }),
       summary: plural(st.products, 'product') + ' from ' + plural(st.files, 'file'),
@@ -358,13 +321,12 @@ class Component extends DCLogic {
       filters: F, showProducts: s.filter !== 'unmatched', showUnmatched: s.filter === 'unmatched',
       unmatched: r.unmatched.slice(0, 60).map((u) => ({ src: u.img, id: u.id })),
       rows, hasMore: left > 0, moreLabel: 'Show ' + Math.min(25, left) + ' more', showMore: () => set({ limit: s.limit + 25 }), showAll: () => set({ limit: 100000 }),
-      offerSavePat: status !== 'saved' && !r.error, savePat: s.savePat, toggleSavePat: () => set({ savePat: !s.savePat }), spBd: s.savePat ? '#3448C5' : '#C6CDDA', spBg: s.savePat ? '#3448C5' : '#fff',
-      patName, onPatName: (e) => set({ patName: e.target.value }),
+      offerSavePat: status === 'new' && !r.error,
       saveBg: canSave ? '#3448C5' : '#A6AEBC', saveLabel: canSave ? 'Save ' + plural(st.products, 'product') : 'Save products',
       saveProducts: () => {
         if (!canSave) return;
         let patMsg = '';
-        if (status !== 'saved' && s.savePat) { const nm = patName || 'Untitled pattern'; const id = 'u' + Date.now(); P.SAVED.push({ id, name: nm, pattern: s.pattern, folder: s.folder, used: 'Created today' }); patMsg = ' Pattern saved as “' + nm + '”.'; this.setState({ savedId: id, patName: null }); }
+        if (status === 'new' && !P.SAVED.some((x) => x.pattern === s.pattern)) { const id = 'u' + Date.now(); P.SAVED.push({ id, name: s.pattern, pattern: s.pattern, folder: s.folder, used: 'Last used today' }); patMsg = ' The pattern is saved for reuse.'; this.setState({ savedId: id }); }
         const meta = r.toks.filter((t) => t !== 'sku' && !P.isIgnore(t));
         set({ done: { title: plural(st.created, 'product') + ' created, ' + st.updated + ' updated', sub: plural(st.newLinks, 'asset') + ' linked.' + (meta.length ? ' ' + meta.join(', ') + ' saved on each asset as metadata.' : '') + patMsg } });
       },
