@@ -74,9 +74,9 @@
 
   <div>
       <div style="padding: 20px 32px 0;">
-        <a href="Products.dc.html" onClick="{{ goHome }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;">
+        <a href="{{ backHref }}" onClick="{{ goHome }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;">
           <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>
-          Products
+          {{ backLabel }}
         </a>
       </div>
 
@@ -768,8 +768,10 @@ class Component extends DCLogic {
     const detailIdx = detailCount ? Math.max(0, Math.min(s.detailIndex, detailCount - 1)) : 0;
     const detailItem = detailItems[detailIdx] || null;
 
-    const goHome = (e) => { if (e) e.preventDefault(); window.location.href = PAGE('Products'); };
-    return { goHome,
+    const runId = new URLSearchParams(location.search).get('run');
+    const backHref = runId ? PAGE('Run Details') + '?run=' + encodeURIComponent(runId) : PAGE('Products');
+    const goHome = (e) => { if (e) e.preventDefault(); window.location.href = backHref; };
+    return { goHome, backHref, backLabel: runId ? 'Run details' : 'Products',
       editSkuCode: ACTIVE_SKU,
       editName: PRODUCT.name,
       showAssetLabels: this.props.showAssetLabels ?? true,

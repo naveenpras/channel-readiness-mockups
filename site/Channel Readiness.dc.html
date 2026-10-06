@@ -87,10 +87,6 @@
             
           </div>
           <div style="display: flex; align-items: center; gap: 8px; flex: 0 0 auto;">
-            
-            <div onClick="{{ openBulk }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; border: 1px solid #3448C5; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #2A3AA3; border-color: #2A3AA3;">
-              Create Asset Variations
-            </div>
           </div>
         </div>
 
@@ -235,8 +231,8 @@
       <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
 
         <div style="display: flex; align-items: flex-start; gap: 12px; padding: 20px 32px 12px; flex: 0 0 auto;">
-          <div style="display: flex; align-items: center; gap: 10px; row-gap: 10px; flex-wrap: wrap; flex: 1; min-width: 0;">
-          <div style="display: flex; align-items: center; gap: 8px; width: 300px; flex: 0 0 auto; height: 32px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
+          <div style="display: flex; align-items: center; gap: 10px; row-gap: 10px; flex-wrap: wrap; flex: 1 1 0; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; width: 300px; max-width: 100%; flex: 0 1 300px; min-width: 0; overflow: hidden; height: 32px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
             <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
             <span style="font-size: 13px; color: #8A94A6;">Search by SKU or asset name</span>
           </div>
@@ -256,6 +252,7 @@
           </div>
           <div style="display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 8px 0 12px; border-radius: 9999px; background: #F1F3F7; font-size: 13px; color: #323A45; cursor: pointer;" style-hover="background: #E7EAF1;">Category<x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="16" hint-size="16px,16px"></x-import></div>
           </div>
+          <div onClick="{{ openBulk }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 4px; background: #fff; border: 1px solid #3448C5; color: #3448C5; font-size: 13px; font-weight: 600; cursor: pointer; flex: 0 0 auto; white-space: nowrap;" style-hover="background: #F2F4FD;">Make channel ready</div>
           <div onClick="{{ openCreate }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; flex: 0 0 auto; white-space: nowrap;" style-hover="background: #2B3BAD;">
             <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>
             Create New Product

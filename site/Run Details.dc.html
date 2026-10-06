@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+  @keyframes cc-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes cc-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cc-slide-left { from { transform: translateX(-24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes cc-slide-right { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes cc-rise { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+</style>
+</helmet>
+<div data-screen-label="Run details" style="display: flex; height: 100vh; min-height: 720px; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; overflow: hidden;">
+  <div style="width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
+    <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud" size="26" hint-size="26px,26px"></x-import></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="home" size="22" hint-size="22px,22px"></x-import><span style="font-size: 10px;">Home</span></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #3448C5; background: rgba(52,72,197,0.10);"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="photo_library" size="22" hint-size="22px,22px"></x-import><span style="font-size: 10px;">Assets</span></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="22" hint-size="22px,22px"></x-import><span style="font-size: 10px;">Image</span></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="videocam" size="22" hint-size="22px,22px"></x-import><span style="font-size: 10px;">Video</span></div>
+    <div style="flex: 1;"></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="settings" size="22" hint-size="22px,22px"></x-import><span style="font-size: 10px;">Settings</span></div>
+  </div>
+  <div style="width: 246px; flex: 0 0 246px; border-right: 1px solid #EAEDF2; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto;">
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Assets Home</div>
+    <div style="font-size: 11px; font-weight: 600; color: #8A94A6; padding: 16px 12px 6px;">Media Library</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Assets</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Folders</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Collections</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #3448C5; background: rgba(52,72,197,0.10);">Channel Readiness</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; font-size: 14px;">Structured Metadata</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Assets Reports</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; font-size: 14px;">Activity Reports</div>
+  </div>
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden;">
+    <div style="display: flex; gap: 28px; padding: 0 32px; border-bottom: 1px solid #EAEDF2; flex: 0 0 auto;">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+        <a href="{{ t.href }}" style="padding: 18px 2px 14px; font-size: 15px; font-weight: {{ t.weight }}; color: {{ t.color }}; box-shadow: {{ t.underline }}; text-decoration: none;">{{ t.label }}</a>
+      </sc-for>
+    </div>
+    <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 24px 32px 48px;">
+      <div style="max-width: 1080px;">
+        <a href="{{ dashHref }}" style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 500;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_left" size="18" hint-size="18px,18px"></x-import>Dashboard</a>
+        <sc-if value="{{ missing }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 24px; font-size: 14px; color: #636D7E;">This run was not found. Go back to the dashboard and select a run.</div></sc-if>
+        <sc-if value="{{ run }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; gap: 14px; margin-top: 14px; flex-wrap: wrap;">
+            <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; min-width: 0;">{{ run.name }}</div>
+            <span style="display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; flex: 0 0 auto; white-space: nowrap; border-radius: 9999px; background: {{ run.chipBg }}; color: {{ run.chipColor }}; font-size: 13px; font-weight: 600;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ run.chipIcon }}" size="14" hint-size="14px,14px"></x-import>{{ run.chipLabel }}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px; font-size: 13px; color: #636D7E; flex-wrap: wrap;">
+            <span>Started {{ run.started }}</span><span>·</span><span>{{ run.source }}</span>
+          </div>
+          <sc-if value="{{ run.running }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 20px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 16px 18px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>{{ run.progressLabel }}</span><span style="color: #3448C5;">{{ run.pct }}</span></div>
+              <div style="height: 6px; border-radius: 3px; background: #EAEDF2; margin-top: 10px; overflow: hidden;"><div style="height: 100%; width: {{ run.pct }}; background: #3448C5;"></div></div>
+              <div style="font-size: 12px; color: #8A94A6; margin-top: 8px;">Results appear below as products finish. This page updates on its own.</div>
+            </div>
+          </sc-if>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 20px;">
+            <sc-for list="{{ run.stats }}" as="st" hint-placeholder-count="4">
+              <div style="border: 1px solid {{ st.bd }}; border-radius: 8px; padding: 14px 16px; background: {{ st.bg }};"><div style="font-size: {{ st.size }}; font-weight: {{ st.weight }}; letter-spacing: -0.02em; line-height: 1.25; color: {{ st.color }};">{{ st.value }}</div><div style="font-size: 12px; color: #636D7E; margin-top: 4px;">{{ st.label }}</div></div>
+            </sc-for>
+          </div>
+          
+          <div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="font-size: 16px; font-weight: 600;">Products in this run</div>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px; width: 240px; height: 30px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6; box-sizing: border-box;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="15" hint-size="15px,15px"></x-import>
+                <input value="{{ q }}" onInput="{{ onQ }}" placeholder="Search by SKU" style="flex: 1; min-width: 0; border: none; background: transparent; font-family: inherit; font-size: 13px; color: #0A0C0F; outline: none;">
+              </div>
+              <div style="display: flex; gap: 6px;">
+              <div onClick="{{ showAll }}" style="height: 30px; padding: 0 14px; border-radius: 9999px; font-size: 13px; display: flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer; background: {{ allBg }}; color: {{ allFg }};">All {{ run.count }}</div>
+              <div onClick="{{ showIssues }}" style="height: 30px; padding: 0 14px; border-radius: 9999px; font-size: 13px; display: flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer; background: {{ issBg }}; color: {{ issFg }};">Needs attention {{ run.issueCount }}</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
+            <div style="display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2; font-size: 12px; font-weight: 600; color: #636D7E;"><span style="width: 44px; flex: 0 0 44px;"></span><span style="flex: 1;">Product</span><span style="flex: 0 0 130px;">Variations</span><span style="flex: 0 0 150px;">Status</span><span style="width: 18px;"></span></div>
+            <sc-for list="{{ rows }}" as="p" hint-placeholder-count="4">
+              <a href="{{ p.href }}" style="display: flex; align-items: center; gap: 14px; padding: 10px 16px; border-bottom: 1px solid #F1F3F7; color: #0A0C0F; text-decoration: none;" style-hover="background: #FAFBFC;">
+                <span style="width: 44px; height: 44px; flex: 0 0 44px; border-radius: 4px; background: #F1F3F7 url('{{ p.img }}') center / cover;"></span>
+                <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">{{ p.sku }}</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ p.desc }}</div></div>
+                <span style="flex: 0 0 130px; font-size: 13px; color: #323A45;">{{ p.variations }}</span>
+                <span style="flex: 0 0 150px;"><span style="display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; border-radius: 9999px; background: {{ p.bg }}; color: {{ p.fg }}; font-size: 12px; font-weight: 600;">{{ p.status }}</span></span>
+                <span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_right" size="18" hint-size="18px,18px"></x-import></span>
+              </a>
+            </sc-for>
+            <sc-if value="{{ noMatch }}" hint-placeholder-val="{{ false }}"><div style="padding: 20px 16px; font-size: 13px; color: #636D7E;">{{ noMatchLabel }}</div></sc-if>
+            <sc-if value="{{ moreNote }}" hint-placeholder-val="{{ false }}"><div style="padding: 12px 16px; font-size: 12px; color: #8A94A6;">{{ moreNote }}</div></sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const PAGE = (name) => encodeURIComponent(name) + (/\.dc\.html$/.test(decodeURIComponent(location.pathname)) ? '.dc.html' : '.html');
+const CAT = {
+  'CAM-DSLR-10026': ['DSLR camera body, 24MP, black', 'camera-front'], 'BEV-NRG-20026': ['Energy drink, berry, 12oz can', 'drink-front'],
+  'APW-SHT-30026': ["Women's chambray shirt, blue", 'wshirt-front'], 'APM-POL-40026': ["Men's piqué polo, maroon", 'polo-front'],
+  'TLS-DRL-50026': ['Cordless drill/driver, 20V, bare tool', 'drill-hero'], 'FTW-RUN-60026': ['Running shoe, black/gold', 'shoe-hero'],
+  'HHS-WIP-70026': ['Disinfecting wipes, lemon, 75ct', 'wipes-lemon-front'],
+};
+const CH = { amazon: ['Amazon', 'A', '#F08804'], aplus: ['Amazon A+', 'A+', '#232A33'], walmart: ['Walmart', 'W', '#0071CE'], target: ['Target', 'T', '#CC0000'], google: ['Google Merchant', 'G', '#4285F4'], brand: ['Brand Site & App', 'BS', '#7B4FD8'] };
+const SEED = [
+  { id: 'r3', name: 'Holiday drop — apparel & footwear', source: 'holiday-apparel.csv · 1113 SKUs', skus: ['APW-SHT-30026', 'APM-POL-40026', 'FTW-RUN-60026', 'HHS-WIP-70026'], total: 1113, done: 240, channels: ['amazon', 'aplus', 'walmart', 'target'], started: 'Sep 6, 2026 · 10:24', status: 'running', pct: 22 },
+  { id: 'r2', name: 'Grocery & tools Q4 refresh', source: 'Selected from products · 5 SKUs', skus: ['BEV-NRG-20026', 'CAM-DSLR-10026', 'TLS-DRL-50026', 'FTW-RUN-60026'], channels: ['amazon', 'walmart', 'google'], started: 'Sep 5, 2026 · 16:02', status: 'complete' },
+  { id: 'r1', name: 'Back catalog backfill', source: 'backfill-aug.csv · 8 SKUs', skus: ['CAM-DSLR-10026', 'HHS-WIP-70026', 'TLS-DRL-50026', 'APW-SHT-30026'], channels: ['amazon', 'aplus', 'walmart', 'target', 'google', 'brand'], started: 'Sep 2, 2026 · 08:41', status: 'partial' },
+];
+const REASONS = ['Background is not pure white', 'Product fills less than 85% of the frame', 'Image is below the minimum resolution', 'Aspect ratio must be 1:1'];
+function resolve(r) {
+  if (!r.startedAt) return r;
+  const n = r.skus.length, pct = Math.min(100, Math.round(((Date.now() - r.startedAt) / 18000) * 100));
+  if (pct < 100) return { ...r, status: 'running', pct, done: Math.floor((n * pct) / 100), total: n };
+  return { ...r, status: n >= 4 ? 'partial' : 'complete', pct: 100, done: n, total: n };
+}
+function loadRuns() { let ex = []; try { ex = JSON.parse(localStorage.getItem('cr_runs_v1') || '[]'); } catch (e) {} return ex.map(resolve).concat(SEED); }
+class Component extends DCLogic {
+  state = { filter: 'all', tick: 0, q: '' };
+  componentDidMount() { this._t = setInterval(() => this.setState((s) => ({ tick: s.tick + 1 })), 1500); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const s = this.state;
+    const id = new URLSearchParams(location.search).get('run');
+    const r = loadRuns().find((x) => x.id === id) || null;
+    const tabs = [['Dashboard', 'Dashboard'], ['Products', 'Products'], ['Channels', 'Channel List']].map((t) => ({ label: t[0], href: PAGE(t[1]), weight: t[0] === 'Dashboard' ? 600 : 400, color: t[0] === 'Dashboard' ? '#0A0C0F' : '#636D7E', underline: t[0] === 'Dashboard' ? 'inset 0 -2px 0 #3448C5' : 'none' }));
+    const base = { tabs, dashHref: PAGE('Dashboard'), missing: !r, run: null, rows: [], moreNote: '', showAll: () => this.setState({ filter: 'all' }), showIssues: () => this.setState({ filter: 'issues' }), allBg: '#EEF1FB', allFg: '#3448C5', issBg: '#F1F3F7', issFg: '#323A45' };
+    if (!r) return base;
+    const n = r.skus.length, nc = r.channels.length, running = r.status === 'running', frac = (r.pct || (r.status === 'running' ? 0 : 100)) / 100;
+    const items = r.skus.map((sku, i) => {
+      const c = CAT[sku] || ['Product', null];
+      const finished = !running || (i + 1) / n <= frac, current = running && !finished && i / n <= frac;
+      const bad = finished && r.status !== 'running' && r.status === 'partial' && i % 4 === 2;
+      const badRun = finished && running && false;
+      const ch = r.channels[i % nc];
+      return { sku, desc: c[0], img: c[1] ? 'assets/' + c[1] + '.jpg' : '', href: PAGE('SKU Details') + '?sku=' + encodeURIComponent(sku), finished, current, bad: bad || badRun,
+        issue: { sku, href: PAGE('SKU Details') + '?sku=' + encodeURIComponent(sku), channel: CH[ch][0], text: REASONS[i % REASONS.length] } };
+    });
+    const done = items.filter((x) => x.finished).length, issues = items.filter((x) => x.bad), gen = done * nc * 3 - issues.length;
+    const chip = running ? ['rgba(52,72,197,0.10)', '#3448C5', 'sync', 'In progress'] : r.status === 'partial' ? ['rgba(240,136,4,0.14)', '#B36600', 'warning', 'Complete with issues'] : ['rgba(34,170,0,0.12)', '#22AA00', 'check', 'Complete'];
+    const total = r.total || n, proc = running && r.done != null ? r.done : done;
+    const genAll = running && r.total ? Math.round(proc * nc * 3) : gen;
+    const q = s.q.trim().toLowerCase();
+    const list = items.filter((x) => (s.filter !== 'issues' || x.bad) && (!q || x.sku.toLowerCase().includes(q)));
+    const on = s.filter === 'issues';
+    return { ...base, q: s.q, onQ: (e) => this.setState({ q: e.target.value }), noMatch: list.length === 0, noMatchLabel: 'No products match “' + s.q.trim() + '”.',
+      allBg: on ? '#F1F3F7' : '#EEF1FB', allFg: on ? '#323A45' : '#3448C5', issBg: on ? '#EEF1FB' : '#F1F3F7', issFg: on ? '#3448C5' : '#323A45',
+      run: { name: r.name, started: r.started, source: r.source, channels: r.channels.map((k) => ({ name: CH[k][0], initial: CH[k][1], color: CH[k][2] })),
+        chipBg: chip[0], chipColor: chip[1], chipIcon: chip[2], chipLabel: chip[3], running, pct: (r.pct || 0) + '%', progressLabel: proc + ' of ' + total + ' products processed',
+        count: n, issueCount: issues.length, hasIssues: issues.length > 0, issues: issues.map((x) => x.issue),
+        stats: [
+          { value: proc + ' / ' + total, label: 'Products processed', size: '26px', weight: 700, color: '#0A0C0F', bd: '#EAEDF2', bg: '#fff' },
+          { value: r.channels.map((k) => CH[k][0]).join(', '), label: nc === 1 ? 'Channel' : nc + ' channels', size: '15px', weight: 500, color: '#0A0C0F', bd: '#EAEDF2', bg: '#fff' },
+          { value: genAll, label: 'Variations generated', size: '26px', weight: 700, color: '#0A0C0F', bd: '#EAEDF2', bg: '#fff' },
+          { value: issues.length, label: 'Need attention', size: '26px', weight: 700, color: issues.length ? '#CE190D' : '#0A0C0F', bd: issues.length ? 'rgba(206,25,13,0.35)' : '#EAEDF2', bg: issues.length ? 'rgba(206,25,13,0.04)' : '#fff' },
+        ] },
+      rows: list.map((x) => { const st = x.bad ? ['Needs attention', 'rgba(206,25,13,0.10)', '#CE190D'] : x.finished ? ['Complete', 'rgba(34,170,0,0.12)', '#1E9600'] : x.current ? ['Processing', 'rgba(52,72,197,0.10)', '#3448C5'] : ['Queued', '#F1F3F7', '#636D7E'];
+        return { sku: x.sku, desc: x.desc, img: x.img, href: x.href + '&run=' + encodeURIComponent(r.id), variations: x.finished ? nc * 3 - (x.bad ? 1 : 0) + ' of ' + nc * 3 : '—', status: st[0], bg: st[1], fg: st[2] }; }),
+      moreNote: r.total && r.total > n ? 'Showing ' + n + ' of ' + r.total + ' products in this run.' : '' };
+  }
+}
+</script>
+</body>
+</html>

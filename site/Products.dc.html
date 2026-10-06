@@ -85,8 +85,8 @@
       <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
 
         <div style="display: flex; align-items: flex-start; gap: 12px; padding: 20px 32px 12px; flex: 0 0 auto;">
-          <div style="display: flex; align-items: center; gap: 10px; row-gap: 10px; flex-wrap: wrap; flex: 1; min-width: 0;">
-          <div style="display: flex; align-items: center; gap: 8px; width: 300px; flex: 0 0 auto; height: 32px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
+          <div style="display: flex; align-items: center; gap: 10px; row-gap: 10px; flex-wrap: wrap; flex: 1 1 0; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; width: 300px; max-width: 100%; flex: 0 1 300px; min-width: 0; overflow: hidden; height: 32px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
             <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
             <span style="font-size: 13px; color: #8A94A6;">Search by SKU or asset name</span>
           </div>
@@ -113,18 +113,10 @@
         </div>
 
         <div style="padding: 4px 32px 10px; flex: 0 0 auto;">
-          <sc-if value="{{ noProdSel }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
             <div style="display: flex; align-items: center; min-height: 40px; font-size: 13px; font-weight: 600; color: #323A45;">{{ productCountLabel }}</div>
           </sc-if>
-          <sc-if value="{{ hasProdSel }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: 14px; min-height: 40px; padding: 0 16px; border-radius: 9999px; background: #F1F3F7;">
-              <div onClick="{{ clearProdSel }}" style="width: 24px; height: 24px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; flex: 0 0 auto;" style-hover="background: #E2E6EE;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="16" hint-size="16px,16px"></x-import>
-              </div>
-              <div style="font-size: 13px; font-weight: 600; color: #323A45;">{{ prodSelLabel }}</div>
-              <div onClick="{{ markGenerateAssets }}" style="display: flex; align-items: center; height: 30px; padding: 0 16px; border-radius: 9999px; border: 1px solid #C6CDDA; background: #fff; color: #323A45; font-size: 13px; font-weight: 500; cursor: pointer; flex: 0 0 auto;" style-hover="background: #F7F8FA; border-color: #A6AEBC;">{{ genBtnLabel }}</div>
-            </div>
-          </sc-if>
+          
         </div>
 
         <sc-if value="{{ showLegend }}" hint-placeholder-val="{{ true }}">
@@ -144,8 +136,7 @@
               </div>
               <div style="width: 56px; flex: 0 0 56px;"></div>
               <div style="flex: 1 1 240px; min-width: 200px; font-size: 14px; font-weight: 600;">SKU</div>
-              <div style="flex: 0 0 180px; font-size: 14px; font-weight: 600;">Categories<br></div>
-              <div style="flex: 0 0 76px; font-size: 14px; font-weight: 600;">Images</div>
+                            <div style="flex: 0 0 76px; font-size: 14px; font-weight: 600;">Images</div>
               <div style="flex: 0 0 76px; font-size: 14px; font-weight: 600;">Videos</div>
               <div style="flex: 0 0 104px; font-size: 14px; font-weight: 600;">Status</div>
               <div style="flex: 0 0 120px; font-size: 14px; font-weight: 600;">Last Updated</div>
@@ -174,14 +165,7 @@
                       </sc-if>
                     </div>
                   </div>
-                  <div style="flex: 0 0 180px; padding-right: 16px; display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden;">
-                    <sc-for list="{{ row.tags }}" as="tag" hint-placeholder-count="2">
-                      <span style="font-size: 11px; color: #323A45; background: #F1F3F7; border-radius: 9999px; padding: 3px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto;">{{ tag }}</span>
-                    </sc-for>
-                    <sc-if value="{{ row.tagsOverflow }}" hint-placeholder-val="{{ false }}">
-                      <span title="{{ row.tagsAllLabel }}" style="font-size: 11px; font-weight: 600; color: #636D7E; background: #F1F3F7; border-radius: 9999px; padding: 3px 7px; white-space: nowrap; flex: 0 0 auto; cursor: default;">{{ row.tagsMore }}</span>
-                    </sc-if>
-                  </div>
+                  
                   <div style="flex: 0 0 76px; font-size: 14px; color: #323A45;">{{ row.images }}</div>
                   <div style="flex: 0 0 76px; font-size: 14px; color: #323A45;">{{ row.videos }}</div>
                   <div style="flex: 0 0 104px;">
@@ -204,9 +188,9 @@
                           Edit
                         </div>
                         <div style="height: 1px; background: #EAEDF2; margin: 4px 0;"></div>
-                        <div onClick="{{ row.remove }}" style="display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 4px; font-size: 14px; color: #CE190D; cursor: pointer;" style-hover="background: rgba(206,25,13,0.08);">
+                        <div style="display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 4px; font-size: 14px; color: #A6AEBC; cursor: not-allowed;">
                           <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="delete" size="18" hint-size="18px,18px"></x-import>
-                          Delete SKU
+                          Delete SKU<span style="display: inline-flex; align-items: center; height: 18px; padding: 0 8px; border-radius: 9999px; background: #FFF0CC; color: #8A5A00; font-size: 11px; font-weight: 600; white-space: nowrap;">Post-MVP</span>
                         </div>
                       </div>
                     </sc-if>
@@ -218,6 +202,30 @@
 
           </div>
         </div>
+        <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+          <div style="flex: 0 0 auto; margin: 0 32px 16px; background: #fff; border: 1px solid #DFE3EA; border-radius: 8px; box-shadow: 0 4px 20px rgba(10,12,15,0.14); animation: cc-fade 140ms ease;">
+            <sc-if value="{{ trayOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 14px 16px 6px; border-bottom: 1px solid #EAEDF2; display: flex; flex-wrap: wrap; gap: 8px; max-height: 128px; overflow-y: auto;">
+                <sc-for list="{{ trayItems }}" as="c" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 8px 0 10px; border-radius: 4px; background: #F1F3F7; margin-bottom: 8px; font-size: 12px; font-weight: 600;">{{ c.sku }}<span onClick="{{ c.remove }}" style="cursor: pointer; color: #636D7E; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="14" hint-size="14px,14px"></x-import></span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px;">
+              <div onClick="{{ toggleTray }}" style="display: flex; align-items: center; gap: 8px; cursor: {{ trayCursor }}; font-size: 14px; font-weight: 600; white-space: nowrap;">{{ prodSelLabel }}<x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ trayIcon }}" size="18" hint-size="18px,18px"></x-import></div>
+              <div style="display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden;">
+                <sc-for list="{{ trayBatches }}" as="b" hint-placeholder-count="2">
+                  <div style="display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 6px 0 10px; border-radius: 9999px; background: #F1F3F7; font-size: 12px; white-space: nowrap;">{{ b.label }}<span onClick="{{ b.remove }}" style="cursor: pointer; color: #636D7E; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="14" hint-size="14px,14px"></x-import></span></div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ hasCsvMsg }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #1B7F4B; white-space: nowrap;">{{ csvMsg }}</span></sc-if>
+              <div style="flex: 1;"></div>
+              <sc-if value="{{ hasProdSel }}" hint-placeholder-val="{{ false }}"><span onClick="{{ clearProdSel }}" style="font-size: 12px; color: #636D7E; cursor: pointer;">Clear</span></sc-if>
+              <div onClick="{{ trayCsv }}" style="display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 4px; border: 1px solid {{ trayCsvBd }}; color: {{ trayCsvFg }}; font-size: 13px; font-weight: 600; cursor: {{ trayCursor }}; white-space: nowrap;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="download" size="16" hint-size="16px,16px"></x-import>Create CSV export</div>
+              <div onClick="{{ trayRun }}" style="height: 34px; padding: 0 16px; border-radius: 4px; background: {{ trayRunBg }}; color: {{ trayRunFg }}; display: flex; align-items: center; font-size: 13px; font-weight: 600; cursor: {{ trayCursor }}; white-space: nowrap;">Make channel ready</div>
+            </div>
+          </div>
+        </sc-if>
       </div>
     </sc-if>
 
@@ -735,7 +743,7 @@
             <div style="font-size: 13px; color: #636D7E; margin-top: 4px;">{{ skuDrawerDesc }}</div>
           </div>
           <div style="display: flex; align-items: center; gap: 14px; flex: 0 0 auto;">
-            <a href="{{ skuDrawerDetailsHref }}" style="height: 32px; padding: 0 16px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 500; display: flex; align-items: center; text-decoration: none; white-space: nowrap; cursor: pointer;" style-hover="background: #2B3BAD;">View SKU details page</a>
+            <a href="{{ skuDrawerDetailsHref }}" style="height: 32px; padding: 0 16px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 500; display: flex; align-items: center; text-decoration: none; white-space: nowrap; cursor: pointer;" style-hover="background: #2B3BAD;">Sku Details</a>
             <div onClick="{{ closeSkuDrawer }}" style="color: #636D7E; cursor: pointer; display: flex;" style-hover="color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="22" hint-size="22px,22px"></x-import></div>
           </div>
         </div>
@@ -1195,7 +1203,7 @@
 
         <div style="flex: 0 0 auto; border-bottom: 1px solid #EAEDF2;">
           <div style="display: flex; align-items: center; gap: 14px; height: 58px; padding: 0 24px;">
-            <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Bulk Asset Variations</div>
+            <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Make Channel Ready</div>
             <div style="flex: 1;"></div>
             <div onClick="{{ closeBulk }}" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 4px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7; color: #0A0C0F;">
               <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="20" hint-size="20px,20px"></x-import>
@@ -1236,154 +1244,28 @@
                   <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5; text-wrap: pretty;">Upload a CSV of SKUs, or pick products from your catalog. Every SKU in the list gets variations generated for the channels you choose next.</div>
                 </sc-if>
                 <sc-if value="{{ bulkHideCreateCards }}" hint-placeholder-val="{{ false }}">
-                  <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5; text-wrap: pretty;">Pick products from your catalog. Every SKU in the list gets variations generated for the channels you choose next.</div>
+                  <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5; text-wrap: pretty;">These products will be made channel ready</div>
                 </sc-if>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 264px)); justify-content: start; gap: 12px; margin-top: 20px;">
-                  
-                  <sc-if value="{{ bulkShowCreateCards }}" hint-placeholder-val="{{ true }}">
-                  
-                  
-                  </sc-if>
+                <div style="margin-top: 20px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
+                  <div style="display: flex; align-items: center; gap: 12px; padding: 10px 18px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2; font-size: 12px; font-weight: 600; color: #636D7E;">
+                    <span style="width: 36px; flex: 0 0 36px;"></span>
+                    <span style="flex: 1 1 200px; min-width: 0;">{{ confirmLabel }}</span>
+                    <span style="flex: 0 0 64px;">Images</span><span style="flex: 0 0 64px;">Videos</span><span style="flex: 0 0 88px;">Status</span><span style="flex: 0 0 104px;">Last updated</span>
+                  </div>
+                  <div style="max-height: 460px; overflow-y: auto;">
+                    <sc-for list="{{ confirmRows }}" as="p" hint-placeholder-count="6">
+                      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid #F1F3F7;">
+                        {{ p.thumb }}
+                        <div style="flex: 1 1 200px; min-width: 0;"><div style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ p.sku }}</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ p.desc }}</div></div>
+                        <span style="flex: 0 0 64px; font-size: 13px;">{{ p.images }}</span><span style="flex: 0 0 64px; font-size: 13px;">{{ p.videos }}</span>
+                        <span style="flex: 0 0 88px;"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 9999px; font-size: 12px; font-weight: 600; background: {{ p.stBg }}; color: {{ p.stFg }};">{{ p.status }}</span></span>
+                        <span style="flex: 0 0 104px; font-size: 13px; color: #636D7E;">{{ p.updated }}</span>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ confirmMore }}" hint-placeholder-val="{{ false }}"><div style="padding: 12px 18px; font-size: 12px; color: #8A94A6;">{{ confirmMoreLabel }}</div></sc-if>
+                  </div>
                 </div>
-
-                <sc-if value="{{ bulkSourceNew }}" hint-placeholder-val="{{ false }}">
-                  <div style="margin-top: 16px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 20px 22px 22px;">
-                    <div style="font-size: 14px; font-weight: 600; color: #0A0C0F;">1 · SKU</div>
-                    <div style="display: flex; align-items: center; gap: 10px; height: 40px; margin-top: 12px; padding: 0 12px; background: #F7F8FA; border-radius: 4px; color: #8A94A6;">
-                      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
-                      <input value="{{ skuQuery }}" onChange="{{ onSkuInput }}" placeholder="Search an existing SKU or type a new one" style="flex: 1; min-width: 0; border: none; background: transparent; font-family: inherit; font-size: 14px; color: #0A0C0F; outline: none;">
-                    </div>
-                    
-                    <div style="margin-top: 2px;">
-                      <sc-for list="{{ skuMatches }}" as="match" hint-placeholder-count="3">
-                        
-                      </sc-for>
-                      <sc-if value="{{ showCreate }}" hint-placeholder-val="{{ false }}">
-                        <div onClick="{{ pickNew }}" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 4px; border-radius: 4px; color: #3448C5; cursor: pointer;" style-hover="background: rgba(52,72,197,0.06);">
-                          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add_circle" size="18" hint-size="18px,18px"></x-import>
-                          <span style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ createLabel }}</span>
-                        </div>
-                      </sc-if>
-                    </div>
-
-                    <div style="height: 1px; background: #EAEDF2; margin: 22px 0;"></div>
-
-                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-                      <div style="font-size: 14px; font-weight: 600; color: #0A0C0F;">2 · Assets</div>
-                      <div onClick="{{ openBulkPicker }}" style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 4px; background: #F1F3F7; color: #0A0C0F; font-size: 13px; font-weight: 500; cursor: pointer; flex: 0 0 auto;" style-hover="background: #E7EAF1;">
-                        <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="photo_library" size="16" hint-size="16px,16px"></x-import>
-                        {{ selectAssetsLabel }}
-                      </div>
-                    </div>
-                    <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
-                      <div style="display: flex; gap: 12px; overflow-x: auto; margin-top: 14px; padding-bottom: 4px;">
-                        <sc-for list="{{ chosen }}" as="asset" hint-placeholder-count="3">
-                          <div style="width: 100px; flex: 0 0 100px;">
-                            <div style="height: 76px; border-radius: 4px; background: #F1F3F7; background-image: url('{{ asset.img }}'); background-size: cover; background-position: center;"></div>
-                            <div style="font-size: 11px; color: #636D7E; margin-top: 6px;">{{ asset.caption }}</div>
-                          </div>
-                        </sc-for>
-                      </div>
-                    </sc-if>
-                    <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
-                      <div onClick="{{ openBulkPicker }}" style="margin-top: 14px; border: 1px dashed #C4CBD8; border-radius: 4px; padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #636D7E; cursor: pointer;" style-hover="background: #FAFBFC;">
-                        <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud_upload" size="26" hint-size="26px,26px"></x-import>
-                        <div style="font-size: 14px; font-weight: 600; color: #0A0C0F;">Drag and drop files here to upload</div>
-                        <div style="font-size: 13px; color: #636D7E;">or select existing assets from your media library</div>
-                      </div>
-                    </sc-if>
-
-                    <div style="display: flex; align-items: center; gap: 12px; margin-top: 18px;">
-                      <div onClick="{{ addNewProductToRun }}" style="height: 36px; padding: 0 18px; border-radius: 4px; background: {{ addProductBg }}; color: {{ addProductColor }}; font-size: 13px; font-weight: 500; display: flex; align-items: center; cursor: {{ addProductCursor }};">Add product to run</div>
-                      <div style="font-size: 12px; color: #8A94A6;">{{ addProductHint }}</div>
-                    </div>
-                  </div>
-
-                  <sc-if value="{{ hasNewProducts }}" hint-placeholder-val="{{ false }}">
-                    <div style="margin-top: 16px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
-                      <div style="padding: 10px 14px; border-bottom: 1px solid #EAEDF2; font-size: 12px; font-weight: 600; color: #8A94A6;">{{ newProductsLabel }}</div>
-                      <sc-for list="{{ newProductRows }}" as="np" hint-placeholder-count="1">
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid #F1F3F7;">
-                          <span style="width: 26px; height: 26px; border-radius: 9999px; background: rgba(34,170,0,0.12); color: #22AA00; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="14" hint-size="14px,14px"></x-import>
-                          </span>
-                          <div style="flex: 1; min-width: 0;">
-                            <div style="font-size: 13px; font-weight: 600;">{{ np.sku }}</div>
-                            <div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">{{ np.desc }}</div>
-                          </div>
-                          <div onClick="{{ np.remove }}" style="color: #8A94A6; cursor: pointer; display: flex; flex: 0 0 auto;" style-hover="color: #0A0C0F;">
-                            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="16" hint-size="16px,16px"></x-import>
-                          </div>
-                        </div>
-                      </sc-for>
-                    </div>
-                  </sc-if>
-                </sc-if>
-
-                <sc-if value="{{ csvNotUploaded }}" hint-placeholder-val="{{ false }}">
-                  <div onClick="{{ fakeUploadCsv }}" style="margin-top: 16px; border: 1px dashed #C4CBD8; border-radius: 8px; padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #636D7E; cursor: pointer;" style-hover="background: #FAFBFC;">
-                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud_upload" size="30" hint-size="30px,30px"></x-import>
-                    <div style="font-size: 15px; font-weight: 600; color: #0A0C0F;">Drag and drop your CSV here</div>
-                    <div style="font-size: 13px; color: #8A94A6;">D<span style="color: rgb(52, 72, 197);">ownload template</span></div>
-                  </div>
-                </sc-if>
-
-                <sc-if value="{{ csvUploaded }}" hint-placeholder-val="{{ false }}">
-                  <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 12px 14px; background: #FAFBFC;">
-                    <span style="width: 32px; height: 32px; border-radius: 4px; background: rgba(34,170,0,0.12); color: #22AA00; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="16" hint-size="16px,16px"></x-import>
-                    </span>
-                    <div style="flex: 1; min-width: 0;">
-                      <div style="font-size: 13px; font-weight: 600;">{{ csvFileName }}</div>
-                      <div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ csvSummary }}</div>
-                    </div>
-                    <div onClick="{{ clearCsv }}" style="font-size: 13px; color: #3448C5; cursor: pointer; flex: 0 0 auto;">Replace file</div>
-                  </div>
-                </sc-if>
-
-                <sc-if value="{{ showSkuList }}" hint-placeholder-val="{{ true }}">
-                  <div style="margin-top: 22px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #EAEDF2;">
-                      <div onClick="{{ toggleAllSkus }}" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <div style="width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid {{ allSkuBorder }}; background: {{ allSkuBg }}; display: flex; align-items: center; justify-content: center; color: #fff; flex: 0 0 auto;">
-                          <sc-if value="{{ allSkusOn }}" hint-placeholder-val="{{ false }}">
-                            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px" color="#ffffff"></x-import>
-                          </sc-if>
-                        </div>
-                        <span style="font-size: 13px; font-weight: 600; color: #323A45;">{{ selectedSkuLabel }}</span>
-                      </div>
-                      <div style="flex: 1;"></div>
-                      <div style="display: flex; align-items: center; gap: 8px; width: 240px; height: 30px; padding: 0 10px; border: 1px solid #D1D6E0; border-radius: 4px; color: #8A94A6;">
-                        <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="15" hint-size="15px,15px"></x-import>
-                        <input value="{{ bulkQuery }}" onChange="{{ onBulkQuery }}" placeholder="Filter SKUs" style="flex: 1; min-width: 0; border: none; background: transparent; font-family: inherit; font-size: 13px; color: #0A0C0F; outline: none;">
-                      </div>
-                    </div>
-                    <div style="max-height: 460px; overflow-y: auto;">
-                      <sc-for list="{{ bulkSkuRows }}" as="p" hint-placeholder-count="6">
-                        <div onClick="{{ p.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #F1F3F7; cursor: pointer;" style-hover="background: #FAFBFC;">
-                          <div style="width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid {{ p.boxBorder }}; background: {{ p.boxBg }}; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                            <sc-if value="{{ p.on }}" hint-placeholder-val="{{ false }}">
-                              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px" color="#ffffff"></x-import>
-                            </sc-if>
-                          </div>
-                          {{ p.thumb }}
-                          <div style="flex: 1; min-width: 0;">
-                            <div style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ p.sku }}</div>
-                            <div style="font-size: 12px; color: #636D7E; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ p.desc }}</div>
-                          </div>
-                          <div style="flex: 0 0 auto; font-size: 12px; color: #8A94A6;">{{ p.assets }}</div>
-                          <sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}">
-                            <span style="flex: 0 0 auto; font-size: 11px; font-weight: 600; color: #3448C5; background: rgba(52,72,197,0.10); border-radius: 9999px; padding: 3px 8px;">New SKU</span>
-                          </sc-if>
-                        </div>
-                      </sc-for>
-                      <sc-if value="{{ bulkListMore }}" hint-placeholder-val="{{ false }}">
-                        <div style="padding: 12px 14px; font-size: 12px; color: #8A94A6;">{{ bulkListMoreLabel }}</div>
-                      </sc-if>
-                    </div>
-                  </div>
-                </sc-if>
               </div>
             </sc-if>
 
@@ -1392,7 +1274,11 @@
                 <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Channel Selection</div>
                 <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5;">{{ bulkStep2Sub }}</div>
 
-                <div style="font-size: 14px; font-weight: 600; margin-top: 22px;">Channels to run</div>
+                <div style="font-size: 14px; font-weight: 600; margin-top: 22px;">Run name</div>
+                <input value="{{ runNameVal }}" onChange="{{ onRunName }}" style="box-sizing: border-box; width: 100%; height: 40px; margin-top: 10px; padding: 0 12px; border: 1px solid #D1D6E0; border-radius: 4px; font-family: inherit; font-size: 14px; color: #0A0C0F; outline: none;">
+                <div style="font-size: 12px; color: #8A94A6; margin-top: 6px;">Shown in the runs list on the dashboard. Edit it or keep the default.</div>
+
+                <div style="font-size: 14px; font-weight: 600; margin-top: 24px;">Channels to run</div>
 
                 <div onClick="{{ toggleAllBulkChannels }}" style="display: flex; align-items: center; gap: 12px; margin-top: 12px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 12px 16px; background: #FAFBFC; cursor: pointer;" style-hover="background: #F1F3F7;">
                   <div style="width: 36px; height: 20px; border-radius: 9999px; background: {{ bulkAllTrackBg }}; position: relative; transition: background 120ms ease; flex: 0 0 auto;">
@@ -1422,81 +1308,22 @@
 
             <sc-if value="{{ bulkOnStep3 }}" hint-placeholder-val="{{ false }}">
               <div style="animation: cc-fade 160ms ease;">
-                <sc-if value="{{ bulkRunning }}" hint-placeholder-val="{{ true }}">
-                  <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Generating variations</div>
-                  <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5;">This runs in the background — close the wizard and track it from the dashboard.</div>
-                </sc-if>
-                <sc-if value="{{ bulkFinishedSmall }}" hint-placeholder-val="{{ false }}">
-                  <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Run complete</div>
-                  <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5;">{{ bulkDoneSummary }}</div>
-
-                  <div style="display: flex; gap: 10px; margin-top: 18px;">
-                    <sc-for list="{{ bulkResultStats }}" as="st" hint-placeholder-count="3">
-                      <div style="flex: 1; border: 1px solid #EAEDF2; border-radius: 8px; padding: 14px 16px;">
-                        <div style="font-size: 22px; font-weight: 700; color: {{ st.color }}; letter-spacing: -0.02em;">{{ st.value }}</div>
-                        <div style="font-size: 12px; color: #636D7E; margin-top: 4px;">{{ st.label }}</div>
-                      </div>
-                    </sc-for>
-                  </div>
-
-                  <div style="font-size: 12px; font-weight: 600; color: #8A94A6; margin-top: 20px;">Products in this run</div>
-                  <div style="margin-top: 8px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
-                    <sc-for list="{{ bulkResultRows }}" as="r" hint-placeholder-count="4">
-                      <div style="display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-bottom: 1px solid #F1F3F7;">
-                        {{ r.thumb }}
-                        <div style="flex: 1; min-width: 0;">
-                          <div style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ r.sku }}</div>
-                          <div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ r.desc }}</div>
-                        </div>
-                        <div style="flex: 0 0 auto; font-size: 12px; color: #636D7E;">{{ r.variations }}</div>
-                        <span style="display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 9999px; background: rgba(34,170,0,0.12); color: #1E9600; font-size: 12px; font-weight: 600; flex: 0 0 auto;">
-                          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="14" hint-size="14px,14px"></x-import>
-                          Complete
-                        </span>
-                      </div>
-                    </sc-for>
-                  </div>
-                </sc-if>
-
-                <sc-if value="{{ bulkFinishedLarge }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="width: 36px; height: 36px; border-radius: 9999px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><span style="display: block; animation: cc-spin 1.6s linear infinite;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="18" hint-size="18px,18px"></x-import></span></span>
                   <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Run started</div>
-                  <div style="font-size: 14px; color: #636D7E; margin-top: 6px; line-height: 1.5;">{{ bulkLargeSummary }}</div>
-                  <div style="display: flex; align-items: flex-start; gap: 14px; margin-top: 20px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 20px 22px; background: #FAFBFC;">
-                    <span style="width: 36px; height: 36px; border-radius: 9999px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="schedule" size="18" hint-size="18px,18px"></x-import>
-                    </span>
-                    <div>
-                      <div style="font-size: 15px; font-weight: 600; color: #0A0C0F;">Results will be coming in shortly</div>
-                      <div style="font-size: 13px; color: #636D7E; margin-top: 5px; line-height: 1.5; text-wrap: pretty;">A run this size finishes in the background. Track progress from the Active runs table on the dashboard — you'll see per-product results there as they land.</div>
-                    </div>
-                  </div>
-                </sc-if>
-
-                <sc-if value="{{ bulkRunning }}" hint-placeholder-val="{{ true }}">
-                <div style="margin-top: 18px; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden;">
-                  <sc-for list="{{ bulkProgressRows }}" as="p" hint-placeholder-count="6">
-                    <div style="display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-bottom: 1px solid #F1F3F7;">
-                      <span style="width: 26px; height: 26px; border-radius: 9999px; background: {{ p.iconBg }}; color: {{ p.iconColor }}; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">
-                        <sc-if value="{{ p.done }}" hint-placeholder-val="{{ false }}">
-                          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="14" hint-size="14px,14px"></x-import>
-                        </sc-if>
-                        <sc-if value="{{ p.spinning }}" hint-placeholder-val="{{ true }}">
-                          <span style="display: block; animation: cc-spin 1.4s linear infinite;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="14" hint-size="14px,14px"></x-import></span>
-                        </sc-if>
-                      </span>
-                      {{ p.thumb }}
-                      <div style="flex: 1; min-width: 0;">
-                        <div style="font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">{{ p.sku }}</div>
-                        <div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ p.detail }}</div>
-                      </div>
-                      <div style="flex: 0 0 auto; font-size: 12px; color: {{ p.statusColor }}; font-weight: 600;">{{ p.statusText }}</div>
-                    </div>
-                  </sc-for>
-                  <sc-if value="{{ bulkProgressMore }}" hint-placeholder-val="{{ false }}">
-                    <div style="padding: 12px 16px; font-size: 12px; color: #8A94A6;">{{ bulkProgressMoreLabel }}</div>
-                  </sc-if>
                 </div>
-                </sc-if>
+                <div style="font-size: 14px; color: #636D7E; margin-top: 10px; line-height: 1.5;">{{ startedSummary }}</div>
+                <div style="margin-top: 20px; border: 1px solid #EAEDF2; border-radius: 8px; padding: 18px 20px; background: #FAFBFC;">
+                  <div style="font-size: 12px; font-weight: 600; color: #8A94A6;">Run</div>
+                  <div style="font-size: 15px; font-weight: 600; margin-top: 4px;">{{ startedName }}</div>
+                  <a href="{{ startedHref }}" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 600;">View run details<x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="open_in_new" size="16" hint-size="16px,16px"></x-import></a>
+                </div>
+                <div style="margin-top: 24px; font-size: 14px; font-weight: 600;">What happens next</div>
+                <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px; font-size: 14px; color: #323A45; line-height: 1.5;">
+                  <div style="display: flex; gap: 12px;"><span style="width: 24px; height: 24px; border-radius: 9999px; background: #F1F3F7; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">1</span><span>The run continues in the background. You can close this window now.</span></div>
+                  <div style="display: flex; gap: 12px;"><span style="width: 24px; height: 24px; border-radius: 9999px; background: #F1F3F7; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">2</span><span>Open the Dashboard tab to follow progress. Select this run in the runs list to see its details.</span></div>
+                  <div style="display: flex; gap: 12px;"><span style="width: 24px; height: 24px; border-radius: 9999px; background: #F1F3F7; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;">3</span><span>When the run finishes, the run details page lists the products that need attention.</span></div>
+                </div>
               </div>
             </sc-if>
 
@@ -1513,11 +1340,9 @@
               <sc-if value="{{ bulkShowRun }}" hint-placeholder-val="{{ false }}">
                 <div onClick="{{ bulkStartRun }}" style="height: 38px; padding: 0 24px; border-radius: 4px; font-size: 14px; font-weight: 600; display: flex; align-items: center; cursor: pointer; background: {{ bulkCta2Bg }}; color: {{ bulkCta2Color }};">{{ bulkRunLabel }}</div>
               </sc-if>
-              <sc-if value="{{ bulkRunning }}" hint-placeholder-val="{{ false }}">
-                <div onClick="{{ closeBulk }}" style="height: 38px; padding: 0 24px; border-radius: 4px; background: #F1F3F7; color: #323A45; font-size: 14px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E7EAF1;">Run in background</div>
-              </sc-if>
-              <sc-if value="{{ bulkFinished }}" hint-placeholder-val="{{ false }}">
-                <div onClick="{{ bulkFinish }}" style="height: 38px; padding: 0 24px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer;" style-hover="background: #2B3BAD;">View run</div>
+              <sc-if value="{{ bulkOnStep3 }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeBulk }}" style="height: 38px; padding: 0 24px; border-radius: 4px; background: #F1F3F7; color: #323A45; font-size: 14px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E7EAF1;">Close</div>
+                <a href="{{ startedHref }}" style="height: 38px; padding: 0 24px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; text-decoration: none;">View run details</a>
               </sc-if>
             </div>
           </div>
@@ -1607,6 +1432,8 @@ const CSV_EXTRA = [
   { sku: 'FTW-RUN-60034', desc: 'Running shoe, white/navy', images: 0, videos: 0, isNew: true },
 ];
 
+function resolveRun(r) { if (!r.startedAt) return r; const n = r.skus.length, pct = Math.min(100, Math.round(((Date.now() - r.startedAt) / 18000) * 100)); if (pct < 100) return { ...r, status: 'running', pct, done: Math.floor((n * pct) / 100), total: n }; return { ...r, status: n >= 4 ? 'partial' : 'complete', pct: 100, done: n, total: n }; }
+function storedRuns() { try { return JSON.parse(localStorage.getItem('cr_runs_v1') || '[]').map(resolveRun); } catch (e) { return []; } }
 const SEED_RUNS = [
   { id: 'r3', name: 'Holiday drop — apparel & footwear', source: 'holiday-apparel.csv · 1113 SKUs',
     skus: ['APW-SHT-30026', 'APM-POL-40026', 'FTW-RUN-60026', 'HHS-WIP-70026'],
@@ -1853,7 +1680,7 @@ class Component extends DCLogic {
     confirmDelete: null, deleted: [], chanKey: null, baseKey: null, removedChannels: [], pillMenu: null, channelOn: {}, dashboardBannerOpen: true, chOrder: null, dragKey: null, dragOverKey: null,
     dupChannels: [], hoverCh: null, chKebabKey: null, chKebabTop: 0, chKebabLeft: 0,
     setupTypesOff: {}, setupRulesOff: {}, customRules: {}, rbProp: 'Background colour', rbOp: 'is', rbVal: '',
-    tagQuery: '', prodSel: [], genQueued: [],
+    tagQuery: '', prodSel: [], genQueued: [], prodVia: {}, runName: null, trayOpen: false, csvMsg: '',
     bulkOpen: false, bulkStep: 1, bulkSource: 'products', csvUp: false, bulkSel: [], bulkQuery: '', newProducts: [],
     bulkChan: { amazon: true, aplus: true, walmart: true, target: false, google: false, brand: false },
     bulkPhase: 'idle', bulkDoneSkus: [], extraRuns: [], runDrawerId: null,
@@ -1880,33 +1707,31 @@ class Component extends DCLogic {
     return out;
   }
   bulkPool() { return this.state.bulkSource === 'csv' ? ROWS.slice(0, 6).concat(CSV_EXTRA) : this.catalogPool(); }
-  allRuns() { return this.state.extraRuns.concat(SEED_RUNS); }
+  allRuns() { return this.state.extraRuns.concat(storedRuns(), SEED_RUNS); }
 
   bulkStartRun() {
     const s = this.state;
-    const skus = s.bulkSel.slice();
     const chans = Object.keys(s.bulkChan).filter((k) => s.bulkChan[k]);
-    if (!skus.length || !chans.length) return;
-    if (this.bulkTimer) clearInterval(this.bulkTimer);
-    this.setState({ bulkStep: 3, bulkPhase: 'running', bulkDoneSkus: [] });
-    let i = 0;
-    const batch = Math.max(1, Math.ceil(skus.length / 24));
-    this.bulkTimer = setInterval(() => {
-      const chunk = skus.slice(i, i + batch);
-      this.setState((st) => ({ bulkDoneSkus: st.bulkDoneSkus.concat(chunk) }));
-      i += batch;
-      if (i >= skus.length) {
-        clearInterval(this.bulkTimer);
-        setTimeout(() => this.setState({ bulkPhase: 'done' }), 400);
-      }
-    }, 450);
+    if (!s.bulkSel.length || !chans.length) return;
+    const d = new Date();
+    const run = { id: 'run-' + d.getTime(), name: this.runNameOf().trim() || 'Untitled run', source: 'Selected from products · ' + s.bulkSel.length + ' SKUs',
+      skus: s.bulkSel.slice(), channels: chans, started: d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }), startedAt: d.getTime(), status: 'running' };
+    try { const ex = JSON.parse(localStorage.getItem('cr_runs_v1') || '[]'); localStorage.setItem('cr_runs_v1', JSON.stringify([run].concat(ex).slice(0, 20))); } catch (e) {}
+    this.setState({ bulkStep: 3, bulkPhase: 'started', bulkRunId: run.id, bulkRunName: run.name });
+  }
+
+  runNameOf() {
+    const s = this.state;
+    if (s.runName != null) return s.runName;
+    const t = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    return 'Run · ' + s.bulkSel.length + (s.bulkSel.length === 1 ? ' product' : ' products') + ' · ' + t;
   }
 
   bulkFinish() {
     const s = this.state;
     const chans = Object.keys(s.bulkChan).filter((k) => s.bulkChan[k]);
     const id = 'run-' + Date.now();
-    const run = { id, name: s.bulkSource === 'new' ? 'New products — ' + s.bulkSel.length + ' SKUs' : s.bulkSource === 'csv' ? 'CSV import — ' + s.bulkSel.length + ' SKUs' : 'Product selection — ' + s.bulkSel.length + ' SKUs',
+    const run = { id, name: this.runNameOf().trim() || 'Untitled run',
       source: s.bulkSource === 'new' ? 'Newly created products · ' + s.bulkSel.length + ' SKUs' : s.bulkSource === 'csv' ? 'sku-map.csv · ' + s.bulkSel.length + ' SKUs' : 'Selected from products · ' + s.bulkSel.length + ' SKUs',
       skus: s.bulkSel.slice(), channels: chans, started: 'Sep 6, 2026 · just now', status: 'complete' };
     this.setState((st) => ({ extraRuns: [run].concat(st.extraRuns), bulkOpen: false, bulkStep: 1, bulkPhase: 'idle', runDrawerId: id, tab: 'Dashboard' }));
@@ -2030,8 +1855,8 @@ class Component extends DCLogic {
           isRunning: running, isDone: !running,
           statusLabel: running ? (r.pct || 0) + '% · ' + (r.done != null ? r.done : Math.round(((r.total || r.skus.length) * (r.pct || 0)) / 100)) + ' of ' + (r.total || r.skus.length) + ' SKUs' : chip.label,
           pct: (r.pct || 0) + '%', chipBg: chip.bg, chipColor: chip.color, chipIcon: chip.icon,
-          cursor: running ? 'default' : 'pointer',
-          open: () => { if (!running) this.setState({ runDrawerId: r.id, runDrawerFilter: null }); },
+          cursor: 'pointer',
+          open: () => { window.location.href = PAGE('Run Details') + '?run=' + encodeURIComponent(r.id); },
         };
       }),
 
@@ -2157,7 +1982,10 @@ class Component extends DCLogic {
         };
       }),
 
-      bulkStep2Sub: s.bulkSel.length + ' SKUs mapped. Pick the channels each SKU should be made compliant for.',
+      bulkStep2Sub: 'Pick the channels each product should be made compliant for',
+      runNameVal: this.runNameOf(), onRunName: (e) => this.setState({ runName: e.target.value }),
+      confirmLabel: s.bulkSel.length + (s.bulkSel.length === 1 ? ' product' : ' products'), confirmMore: s.bulkSel.length > 60, confirmMoreLabel: 'and ' + (s.bulkSel.length - 60) + ' more',
+      confirmRows: s.bulkSel.slice(0, 60).map((k) => { const p = skuInfo(k); const ok = p.st ? p.st.every((v) => v === OK) : true; return { sku: k, desc: p.desc, thumb: shot(36, 36, { src: p.img, alt: p.desc }), images: p.images == null ? '—' : p.images, videos: p.videos == null ? '—' : p.videos, status: ok ? 'Ready' : 'Needs fixes', stBg: ok ? '#E7F6EE' : '#FFF0CC', stFg: ok ? '#1B7F4B' : '#8A5A00', updated: p.updated || '—' }; }),
       bulkChannelRows: CHANNELS.map((c) => {
         const on = !!s.bulkChan[c.key];
         const meta = CHANNEL_META[c.key] || {};
@@ -2216,6 +2044,8 @@ class Component extends DCLogic {
       bulkCta2Bg: selChans.length ? '#3448C5' : '#F1F3F7',
       bulkCta2Color: selChans.length ? '#fff' : '#A6AEBC',
       bulkStartRun: () => this.bulkStartRun(),
+      startedName: s.bulkRunName || '', startedHref: PAGE('Run Details') + '?run=' + encodeURIComponent(s.bulkRunId || ''),
+      startedSummary: s.bulkSel.length + (s.bulkSel.length === 1 ? ' product' : ' products') + ' queued across ' + selChans.length + (selChans.length === 1 ? ' channel' : ' channels') + '.',
       bulkFinish: () => this.bulkFinish(),
     };
   }
@@ -2696,12 +2526,20 @@ class Component extends DCLogic {
         label: o.label,
         count: o.value ? String(tagCounts[o.value]) : String(ROWS.filter((r) => !s.deleted.includes(r.sku)).length),
         bg: (s.tagQuery || '') === o.value ? '#F1F3F7' : 'transparent',
-        pick: () => this.setState({ tagQuery: o.value, tagMenuOpen: false, prodSel: [] }),
+        pick: () => this.setState({ tagQuery: o.value, tagMenuOpen: false }),
       })),
       hasProdSel: (s.prodSel || []).length > 0,
       noProdSel: (s.prodSel || []).length === 0,
       prodSelLabel: (s.prodSel || []).length + ((s.prodSel || []).length === 1 ? ' product selected' : ' products selected'),
-      clearProdSel: () => this.setState({ prodSel: [] }),
+      clearProdSel: () => this.setState({ prodSel: [], prodVia: {}, trayOpen: false }),
+      trayOpen: !!s.trayOpen, trayIcon: s.trayOpen ? 'expand_more' : 'expand_less', toggleTray: () => { if ((s.prodSel || []).length) this.setState({ trayOpen: !s.trayOpen }); },
+      trayItems: (s.prodSel || []).map((k) => ({ sku: k, remove: () => this.setState((st) => ({ prodSel: st.prodSel.filter((x) => x !== k) })) })),
+      trayBatches: [...new Set((s.prodSel || []).map((k) => (s.prodVia || {})[k]).filter(Boolean))].map((v) => ({ label: v + ' · ' + (s.prodSel || []).filter((k) => (s.prodVia || {})[k] === v).length, remove: () => this.setState((st) => ({ prodSel: st.prodSel.filter((k) => (st.prodVia || {})[k] !== v) })) })),
+      hasCsvMsg: !!s.csvMsg, csvMsg: s.csvMsg, trayCursor: (s.prodSel || []).length ? 'pointer' : 'default',
+      trayCsvBd: (s.prodSel || []).length ? '#3448C5' : '#EAEDF2', trayCsvFg: (s.prodSel || []).length ? '#3448C5' : '#A6AEBC',
+      trayRunBg: (s.prodSel || []).length ? '#3448C5' : '#F1F3F7', trayRunFg: (s.prodSel || []).length ? '#fff' : '#A6AEBC',
+      trayCsv: () => { if (!(s.prodSel || []).length) return; this.setState({ csvMsg: 'CSV export of ' + (s.prodSel || []).length + ' products is being prepared' }); clearTimeout(this._cm); this._cm = setTimeout(() => this.setState({ csvMsg: '' }), 2500); },
+      trayRun: () => (s.prodSel || []).length && this.setState({ runName: null, bulkOpen: true, bulkStep: 1, bulkPhase: 'idle', bulkSel: (s.prodSel || []).slice(), csvUp: false, bulkQuery: '' }),
       genBtnLabel: selAllQueued ? 'Set Assets Generate: "off"' : 'Set Assets Generate: "on"',
       markGenerateAssets: () => this.setState((st) => {
         const allOn = st.prodSel.length > 0 && st.prodSel.every((x) => st.genQueued.includes(x));
@@ -2715,7 +2553,7 @@ class Component extends DCLogic {
       allProdsOn: prodVisible.length > 0 && prodVisible.every((r) => (s.prodSel || []).includes(r.sku)),
       allProdsBorder: prodAllOn ? '#3448C5' : '#C6CDDA',
       allProdsBg: prodAllOn ? '#3448C5' : '#fff',
-      toggleAllProds: () => this.setState({ prodSel: prodAllOn ? [] : prodVisible.map((r) => r.sku) }),
+      toggleAllProds: () => this.setState((st) => prodAllOn ? { prodSel: st.prodSel.filter((k) => !prodVisible.some((r) => r.sku === k)) } : { prodSel: st.prodSel.concat(prodVisible.map((r) => r.sku).filter((k) => !st.prodSel.includes(k))), prodVia: Object.assign({}, st.prodVia, ...prodVisible.map((r) => ({ [r.sku]: (tq ? 'Tag: ' + s.tagQuery : null) }))) }),
 
       rows: prodVisible.map((r) => ({
         sku: r.sku, desc: r.desc, images: r.images, videos: r.videos,
@@ -2727,7 +2565,7 @@ class Component extends DCLogic {
         selBorder: (s.prodSel || []).includes(r.sku) ? '#3448C5' : '#C6CDDA',
         selBg: (s.prodSel || []).includes(r.sku) ? '#3448C5' : '#fff',
         queued: (s.genQueued || []).includes(r.sku),
-        toggleSel: (e) => { e.stopPropagation(); this.setState((st) => ({ prodSel: st.prodSel.includes(r.sku) ? st.prodSel.filter((x) => x !== r.sku) : st.prodSel.concat(r.sku) })); },
+        toggleSel: (e) => { e.stopPropagation(); this.setState((st) => ({ prodSel: st.prodSel.includes(r.sku) ? st.prodSel.filter((x) => x !== r.sku) : st.prodSel.concat(r.sku), prodVia: Object.assign({}, st.prodVia, { [r.sku]: (tq ? 'Tag: ' + s.tagQuery : null) }) })); },
         expanded: s.expanded === r.sku,
         collapsed: s.expanded !== r.sku,
         openDrawer: () => this.setState({ skuDrawer: r.sku }),

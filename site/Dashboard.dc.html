@@ -87,10 +87,6 @@
             
           </div>
           <div style="display: flex; align-items: center; gap: 8px; flex: 0 0 auto;">
-            
-            <div onClick="{{ openBulk }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; border: 1px solid #3448C5; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #2A3AA3; border-color: #2A3AA3;">
-              Create Asset Variations
-            </div>
           </div>
         </div>
 
@@ -1614,6 +1610,8 @@ const CSV_EXTRA = [
   { sku: 'FTW-RUN-60034', desc: 'Running shoe, white/navy', images: 0, videos: 0, isNew: true },
 ];
 
+function resolveRun(r) { if (!r.startedAt) return r; const n = r.skus.length, pct = Math.min(100, Math.round(((Date.now() - r.startedAt) / 18000) * 100)); if (pct < 100) return { ...r, status: 'running', pct, done: Math.floor((n * pct) / 100), total: n }; return { ...r, status: n >= 4 ? 'partial' : 'complete', pct: 100, done: n, total: n }; }
+function storedRuns() { try { return JSON.parse(localStorage.getItem('cr_runs_v1') || '[]').map(resolveRun); } catch (e) { return []; } }
 const SEED_RUNS = [
   { id: 'r3', name: 'Holiday drop — apparel & footwear', source: 'holiday-apparel.csv · 1113 SKUs',
     skus: ['APW-SHT-30026', 'APM-POL-40026', 'FTW-RUN-60026', 'HHS-WIP-70026'],
@@ -1887,7 +1885,7 @@ class Component extends DCLogic {
     return out;
   }
   bulkPool() { return this.state.bulkSource === 'csv' ? ROWS.slice(0, 6).concat(CSV_EXTRA) : this.catalogPool(); }
-  allRuns() { return this.state.extraRuns.concat(SEED_RUNS); }
+  allRuns() { return this.state.extraRuns.concat(storedRuns(), SEED_RUNS); }
 
   bulkStartRun() {
     const s = this.state;
@@ -2037,8 +2035,8 @@ class Component extends DCLogic {
           isRunning: running, isDone: !running,
           statusLabel: running ? (r.pct || 0) + '% · ' + (r.done != null ? r.done : Math.round(((r.total || r.skus.length) * (r.pct || 0)) / 100)) + ' of ' + (r.total || r.skus.length) + ' SKUs' : chip.label,
           pct: (r.pct || 0) + '%', chipBg: chip.bg, chipColor: chip.color, chipIcon: chip.icon,
-          cursor: running ? 'default' : 'pointer',
-          open: () => { if (!running) this.setState({ runDrawerId: r.id, runDrawerFilter: null }); },
+          cursor: 'pointer',
+          open: () => { window.location.href = PAGE('Run Details') + '?run=' + encodeURIComponent(r.id); },
         };
       }),
 
