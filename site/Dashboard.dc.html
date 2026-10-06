@@ -756,7 +756,7 @@
 
           <sc-if value="{{ skuDrawerHasTags }}" hint-placeholder-val="{{ true }}">
             <div style="padding: 16px 0; border-bottom: 1px solid #EAEDF2;">
-              <div style="font-size: 12px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em;">CATEGORIES</div>
+              <div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 12px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em;">CATEGORIES</span><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 8px; border-radius: 9999px; background: #FFF0CC; color: #8A5A00; font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: 0; white-space: nowrap;">Post-MVP</span></div>
               <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
                 <sc-for list="{{ skuDrawerTags }}" as="tag" hint-placeholder-count="3">
                   <span style="font-size: 12px; color: #323A45; background: #F1F3F7; border-radius: 9999px; padding: 4px 10px; white-space: nowrap;">{{ tag }}</span>
