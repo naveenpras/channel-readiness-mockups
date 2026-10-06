@@ -151,7 +151,7 @@ class Component extends DCLogic {
         issue: { sku, href: PAGE('SKU Details') + '?sku=' + encodeURIComponent(sku), channel: CH[ch][0], text: REASONS[i % REASONS.length] } };
     });
     const done = items.filter((x) => x.finished).length, issues = items.filter((x) => x.bad), gen = done * nc * 3 - issues.length;
-    const chip = running ? ['rgba(52,72,197,0.10)', '#3448C5', 'sync', 'In progress'] : r.status === 'partial' ? ['rgba(240,136,4,0.14)', '#B36600', 'warning', 'Complete with issues'] : ['rgba(34,170,0,0.12)', '#22AA00', 'check', 'Complete'];
+    const chip = running ? ['rgba(52,72,197,0.10)', '#3448C5', 'sync', 'In progress'] : r.status === 'partial' ? ['rgba(206,25,13,0.10)', '#CE190D', 'error', 'Error'] : ['rgba(34,170,0,0.12)', '#1E9600', 'check', 'Completed'];
     const total = r.total || n, proc = running && r.done != null ? r.done : done;
     const genAll = running && r.total ? Math.round(proc * nc * 3) : gen;
     const q = s.q.trim().toLowerCase();
