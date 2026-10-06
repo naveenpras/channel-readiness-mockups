@@ -205,10 +205,19 @@
         <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
           <div style="flex: 0 0 auto; margin: 0 32px 16px; background: #fff; border: 1px solid #DFE3EA; border-radius: 8px; box-shadow: 0 4px 20px rgba(10,12,15,0.14); animation: cc-fade 140ms ease;">
             <sc-if value="{{ trayOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="padding: 14px 16px 6px; border-bottom: 1px solid #EAEDF2; display: flex; flex-wrap: wrap; gap: 8px; max-height: 128px; overflow-y: auto;">
-                <sc-for list="{{ trayItems }}" as="c" hint-placeholder-count="3">
-                  <div style="display: flex; align-items: center; gap: 8px; height: 28px; padding: 0 8px 0 10px; border-radius: 4px; background: #F1F3F7; margin-bottom: 8px; font-size: 12px; font-weight: 600;">{{ c.sku }}<span onClick="{{ c.remove }}" style="cursor: pointer; color: #636D7E; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="14" hint-size="14px,14px"></x-import></span></div>
-                </sc-for>
+              <div style="border-bottom: 1px solid #EAEDF2;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: #F7F8FA; border-radius: 8px 8px 0 0; font-size: 12px; font-weight: 600; color: #636D7E;"><span style="width: 36px; flex: 0 0 36px;"></span><span style="flex: 0 0 200px;">SKU</span><span style="flex: 1; min-width: 0;">Product</span><span style="width: 24px;"></span></div>
+                <div style="max-height: 300px; overflow-y: auto;">
+                  <sc-for list="{{ trayItems }}" as="c" hint-placeholder-count="6">
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 6px 16px; border-top: 1px solid #F1F3F7;" style-hover="background: #FAFBFC;">
+                      <span style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 4px; background: #F1F3F7 url('{{ c.img }}') center / cover;"></span>
+                      <span style="flex: 0 0 200px; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ c.sku }}</span>
+                      <span style="flex: 1; min-width: 0; font-size: 13px; color: #636D7E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ c.desc }}</span>
+                      <span onClick="{{ c.remove }}" title="Remove" style="width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #8A94A6;" style-hover="background: #F1F3F7; color: #0A0C0F;"><span style="font-size: 16px; line-height: 1;">×</span></span>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ trayMore }}" hint-placeholder-val="{{ false }}"><div style="padding: 10px 16px; font-size: 12px; color: #8A94A6; border-top: 1px solid #F1F3F7;">{{ trayMoreLabel }}</div></sc-if>
+                </div>
               </div>
             </sc-if>
             <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px;">
@@ -220,6 +229,7 @@
               </div>
               <sc-if value="{{ hasCsvMsg }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #1B7F4B; white-space: nowrap;">{{ csvMsg }}</span></sc-if>
               <div style="flex: 1;"></div>
+              <sc-if value="{{ noProdSel }}" hint-placeholder-val="{{ true }}"><span onClick="{{ demoSel }}" style="font-size: 12px; color: #3448C5; cursor: pointer; white-space: nowrap;">Preview with 150 selected</span></sc-if>
               <sc-if value="{{ hasProdSel }}" hint-placeholder-val="{{ false }}"><span onClick="{{ clearProdSel }}" style="font-size: 12px; color: #636D7E; cursor: pointer;">Clear</span></sc-if>
               <div onClick="{{ trayCsv }}" style="display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 4px; border: 1px solid {{ trayCsvBd }}; color: {{ trayCsvFg }}; font-size: 13px; font-weight: 600; cursor: {{ trayCursor }}; white-space: nowrap;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="download" size="16" hint-size="16px,16px"></x-import>Create CSV export</div>
               <div onClick="{{ trayRun }}" style="height: 34px; padding: 0 16px; border-radius: 4px; background: {{ trayRunBg }}; color: {{ trayRunFg }}; display: flex; align-items: center; font-size: 13px; font-weight: 600; cursor: {{ trayCursor }}; white-space: nowrap;">Make channel ready</div>
@@ -1197,6 +1207,33 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ csvJob }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: rgba(10,12,15,0.55); display: flex; align-items: center; justify-content: center; padding: 28px; z-index: 95; animation: cc-fade 140ms ease;">
+      <div style="width: 100%; max-width: 520px; background: #fff; border-radius: 12px; box-shadow: 0 24px 64px rgba(0,0,0,0.35); overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid #EAEDF2;">
+          <div style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em;">CSV export</div>
+          <div onClick="{{ closeCsv }}" style="color: #636D7E; cursor: pointer; display: flex;" style-hover="color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="20" hint-size="20px,20px"></x-import></div>
+        </div>
+        <div style="padding: 24px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span style="width: 40px; height: 40px; border-radius: 8px; background: {{ csvJob.iconBg }}; color: {{ csvJob.iconFg }}; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ csvJob.icon }}" size="20" hint-size="20px,20px"></x-import></span>
+            <div style="min-width: 0;"><div style="font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ csvJob.name }}</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ csvJob.sub }}</div></div>
+          </div>
+          <div style="height: 6px; border-radius: 3px; background: #EAEDF2; margin-top: 18px; overflow: hidden;"><div style="height: 100%; width: {{ csvJob.pct }}; background: {{ csvJob.bar }}; transition: width 200ms ease;"></div></div>
+          <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #636D7E;"><span>{{ csvJob.status }}</span><span>{{ csvJob.pct }}</span></div>
+          <div style="margin-top: 18px; border: 1px solid #EAEDF2; border-radius: 6px; background: #F7F8FA; padding: 10px 12px; font-family: 'Roboto Mono', monospace; font-size: 11px; line-height: 1.6; color: #323A45; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            <div style="color: #8A94A6;">sku,description,images,videos,status,last_updated</div>
+            <sc-for list="{{ csvJob.preview }}" as="l" hint-placeholder-count="3"><div style="overflow: hidden; text-overflow: ellipsis;">{{ l }}</div></sc-for>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; padding: 14px 24px; border-top: 1px solid #EAEDF2;">
+          <div onClick="{{ closeCsv }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: #F1F3F7; color: #323A45; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E7EAF1;">{{ csvJob.closeLabel }}</div>
+          <sc-if value="{{ csvJob.done }}" hint-placeholder-val="{{ false }}"><a href="{{ csvJob.url }}" download="{{ csvJob.name }}" style="height: 36px; padding: 0 18px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; text-decoration: none;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="download" size="16" hint-size="16px,16px"></x-import>Download CSV</a></sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ bulkOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position: fixed; inset: 0; background: rgba(10,12,15,0.55); display: flex; align-items: center; justify-content: center; padding: 28px; z-index: 90; animation: cc-fade 140ms ease;">
       <div style="width: 100%; max-width: 1080px; height: 100%; background: #fff; border-radius: 12px; box-shadow: 0 24px 64px rgba(0,0,0,0.35); overflow: hidden; display: flex; flex-direction: column;">
@@ -1680,7 +1717,7 @@ class Component extends DCLogic {
     confirmDelete: null, deleted: [], chanKey: null, baseKey: null, removedChannels: [], pillMenu: null, channelOn: {}, dashboardBannerOpen: true, chOrder: null, dragKey: null, dragOverKey: null,
     dupChannels: [], hoverCh: null, chKebabKey: null, chKebabTop: 0, chKebabLeft: 0,
     setupTypesOff: {}, setupRulesOff: {}, customRules: {}, rbProp: 'Background colour', rbOp: 'is', rbVal: '',
-    tagQuery: '', prodSel: [], genQueued: [], prodVia: {}, runName: null, trayOpen: false, csvMsg: '',
+    tagQuery: '', prodSel: [], genQueued: [], prodVia: {}, csvPct: null, csvName: '', csvUrl: '', runName: null, trayOpen: false, csvMsg: '',
     bulkOpen: false, bulkStep: 1, bulkSource: 'products', csvUp: false, bulkSel: [], bulkQuery: '', newProducts: [],
     bulkChan: { amazon: true, aplus: true, walmart: true, target: false, google: false, brand: false },
     bulkPhase: 'idle', bulkDoneSkus: [], extraRuns: [], runDrawerId: null,
@@ -1725,6 +1762,25 @@ class Component extends DCLogic {
     if (s.runName != null) return s.runName;
     const t = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
     return 'Run · ' + s.bulkSel.length + (s.bulkSel.length === 1 ? ' product' : ' products') + ' · ' + t;
+  }
+
+  startCsv() {
+    const s = this.state, sel = (s.prodSel || []).slice();
+    if (!sel.length) return;
+    const d = new Date(), pad = (x) => String(x).padStart(2, '0');
+    const name = 'channel-readiness-' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' + sel.length + '-products.csv';
+    clearInterval(this._csvT);
+    this.setState({ csvPct: 0, csvName: name, csvUrl: '' });
+    this._csvT = setInterval(() => {
+      const p = Math.min(100, (this.state.csvPct || 0) + 10);
+      if (p >= 100) {
+        clearInterval(this._csvT);
+        const by = {}; ROWS.forEach((r) => { by[r.sku] = r; });
+        const rows = sel.map((k) => { const r = by[k]; return r ? [k, '"' + r.desc.replace(/"/g, '""') + '"', r.images, r.videos, r.st.every((v) => v === OK) ? 'Ready' : 'Needs fixes', '"' + r.updated + '"'].join(',') : [k, 'Sample product', 4, 0, 'Ready', '"Sep 12, 2026"'].join(','); });
+        const url = URL.createObjectURL(new Blob(['sku,description,images,videos,status,last_updated\n' + rows.join('\n')], { type: 'text/csv' }));
+        this.setState({ csvPct: 100, csvUrl: url });
+      } else this.setState({ csvPct: p });
+    }, 300);
   }
 
   bulkFinish() {
@@ -2533,12 +2589,20 @@ class Component extends DCLogic {
       prodSelLabel: (s.prodSel || []).length + ((s.prodSel || []).length === 1 ? ' product selected' : ' products selected'),
       clearProdSel: () => this.setState({ prodSel: [], prodVia: {}, trayOpen: false }),
       trayOpen: !!s.trayOpen, trayIcon: s.trayOpen ? 'expand_more' : 'expand_less', toggleTray: () => { if ((s.prodSel || []).length) this.setState({ trayOpen: !s.trayOpen }); },
-      trayItems: (s.prodSel || []).map((k) => ({ sku: k, remove: () => this.setState((st) => ({ prodSel: st.prodSel.filter((x) => x !== k) })) })),
+      trayItems: (() => { const byS = {}; ROWS.forEach((r) => { byS[r.sku] = r; }); return (s.prodSel || []).slice(0, 100).map((k) => { const rw = byS[k]; const n = parseInt(String(k).split('-').pop(), 10) || 0; const g = ROWS[n % ROWS.length]; return { sku: k, desc: rw ? rw.desc : 'Sample product', img: (rw || g).img, remove: () => this.setState((st) => ({ prodSel: st.prodSel.filter((x) => x !== k) })) }; }); })(),
+      trayMore: (s.prodSel || []).length > 100, trayMoreLabel: 'and ' + ((s.prodSel || []).length - 100) + ' more selected products',
+      demoSel: () => this.setState({ trayOpen: true, prodSel: ROWS.map((r) => r.sku).concat(Array.from({ length: 143 }, (_, i) => 'DEMO-SKU-' + String(10001 + i))) }),
       trayBatches: [...new Set((s.prodSel || []).map((k) => (s.prodVia || {})[k]).filter(Boolean))].map((v) => ({ label: v + ' · ' + (s.prodSel || []).filter((k) => (s.prodVia || {})[k] === v).length, remove: () => this.setState((st) => ({ prodSel: st.prodSel.filter((k) => (st.prodVia || {})[k] !== v) })) })),
       hasCsvMsg: !!s.csvMsg, csvMsg: s.csvMsg, trayCursor: (s.prodSel || []).length ? 'pointer' : 'default',
       trayCsvBd: (s.prodSel || []).length ? '#3448C5' : '#EAEDF2', trayCsvFg: (s.prodSel || []).length ? '#3448C5' : '#A6AEBC',
       trayRunBg: (s.prodSel || []).length ? '#3448C5' : '#F1F3F7', trayRunFg: (s.prodSel || []).length ? '#fff' : '#A6AEBC',
-      trayCsv: () => { if (!(s.prodSel || []).length) return; this.setState({ csvMsg: 'CSV export of ' + (s.prodSel || []).length + ' products is being prepared' }); clearTimeout(this._cm); this._cm = setTimeout(() => this.setState({ csvMsg: '' }), 2500); },
+      trayCsv: () => this.startCsv(),
+      closeCsv: () => { clearInterval(this._csvT); this.setState({ csvPct: null }); },
+      csvJob: s.csvPct == null ? null : (() => { const n = (s.prodSel || []).length, done = s.csvPct >= 100; const byS = {}; ROWS.forEach((r) => { byS[r.sku] = r; });
+        const line = (k) => { const r = byS[k]; return r ? [k, '"' + r.desc.replace(/"/g, '""') + '"', r.images, r.videos, r.st.every((v) => v === OK) ? 'Ready' : 'Needs fixes', r.updated].join(',') : [k, 'Sample product', 4, 0, 'Ready', 'Sep 12, 2026'].join(','); };
+        return { name: s.csvName, pct: s.csvPct + '%', done, url: s.csvUrl || '#', icon: done ? 'check' : 'sync', iconBg: done ? 'rgba(34,170,0,0.12)' : 'rgba(52,72,197,0.10)', iconFg: done ? '#1E9600' : '#3448C5', bar: done ? '#22AA00' : '#3448C5',
+          sub: n + (n === 1 ? ' product' : ' products'), status: done ? 'Ready to download' : 'Generating ' + Math.max(1, Math.round(n * s.csvPct / 100)) + ' of ' + n + ' rows…', closeLabel: done ? 'Close' : 'Cancel',
+          preview: (s.prodSel || []).slice(0, Math.max(0, Math.min(4, Math.ceil(s.csvPct / 25)))).map(line) }; })(),
       trayRun: () => (s.prodSel || []).length && this.setState({ runName: null, bulkOpen: true, bulkStep: 1, bulkPhase: 'idle', bulkSel: (s.prodSel || []).slice(), csvUp: false, bulkQuery: '' }),
       genBtnLabel: selAllQueued ? 'Set Assets Generate: "off"' : 'Set Assets Generate: "on"',
       markGenerateAssets: () => this.setState((st) => {
