@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #EEF0F4; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#3448C5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#3448C5"></rect><text x="50" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#fff">PC</text></svg></template>
+<script src="./public-rules-data.js"></script>
+</helmet>
+<div data-screen-label="Public channel rules B: live preview" style="display: flex; min-height: 100%; background: #fff;">
+<sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="position: sticky; top: 0; height: calc(100vh - 32px); align-self: flex-start; width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
+    <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud" size="26" hint-size="26px,26px"></x-import>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="home" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Home</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #3448C5; background: rgba(52,72,197,0.10); cursor: pointer;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="photo_library" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Assets</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Image</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="videocam" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Video</span>
+    </div>
+    <div style="width: 52px; height: 56px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer; text-align: center;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="tune" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em; line-height: 1.1;">Media<br>Flows</span>
+    </div>
+    <div style="flex: 1;"></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="settings" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Settings</span>
+    </div>
+  </div>
+<div style="position: sticky; top: 0; height: calc(100vh - 40px); align-self: flex-start; width: 246px; flex: 0 0 246px; border-right: 1px solid #EAEDF2; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto;">
+    <div style="display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Home</div>
+    <div style="font-size: 11px; font-weight: 600; color: #8A94A6; letter-spacing: 0.01em; padding: 16px 12px 6px;">Media Library</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Folders</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Collections</div>
+    <a href="Dashboard.dc.html" style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #3448C5; background: rgba(52,72,197,0.10); text-decoration: none;">Channel Readiness</a>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Structured Metadata</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Reports</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Activity Reports</div>
+  </div></sc-if>
+<div style="flex: 1; min-width: 0;">
+        <div style="display: flex; gap: 28px; padding: 0 32px; border-bottom: 1px solid #EAEDF2;">
+          <a href="Dashboard.dc.html" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Dashboard</a>
+          <a href="Products.dc.html" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Products</a>
+          <a href="Channel%20List.dc.html" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 600; color: #0A0C0F; box-shadow: inset 0 -2px 0 #3448C5; text-decoration: none;">Channels</a>
+          <a href="Channel%20Readiness.dc.html?tab=Configuration" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Configuration</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 10px 32px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2;">
+          <span style="font-size: 11px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em;">Mockup view</span>
+          <div style="display: flex; gap: 6px;"><sc-for list="{{ chOpts }}" as="co" hint-placeholder-count="3"><span onClick="{{ co.pick }}" style="height: 30px; padding: 0 12px; border-radius: 9999px; display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid {{ co.bd }}; background: {{ co.bg }}; color: {{ co.fg }};">{{ co.name }}</span></sc-for></div>
+        </div>
+        <div style="padding: 20px 32px 0;"><div style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>Channels</div></div>
+        <div style="display: flex; align-items: center; gap: 14px; padding: 16px 32px 24px; border-bottom: 1px solid #EAEDF2;">
+          <img src="{{ logo }}" alt="{{ chName }}" style="width: 44px; height: 44px; object-fit: contain;">
+          <div style="flex: 1; min-width: 0;"><div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">{{ chName }}</div><div style="font-size: 13px; color: #8A94A6; margin-top: 3px;">Public channel rules maintained by Cloudinary</div></div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #3448C5; cursor: pointer; margin-right: 8px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="open_in_new" size="14" hint-size="14px,14px"></x-import>{{ chSrc }}</div>
+          <div style="height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #2B3BAD;">Save changes</div>
+        </div>
+        <div style="padding: 28px 32px 56px; display: flex; flex-direction: column; gap: 24px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+  <div style="flex: 1 1 380px; display: flex; gap: 12px; padding: 14px 16px; border: 1px solid #EAEDF2; border-radius: 8px; background: #FAFBFC;">
+  <span style="width: 32px; height: 32px; border-radius: 6px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 32px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="18" hint-size="18px,18px"></x-import></span>
+  <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">Product shots</div><div style="font-size: 13px; color: #323A45; margin-top: 4px; line-height: 1.5;">Studio images of the product itself. Each has a tag: main, front, left, right, top, flatlay or ghost.</div><div style="font-size: 12px; color: #636D7E; margin-top: 6px; line-height: 1.45;">We change the background, size, framing and quality to match the channel. At least one must be the main image.</div></div>
+</div>
+  <div style="flex: 1 1 380px; display: flex; gap: 12px; padding: 14px 16px; border: 1px solid #EAEDF2; border-radius: 8px; background: #FAFBFC;">
+  <span style="width: 32px; height: 32px; border-radius: 6px; background: #F1F3F7; color: #636D7E; display: flex; align-items: center; justify-content: center; flex: 0 0 32px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="18" hint-size="18px,18px"></x-import></span>
+  <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">Additional images</div><div style="font-size: 13px; color: #323A45; margin-top: 4px; line-height: 1.5;">Feature callouts, lifestyle, product in use, annotated, packaging and info panels from your creative team.</div><div style="font-size: 12px; color: #636D7E; margin-top: 6px; line-height: 1.45;">We never change what is in them. We only fit them to the channel size and name them.</div></div>
+</div>
+</div>
+<div style="font-size: 12px; color: #8A94A6;">Labels and tags are set automatically when an image is added. You can change them on the product.</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+            <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+              <div style="display: flex; gap: 24px; border-bottom: 1px solid #EAEDF2;"><sc-for list="{{ tabOpts }}" as="t" hint-placeholder-count="2"><div onClick="{{ t.pick }}" style="padding: 8px 2px 10px; font-size: 14px; font-weight: {{ t.fw }}; color: {{ t.fg }}; cursor: pointer; box-shadow: inset 0 -2px 0 {{ t.line }};">{{ t.name }}</div></sc-for></div>
+              <sc-if value="{{ tabShots }}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ shotRows }}" as="r" hint-placeholder-count="5">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div><div style="font-size: 13px; color: #323A45; line-height: 1.4;">{{ r.v }}</div><div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div>
+                <div style="padding: 12px 14px; border: 1px solid #EAEDF2; border-radius: 8px;"><div style="display: flex; align-items: center; gap: 12px;">
+  <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+  <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Crop shots of people at the face</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">The crop line sits below the nose and above the lips. Applies to shots with a human model.</div></div>
+  <div onClick="{{ toggleCrop }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ cropBg }}; display: flex; align-items: center; justify-content: {{ cropJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+</div></div>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="min-width: 0;"><div style="font-size: 13px; font-weight: 500;">Product identifier</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Used in every file name. Taken from the product metadata.</div></div>
+  <select onChange="{{ onId }}" style="FIELD min-width: 260px;"><sc-for list="{{ idOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
+</div>
+                <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px; background: #FAFBFC;">
+  <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 500;">{{ pMain.label }}</span><span style="font-size: 12px; color: #8A94A6;">{{ pMain.note }}</span></div>
+  <input value="{{ pMain.value }}" onChange="{{ pMain.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;">
+  <div style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;"><span style="font-size: 11px; color: #8A94A6; margin-right: 2px;">Add</span><sc-for list="{{ pMain.chips }}" as="tk" hint-placeholder-count="8"><span onClick="{{ tk.add }}" style="height: 22px; padding: 0 7px; border-radius: 4px; background: #F1F3F7; color: #3448C5; font-family: 'Roboto Mono', monospace; font-size: 11px; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E3E8F8;">{{ tk.t }}</span></sc-for></div>
+  <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">Example: {{ pMain.ex }}</div>
+</div>
+                <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px; background: #FAFBFC;">
+  <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 500;">{{ pShot.label }}</span><span style="font-size: 12px; color: #8A94A6;">{{ pShot.note }}</span></div>
+  <input value="{{ pShot.value }}" onChange="{{ pShot.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;">
+  <div style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;"><span style="font-size: 11px; color: #8A94A6; margin-right: 2px;">Add</span><sc-for list="{{ pShot.chips }}" as="tk" hint-placeholder-count="8"><span onClick="{{ tk.add }}" style="height: 22px; padding: 0 7px; border-radius: 4px; background: #F1F3F7; color: #3448C5; font-family: 'Roboto Mono', monospace; font-size: 11px; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E3E8F8;">{{ tk.t }}</span></sc-for></div>
+  <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">Example: {{ pShot.ex }}</div>
+</div>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="min-width: 0;"><div style="font-size: 13px; font-weight: 500;">When two product shots share a tag</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Needed so file names stay unique.</div></div>
+  <select onChange="{{ onDup }}" style="FIELD min-width: 260px;"><sc-for list="{{ dupOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
+</div>
+              </div></sc-if>
+              <sc-if value="{{ tabAdd }}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ addRows }}" as="r" hint-placeholder-count="5">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div><div style="font-size: 13px; color: #323A45; line-height: 1.4;">{{ r.v }}</div><div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="min-width: 0;"><div style="font-size: 13px; font-weight: 500;">Numbering</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Where additional image numbers start.</div></div>
+  <select onChange="{{ onNum }}" style="FIELD min-width: 260px;"><sc-for list="{{ numOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
+</div>
+                <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; border: 1px solid #EAEDF2; border-radius: 8px; background: #FAFBFC;">
+  <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 500;">{{ pAdd.label }}</span><span style="font-size: 12px; color: #8A94A6;">{{ pAdd.note }}</span></div>
+  <input value="{{ pAdd.value }}" onChange="{{ pAdd.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;">
+  <div style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;"><span style="font-size: 11px; color: #8A94A6; margin-right: 2px;">Add</span><sc-for list="{{ pAdd.chips }}" as="tk" hint-placeholder-count="8"><span onClick="{{ tk.add }}" style="height: 22px; padding: 0 7px; border-radius: 4px; background: #F1F3F7; color: #3448C5; font-family: 'Roboto Mono', monospace; font-size: 11px; display: flex; align-items: center; cursor: pointer;" style-hover="background: #E3E8F8;">{{ tk.t }}</span></sc-for></div>
+  <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">Example: {{ pAdd.ex }}</div>
+</div>
+                <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Create a lifestyle image if the product has none</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Made with AI from the main image. It goes to review before it is used.</div></div>
+    <div onClick="{{ toggleLife }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ lifeBg }}; display: flex; align-items: center; justify-content: {{ lifeJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+  </div>
+  <sc-if value="{{ lifeOn }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 14px; border-top: 1px solid #EAEDF2; background: #FAFBFC; border-radius: 0 0 8px 8px;">
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;">Size<input type="number" value="{{ lw }}" onChange="{{ onLw }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; width: 80px;">&times;<input type="number" value="{{ lh }}" onChange="{{ onLh }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; width: 80px;">px</div>
+      <select onChange="{{ onDpi }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0;"><sc-for list="{{ dpiOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
+      <span style="font-size: 12px; color: #8A94A6;">{{ lifeDefault }}</span>
+    </div>
+  </sc-if>
+</div>
+                <div style="display: flex; flex-direction: column; border: 1px dashed #C6CDDA; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px dashed #DFE3EA;"><span style="font-size: 13px; color: #323A45; flex: 1;">Extract info panels (nutrition, safety) from product shots</span><span style="font-size: 11px; font-weight: 600; color: #636D7E; background: #F1F3F7; border-radius: 4px; padding: 2px 6px;">Coming later</span></div>
+  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px;"><span style="font-size: 13px; color: #323A45; flex: 1;">Create product in use images</span><span style="font-size: 11px; font-weight: 600; color: #636D7E; background: #F1F3F7; border-radius: 4px; padding: 2px 6px;">Coming later</span></div>
+</div>
+              </div></sc-if>
+            </div>
+            <div style="flex: 0 1 440px; min-width: 320px; position: sticky; top: 16px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><div><div style="font-size: 14px; font-weight: 600;">What this channel receives</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px;">{{ sampleName }}: {{ shotCount }} product shots, {{ addCount }} additional images</div></div><div style="display: flex; gap: 4px;"><sc-for list="{{ prodOpts }}" as="po" hint-placeholder-count="2"><span onClick="{{ po.pick }}" style="height: 26px; padding: 0 10px; border-radius: 9999px; display: flex; align-items: center; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid {{ po.bd }}; background: {{ po.bg }}; color: {{ po.fg }};">{{ po.name }}</span></sc-for></div></div>
+              <div style="border: 1px solid #EAEDF2; border-radius: 8px; background: #fff; overflow: hidden;">
+  <div style="display: flex; flex-direction: column;">
+    <sc-for list="{{ sample }}" as="r" hint-placeholder-count="8">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-bottom: 1px solid #F1F3F7;">
+        <span style="flex: 0 0 16px; font-size: 12px; font-weight: 600; color: #8A94A6; text-align: center;">{{ r.n }}</span>
+        <sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ r.img }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #F1F3F7; flex: 0 0 40px;"></sc-if>
+        <sc-if value="{{ r.noImg }}" hint-placeholder-val="{{ false }}"><div style="width: 40px; height: 40px; border-radius: 4px; flex: 0 0 40px; display: flex; align-items: center; justify-content: center; border: 1px dashed #C6CDDA; background: #FAFBFC; color: #8A94A6;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="16" hint-size="16px,16px"></x-import></div></sc-if>
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 6px; min-width: 0;"><span style="font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 500; color: {{ r.nameFg }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.name }}</span></div>
+          <div style="font-size: 11px; color: #636D7E; margin-top: 2px; line-height: 1.35;">{{ r.label }} · {{ r.treat }}</div>
+        </div>
+        <span style="flex: 0 0 auto; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; display: flex; align-items: center; background: {{ r.gBg }}; color: {{ r.gFg }}; white-space: nowrap;">{{ r.gName }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ hasClash }}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #FFF9E8; border-top: 1px solid #F2DFA8; font-size: 12px; color: #8A5A00;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="warning" size="14" hint-size="14px,14px"></x-import>{{ clashText }}</div></sc-if>
+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ch: 'amazon', tab: 'shots', prod: 'polo' };
+  componentDidMount() { if (!window.PR) this._t = setInterval(() => { if (window.PR) { clearInterval(this._t); this.forceUpdate(); } }, 50); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const E = window.PR, set = (x) => this.setState(x);
+    if (!E) return { chOpts: [], prodOpts: [], logo: '', chName: '', chSrc: '', shotRows: [], addRows: [], idOpts: [], pMain: {}, pShot: {}, pAdd: {}, dupOpts: [], numOpts: [], dpiOpts: [], sample: [], tabOpts: [], chips: [] };
+    let s = this.state;
+    if (!s.pat) s = { ...E.initial(s.ch), ...s };
+    const switchTo = (ch) => set({ ...E.initial(ch), tab: s.tab, prod: s.prod });
+    return E.vals(s, set, switchTo);
+  }
+}
+</script>
+</body>
+</html>

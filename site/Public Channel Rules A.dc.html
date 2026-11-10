@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #EEF0F4; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { color: #2B3BAD; text-decoration: underline; }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#3448C5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#3448C5"></rect><text x="50" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#fff">PC</text></svg></template>
+<script src="./public-rules-data.js"></script>
+</helmet>
+<div data-screen-label="Public channel rules A: sections" style="display: flex; min-height: 100%; background: #fff;">
+<sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="position: sticky; top: 0; height: calc(100vh - 32px); align-self: flex-start; width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
+    <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud" size="26" hint-size="26px,26px"></x-import>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="home" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Home</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #3448C5; background: rgba(52,72,197,0.10); cursor: pointer;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="photo_library" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Assets</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="image" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Image</span>
+    </div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="videocam" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Video</span>
+    </div>
+    <div style="width: 52px; height: 56px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer; text-align: center;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="tune" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em; line-height: 1.1;">Media<br>Flows</span>
+    </div>
+    <div style="flex: 1;"></div>
+    <div style="width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7;">
+      <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="settings" size="22" hint-size="22px,22px"></x-import>
+      <span style="font-size: 10px; letter-spacing: -0.01em;">Settings</span>
+    </div>
+  </div>
+<div style="position: sticky; top: 0; height: calc(100vh - 40px); align-self: flex-start; width: 246px; flex: 0 0 246px; border-right: 1px solid #EAEDF2; padding: 20px 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto;">
+    <div style="display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Home</div>
+    <div style="font-size: 11px; font-weight: 600; color: #8A94A6; letter-spacing: 0.01em; padding: 16px 12px 6px;">Media Library</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Folders</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Collections</div>
+    <a href="Dashboard.dc.html" style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; font-weight: 600; color: #3448C5; background: rgba(52,72,197,0.10); text-decoration: none;">Channel Readiness</a>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; margin-top: 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Structured Metadata</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Assets Reports</div>
+    <div style="display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 4px; font-size: 14px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F1F3F7;">Activity Reports</div>
+  </div></sc-if>
+<div style="flex: 1; min-width: 0;">
+        <div style="display: flex; gap: 28px; padding: 0 32px; border-bottom: 1px solid #EAEDF2;">
+          <a href="Dashboard.dc.html" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Dashboard</a>
+          <a href="Products.dc.html" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Products</a>
+          <a href="Channel%20List.dc.html" style="padding: 18px 2px 14px; font-size: 15px; font-weight: 600; color: #0A0C0F; box-shadow: inset 0 -2px 0 #3448C5; text-decoration: none;">Channels</a>
+          <a href="Channel%20Readiness.dc.html?tab=Configuration" style="padding: 18px 2px 14px; font-size: 15px; color: #636D7E; text-decoration: none;">Configuration</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 10px 32px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2;">
+          <span style="font-size: 11px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em;">Mockup view</span>
+          <div style="display: flex; gap: 6px;"><sc-for list="{{ chOpts }}" as="co" hint-placeholder-count="3"><span onClick="{{ co.pick }}" style="height: 30px; padding: 0 12px; border-radius: 9999px; display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid {{ co.bd }}; background: {{ co.bg }}; color: {{ co.fg }};">{{ co.name }}</span></sc-for></div>
+        </div>
+        <div style="padding: 20px 32px 0;"><div style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="16" hint-size="16px,16px"></x-import>Channels</div></div>
+        <div style="display: flex; align-items: center; gap: 14px; padding: 16px 32px 24px; border-bottom: 1px solid #EAEDF2;">
+          <img src="{{ logo }}" alt="{{ chName }}" style="width: 44px; height: 44px; object-fit: contain;">
+          <div style="flex: 1; min-width: 0;"><div style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">{{ chName }}</div><div style="font-size: 13px; color: #8A94A6; margin-top: 3px;">Public channel rules maintained by Cloudinary</div></div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #3448C5; cursor: pointer; margin-right: 8px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="open_in_new" size="14" hint-size="14px,14px"></x-import>{{ chSrc }}</div>
+          <div style="height: 32px; padding: 0 14px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #2B3BAD;">Save changes</div>
+        </div>
+        <div style="padding: 32px 32px 56px; display: flex; flex-direction: column; gap: 36px; max-width: 1100px;">
+          
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px;"><div style="font-size: 16px; font-weight: 600;">Product shots</div><div style="font-size: 13px; color: #8A94A6;">Studio images such as main, front, back, angles, detail and package. Only the changes below are made</div></div>
+            
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ shotRows }}" as="r" hint-placeholder-count="4">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">
+        <sc-if value="{{ r.hasSw }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C6CDDA; background: {{ r.sw }}; flex: 0 0 16px;"></span></sc-if>
+        <span>{{ r.v }}</span>
+        <sc-if value="{{ r.hasPills }}" hint-placeholder-val="{{ false }}"><div style="display: flex; margin-left: auto;"><sc-for list="{{ r.pills }}" as="p" hint-placeholder-count="2"><span style="height: 24px; padding: 0 12px; display: flex; align-items: center; font-size: 12px; font-weight: 600; border: 1px solid {{ p.bd }}; background: {{ p.bg }}; color: {{ p.fg }}; margin-left: -1px;">{{ p.t }}</span></sc-for></div></sc-if>
+      </div>
+      <div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div>
+            <div style="padding: 12px 14px; border: 1px solid #EAEDF2; border-radius: 8px;"><div style="display: flex; align-items: center; gap: 12px;">
+  <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+  <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Enhance quality</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Upscale image when original is smaller than required size</div></div>
+  <div onClick="{{ toggleEnh }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ enhBg }}; display: flex; align-items: center; justify-content: {{ enhJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+</div></div>
+            <div style="padding: 12px 14px; border: 1px solid #EAEDF2; border-radius: 8px;"><div style="display: flex; align-items: center; gap: 12px;">
+  <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+  <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Adjust framing</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Scale the product to fill 85% of the frame. Off keeps the original framing.</div></div>
+  <div onClick="{{ toggleFrame }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ frameBg }}; display: flex; align-items: center; justify-content: {{ frameJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+</div></div>
+            <div style="border: 1px solid #C9D2F2; border-radius: 8px; background: #fff; overflow: hidden;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #F7F8FE; border-bottom: 1px solid #DDE3F8;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">File naming</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px;">Product shots are renamed so the channel can match them to the product.</div></div>
+  </div>
+  <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div><div style="font-size: 13px; font-weight: 500;">{{ pMain.label }}</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px; line-height: 1.35;">{{ pMain.note }}</div></div>
+      <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;"><input value="{{ pMain.value }}" onChange="{{ pMain.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;"><div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ pMain.ex }}</div></div>
+    </div><div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div><div style="font-size: 13px; font-weight: 500;">{{ pShot.label }}</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px; line-height: 1.35;">{{ pShot.note }}</div></div>
+      <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;"><input value="{{ pShot.value }}" onChange="{{ pShot.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;"><div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ pShot.ex }}</div></div>
+    </div>
+  <div style="padding: 10px 16px; font-size: 12px; color: #636D7E; border-top: 1px solid #F1F3F7;">Two shots with the same tag get a number, so names stay unique: front, front2.</div>
+  <div style="padding: 10px 16px; background: #FAFBFC; font-size: 12px; color: #636D7E;">Use <span style="font-family: 'Roboto Mono', monospace;">{{ tokenHint }}</span> to customize file naming.</div>
+</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px;"><div style="font-size: 16px; font-weight: 600;">Additional images</div><div style="font-size: 13px; color: #8A94A6;">Such as lifestyle, feature callout, product use, size guide and info panels. Only sized and named. Content not changed</div></div>
+            
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ addRows }}" as="r" hint-placeholder-count="4">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">
+        <sc-if value="{{ r.hasSw }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C6CDDA; background: {{ r.sw }}; flex: 0 0 16px;"></span></sc-if>
+        <span>{{ r.v }}</span>
+        <sc-if value="{{ r.hasPills }}" hint-placeholder-val="{{ false }}"><div style="display: flex; margin-left: auto;"><sc-for list="{{ r.pills }}" as="p" hint-placeholder-count="2"><span style="height: 24px; padding: 0 12px; display: flex; align-items: center; font-size: 12px; font-weight: 600; border: 1px solid {{ p.bd }}; background: {{ p.bg }}; color: {{ p.fg }}; margin-left: -1px;">{{ p.t }}</span></sc-for></div></sc-if>
+      </div>
+      <div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div>
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Create a lifestyle image if the product has none</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Made with AI from the main image. It goes to review before it is used.</div></div>
+    <div onClick="{{ toggleLife }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ lifeBg }}; display: flex; align-items: center; justify-content: {{ lifeJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+  </div>
+  <sc-if value="{{ lifeOn }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 14px; border-top: 1px solid #EAEDF2; background: #FAFBFC; border-radius: 0 0 8px 8px;">
+      <sc-if value="{{ lifeRange }}" hint-placeholder-val="{{ true }}"><div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #636D7E;">Width (x)<input type="number" value="{{ lw }}" onChange="{{ onLw }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; width: 90px;">&times; Height (y)<input type="number" value="{{ lh }}" onChange="{{ onLh }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; width: 90px;">px</div></sc-if>
+      <sc-if value="{{ lifeFixed }}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border: 1px solid #EAEDF2; border-radius: 4px; background: #F7F8FA; color: #323A45; font-size: 13px; box-sizing: border-box;">Fixed size {{ lifeFixedText }}<span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div></sc-if>
+      <div style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border: 1px solid #EAEDF2; border-radius: 4px; background: #F7F8FA; color: #323A45; font-size: 13px; box-sizing: border-box;">{{ lifeDpiText }}<span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+      <span style="font-size: 12px; color: #8A94A6;">{{ lifeDefault }}</span>
+      <sc-if value="{{ lifeOut }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #B3261E;">Outside the channel range of {{ lifeRangeText }}.</span></sc-if>
+    </div>
+  </sc-if>
+</div>
+            <div style="border: 1px solid #C9D2F2; border-radius: 8px; background: #fff; overflow: hidden;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #F7F8FE; border-bottom: 1px solid #DDE3F8;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">File naming</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px;">Additional images are renamed in sequence.</div></div>
+  </div>
+  <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div><div style="font-size: 13px; font-weight: 500;">{{ pAdd.label }}</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px; line-height: 1.35;">{{ pAdd.note }}</div></div>
+      <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;"><input value="{{ pAdd.value }}" onChange="{{ pAdd.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;"><div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ pAdd.ex }}</div></div>
+    </div>
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 12px 16px;">
+    <div style="min-width: 0;"><div style="font-size: 13px; font-weight: 500;">Numbering</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Where the {position} numbers start.</div></div>
+    <select onChange="{{ onNum }}" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; min-width: 260px;"><sc-for list="{{ numOpts }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
+  </div>
+  <div style="padding: 10px 16px; background: #FAFBFC; font-size: 12px; color: #636D7E;">Use <span style="font-family: 'Roboto Mono', monospace;">{{ tokenHint }}</span> to customize file naming.</div>
+</div>
+            <div style="display: flex; flex-direction: column; border: 1px dashed #C6CDDA; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px dashed #DFE3EA;"><span style="font-size: 13px; color: #323A45; flex: 1;">Extract info panels (nutrition, safety) from product shots</span><span style="font-size: 11px; font-weight: 600; color: #636D7E; background: #F1F3F7; border-radius: 4px; padding: 2px 6px;">Coming later</span></div>
+  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px;"><span style="font-size: 13px; color: #323A45; flex: 1;">Create product in use images</span><span style="font-size: 11px; font-weight: 600; color: #636D7E; background: #F1F3F7; border-radius: 4px; padding: 2px 6px;">Coming later</span></div>
+</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px;"><div style="font-size: 16px; font-weight: 600;">Product video</div><div style="font-size: 13px; color: #8A94A6;">If the product has a video, it is delivered in the format this channel needs</div></div>
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ videoRows }}" as="r" hint-placeholder-count="4">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">
+        <sc-if value="{{ r.hasSw }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C6CDDA; background: {{ r.sw }}; flex: 0 0 16px;"></span></sc-if>
+        <span>{{ r.v }}</span>
+        <sc-if value="{{ r.hasPills }}" hint-placeholder-val="{{ false }}"><div style="display: flex; margin-left: auto;"><sc-for list="{{ r.pills }}" as="p" hint-placeholder-count="2"><span style="height: 24px; padding: 0 12px; display: flex; align-items: center; font-size: 12px; font-weight: 600; border: 1px solid {{ p.bd }}; background: {{ p.bg }}; color: {{ p.fg }}; margin-left: -1px;">{{ p.t }}</span></sc-for></div></sc-if>
+      </div>
+      <div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div>
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Create a video if the product has none</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">Made with AI from the product images. It goes to review before it is used.</div></div>
+    <div onClick="{{ toggleVc }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ vcBg }}; display: flex; align-items: center; justify-content: {{ vcJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+  </div>
+  <sc-if value="{{ vcOn }}" hint-placeholder-val="{{ false }}"><div style="padding: 12px 14px; border-top: 1px solid #EAEDF2; background: #FAFBFC; border-radius: 0 0 8px 8px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 12px; color: #636D7E;">Same format as the channel video above. Created videos are limited to 4 seconds.</div><div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <sc-for list="{{ videoCreateRows }}" as="r" hint-placeholder-count="4">
+    <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 20px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div style="font-size: 13px; font-weight: 500;">{{ r.k }}</div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; font-size: 13px; color: #323A45; line-height: 1.4;">
+        <sc-if value="{{ r.hasSw }}" hint-placeholder-val="{{ false }}"><span style="width: 16px; height: 16px; border-radius: 3px; border: 1px solid #C6CDDA; background: {{ r.sw }}; flex: 0 0 16px;"></span></sc-if>
+        <span>{{ r.v }}</span>
+        <sc-if value="{{ r.hasPills }}" hint-placeholder-val="{{ false }}"><div style="display: flex; margin-left: auto;"><sc-for list="{{ r.pills }}" as="p" hint-placeholder-count="2"><span style="height: 24px; padding: 0 12px; display: flex; align-items: center; font-size: 12px; font-weight: 600; border: 1px solid {{ p.bd }}; background: {{ p.bg }}; color: {{ p.fg }}; margin-left: -1px;">{{ p.t }}</span></sc-for></div></sc-if>
+      </div>
+      <div style="display: flex; justify-content: flex-end;"><span style="color: #A6AEBC; display: flex;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="lock" size="14" hint-size="14px,14px"></x-import></span></div>
+    </div>
+  </sc-for>
+</div></div></sc-if>
+</div>
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: #F1EEFC; color: #5B3DB5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="auto_awesome" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 500;">Captions (VTT)</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px;">If the product has a VTT file we use it. Turn this on to create one when it has none.</div></div>
+    <div onClick="{{ toggleVt }}" style="width: 34px; height: 20px; border-radius: 9999px; background: {{ vtBg }}; display: flex; align-items: center; justify-content: {{ vtJ }}; padding: 2px; cursor: pointer; box-sizing: border-box; flex: 0 0 auto;"><span style="width: 16px; height: 16px; border-radius: 9999px; background: #fff; display: block;"></span></div>
+  </div>
+</div>
+            <div style="border: 1px solid #C9D2F2; border-radius: 8px; background: #fff; overflow: hidden;">
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #F7F8FE; border-bottom: 1px solid #DDE3F8;">
+    <span style="width: 28px; height: 28px; border-radius: 6px; background: rgba(52,72,197,0.10); color: #3448C5; display: flex; align-items: center; justify-content: center; flex: 0 0 28px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="16" hint-size="16px,16px"></x-import></span>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 14px; font-weight: 600;">File naming</div><div style="font-size: 12px; color: #636D7E; margin-top: 2px;">Videos and captions are named with the same identifier as images.</div></div>
+  </div>
+  <div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div><div style="font-size: 13px; font-weight: 500;">{{ pVideo.label }}</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px; line-height: 1.35;">{{ pVideo.note }}</div></div>
+      <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;"><input value="{{ pVideo.value }}" onChange="{{ pVideo.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;"><div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ pVideo.ex }}</div></div>
+    </div><div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F1F3F7;">
+      <div><div style="font-size: 13px; font-weight: 500;">{{ pVtt.label }}</div><div style="font-size: 12px; color: #8A94A6; margin-top: 2px; line-height: 1.35;">{{ pVtt.note }}</div></div>
+      <div style="display: flex; flex-direction: column; gap: 5px; min-width: 0;"><input value="{{ pVtt.value }}" onChange="{{ pVtt.onChange }}" spellcheck="false" style="height: 32px; box-sizing: border-box; padding: 0 10px; border: 1px solid #C6CDDA; border-radius: 4px; background: #fff; font-size: 13px; color: #0A0C0F; outline: none; min-width: 0; font-family: 'Roboto Mono', monospace; width: 100%;"><div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #636D7E;">{{ pVtt.ex }}</div></div>
+    </div>
+  
+  <div style="padding: 10px 16px; background: #FAFBFC; font-size: 12px; color: #636D7E;">Use <span style="font-family: 'Roboto Mono', monospace;">{{ vTokenHint }}</span> to customize file naming.</div>
+</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #EAEDF2; padding-bottom: 12px;"><div><span style="font-size: 16px; font-weight: 600;">File names for a sample product</span><span style="font-size: 13px; color: #8A94A6; margin-left: 10px;">{{ sampleName }}</span></div><div style="display: flex; gap: 4px;"><sc-for list="{{ prodOpts }}" as="po" hint-placeholder-count="2"><span onClick="{{ po.pick }}" style="height: 26px; padding: 0 10px; border-radius: 9999px; display: flex; align-items: center; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid {{ po.bd }}; background: {{ po.bg }}; color: {{ po.fg }};">{{ po.name }}</span></sc-for></div></div>
+            <div style="border: 1px solid #EAEDF2; border-radius: 8px; background: #fff; overflow: hidden;">
+  <div style="display: flex; flex-direction: column;">
+    <sc-for list="{{ sample }}" as="r" hint-placeholder-count="8">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #F1F3F7;">
+        <span style="flex: 0 0 16px; font-size: 12px; font-weight: 600; color: #8A94A6; text-align: center;">{{ r.n }}</span>
+        <sc-if value="{{ r.hasImg }}" hint-placeholder-val="{{ true }}"><img src="{{ r.img }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; background: #F1F3F7; flex: 0 0 40px;"></sc-if>
+        <sc-if value="{{ r.noImg }}" hint-placeholder-val="{{ false }}"><div style="width: 40px; height: 40px; border-radius: 4px; flex: 0 0 40px; display: flex; align-items: center; justify-content: center; border: 1px dashed #C6CDDA; background: #FAFBFC; color: #8A94A6;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="16" hint-size="16px,16px"></x-import></div></sc-if>
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 6px; min-width: 0;"><span style="font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 500; color: {{ r.nameFg }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.name }}</span></div>
+          <div style="font-size: 11px; color: #636D7E; margin-top: 2px; line-height: 1.35;">{{ r.label }} · {{ r.treat }}</div>
+        </div>
+        <span style="flex: 0 0 auto; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; display: flex; align-items: center; background: {{ r.gBg }}; color: {{ r.gFg }}; white-space: nowrap;">{{ r.gName }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ hasClash }}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #FFF9E8; border-top: 1px solid #F2DFA8; font-size: 12px; color: #8A5A00;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="warning" size="14" hint-size="14px,14px"></x-import>{{ clashText }}</div></sc-if>
+</div>
+          </div>
+        </div>
+      </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ch: 'amazon', tab: 'shots', prod: 'polo' };
+  componentDidMount() { if (!window.PR) this._t = setInterval(() => { if (window.PR) { clearInterval(this._t); this.forceUpdate(); } }, 50); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const E = window.PR, set = (x) => this.setState(x);
+    if (!E) return { chOpts: [], prodOpts: [], logo: '', chName: '', chSrc: '', shotRows: [], addRows: [], idOpts: [], pMain: {}, pShot: {}, pAdd: {}, dupOpts: [], numOpts: [], dpiOpts: [], sample: [], tabOpts: [], chips: [] };
+    let s = this.state;
+    if (!s.pat) s = { ...E.initial(s.ch), ...s };
+    const switchTo = (ch) => set({ ...E.initial(ch), tab: s.tab, prod: s.prod });
+    return E.vals(s, set, switchTo);
+  }
+}
+</script>
+</body>
+</html>

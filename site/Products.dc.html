@@ -2170,7 +2170,7 @@ class Component extends DCLogic {
     const s = this.state;
     const ex = this.extractResult();
     const tab = 'Products';
-    const away = s.screen === 'channel' ? (s.chanKey === 'brand' ? 'Custom Channel' : 'Public Channel') : s.screen === 'newChannel' ? 'Create Custom Channel'
+    const away = s.screen === 'channel' ? (s.chanKey === 'brand' ? 'Custom Channel' : 'Public Channel') : s.screen === 'newChannel' ? 'Custom Channel'
       : (s.tab && s.tab !== tab) ? ({ Dashboard: 'Dashboard', Products: 'Products', Channels: 'Channel List' }[s.tab] || 'Channel Readiness') : null;
     if (away && !this._leaving) { this._leaving = true; setTimeout(() => { window.location.href = PAGE(away) + (away === 'Channel Readiness' ? '?tab=' + s.tab : ''); }, 0); }
     const tq = (s.tagQuery || '').trim().toLowerCase();

@@ -548,7 +548,7 @@ class Component extends DCLogic {
     return { pubList5, pd, goList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) };
   }
   renderVals() {
-    try { return { ...this._rv(), ...this._t2(), ...this._pub(), showTabs: !this.props.embedded, goCreate: () => (this.props.onCreate ? this.props.onCreate() : GO('Create Custom Channel')), goDash: () => GO('Dashboard'), goProducts: () => GO('Products'), goChanList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) }; } catch (e) { console.error('RV ' + (e && e.stack || e)); return {}; }
+    try { return { ...this._rv(), ...this._t2(), ...this._pub(), showTabs: !this.props.embedded, goCreate: () => (this.props.onCreate ? this.props.onCreate() : GO('Custom Channel')), goDash: () => GO('Dashboard'), goProducts: () => GO('Products'), goChanList: () => (this.props.onBack ? this.props.onBack() : GO('Channel List')) }; } catch (e) { console.error('RV ' + (e && e.stack || e)); return {}; }
   }
   _rv() {
     const s = this.state;

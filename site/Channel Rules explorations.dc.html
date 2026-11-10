@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Channel rules explorations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<meta name="design_doc_mode" content="canvas">
+<style>
+  html, body { margin: 0; padding: 0; background: #F1F3F7; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</helmet>
+<section data-screen-label="Channel rules" style="padding: 48px; display: flex; flex-direction: column; gap: 56px;">
+  <div style="display: flex; flex-direction: column; gap: 14px; max-width: 1000px;">
+    <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Channel rules for public and custom channels</div>
+    <div style="font-size: 14px; color: #636D7E; line-height: 1.5;">Two options built on the current Public channel page, with the same header, cards and lock icons. Both cover the three cases: a public channel, a custom channel with the same settings for every product image, and a custom channel with settings by position.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; font-size: 13px; line-height: 1.5;">
+      <div style="flex: 1 1 380px; background: #fff; border-radius: 8px; padding: 16px;"><div style="font-weight: 600; margin-bottom: 6px;">Product images</div>
+        <div style="color: #323A45;">Model shots and plain product shots get a background, frame and dimensions. Each of the three can be turned off when the originals already meet the channel. Feature callouts, annotated product images, lifestyle shots and infographics are left alone. The file name is a free pattern with tokens for the customer’s metadata and the position, for example {asin}.pt{position}.jpg. Any text can go between the tokens. A lifestyle image can be created when the product has none.</div></div>
+      <div style="flex: 1 1 380px; background: #fff; border-radius: 8px; padding: 16px;"><div style="font-weight: 600; margin-bottom: 6px;">Video</div>
+        <div style="color: #323A45;">A product video is delivered in the channel’s format, and one can be created when missing. A VTT file is used when the product has one, and created when it does not. File names use the same kind of pattern, for example {asin}.video.mp4 and {asin}.vtt.</div></div>
+      <div style="flex: 1 1 380px; background: #fff; border-radius: 8px; padding: 16px;"><div style="font-weight: 600; margin-bottom: 6px;">Public and custom</div>
+        <div style="color: #323A45;">On a public channel the values are set by the channel and locked. The customer can turn each one off, and the file name pattern is always theirs to edit. A custom channel can set every value. By position, images 1 to n get their own settings, and all other images share one set.</div></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">A</span>
+      <span style="font-size: 16px; font-weight: 600;">A table of settings by position</span>
+      <a href="Channel Rules A.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Settings are rows, one per setting, on the same page as the existing public channel. By position, the rows become a table: one line per image position and a last line for all other images. Each cell has its own switch and value.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; max-width: 1000px; font-size: 13px; line-height: 1.5;">
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Works well when</div><div style="color: #323A45;">The customer wants to compare positions. The table shows at a glance that image 1 gets a grey background and images 2 and later get white, and file names are visible side by side.</div></div>
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Watch out for</div><div style="color: #323A45;">The table is wide. Dimensions and file name need about 1,100 px, so smaller screens scroll sideways.</div></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">Use the Mockup view bar to switch between a public channel, a custom channel with the same settings, and a custom channel by position.</div><div style="width: 1440px; height: 1100px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Channel Rules A" hint-size="1440px,1100px"></dc-import></div></div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">B</span>
+      <span style="font-size: 16px; font-weight: 600;">Setting cards, one position at a time</span>
+      <a href="Channel Rules B.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Settings are four cards: background, frame, dimensions and file name. By position, tabs run along the top (Image 1, Image 2, Image 3, All other images) and the same four cards edit the tab you are on. A stepper sets how many images have their own settings.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; max-width: 1000px; font-size: 13px; line-height: 1.5;">
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Works well when</div><div style="color: #323A45;">The customer thinks about one image at a time, or has many positions. Each card has room for its explanation, and nothing needs sideways scrolling.</div></div>
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Watch out for</div><div style="color: #323A45;">Comparing positions means switching tabs. A summary of what each position gets would help if customers set more than three or four.</div></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">Use the Mockup view bar to switch between a public channel, a custom channel with the same settings, and a custom channel by position.</div><div style="width: 1440px; height: 1100px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Channel Rules B" hint-size="1440px,1100px"></dc-import></div></div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px; max-width: 1000px;">
+    <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Public channels: product shots and additional images</div>
+    <div style="font-size: 14px; color: #636D7E; line-height: 1.5;">Images now come in two kinds, and the page says so up front. <b style="color: #0A0C0F;">Product shots</b> are studio images of the product. We change their background, size, framing and quality to match the channel, and name them with the customer’s identifier and tag. <b style="color: #0A0C0F;">Additional images</b> (callouts, lifestyle, product in use, annotated, packaging, info panels) come from the customer’s creative team. We never change what is in them. We fit them to the channel size, by scaling or padding, and name them in sequence. Public channel values stay locked. Customers edit the file name patterns, the numbering, the face crop and lifestyle creation.</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">A</span>
+      <span style="font-size: 16px; font-weight: 600;">Stacked sections with a file name table</span>
+      <a href="Public Channel Rules A.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Two explainer cards, then a Product shots section, an Additional images section, and a table of the file names a sample product would get. Each section holds its locked rules and its editable settings.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; max-width: 1000px; font-size: 13px; line-height: 1.5;">
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Works well when</div><div style="color: #323A45;">The customer reads top to bottom once and sees the full rule set. The file name table at the bottom answers “what will my files be called” without switching anything.</div></div>
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Watch out for</div><div style="color: #323A45;">The page is long. Changing a pattern at the top means scrolling down to see the result.</div></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">Use the Mockup view bar to switch between Amazon, Walmart and Target. Edit a file name pattern to see the sample names change.</div><div style="width: 1440px; height: 1100px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Public Channel Rules A" hint-size="1440px,1100px"></dc-import></div></div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">B</span>
+      <span style="font-size: 16px; font-weight: 600;">Tabs with a live preview</span>
+      <a href="Public Channel Rules B.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">The same two explainer cards, then two tabs, Product shots and Additional images, with settings on the left. A sticky panel on the right lists a sample product’s images with their final file names and what happens to each. A warning appears if two files get the same name.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; max-width: 1000px; font-size: 13px; line-height: 1.5;">
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Works well when</div><div style="color: #323A45;">Pattern editing is the hard part, and the preview updates as the customer types. Each tab stays short.</div></div>
+      <div style="flex: 1 1 380px;"><div style="font-weight: 600; margin-bottom: 4px;">Watch out for</div><div style="color: #323A45;">The preview takes width, so the settings column is narrower. The right panel shows both groups at once, so the tabs only separate settings.</div></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">Use the Mockup view bar to switch between Amazon, Walmart and Target. Edit a file name pattern to see the sample names change.</div><div style="width: 1440px; height: 1100px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Public Channel Rules B" hint-size="1440px,1100px"></dc-import></div></div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; max-width: 1000px; font-size: 13px; line-height: 1.5;">
+    <div style="font-size: 16px; font-weight: 600;">Assumptions to check</div>
+    <div style="color: #323A45;">Walmart and Target have no framing rule, so the Frame setting shows “No rule” and cannot be turned on. The sample min and max sizes are placeholders until the channel owners confirm them.</div>
+    <div style="color: #323A45;">{position} is a number. For a name like main on the first image and pt2 on the rest, set the patterns by position: image 1 gets {asin}.main.jpg and the others get {asin}.pt{position}.jpg.</div>
+    <div style="color: #323A45;">Public channel product shot rules (background, resolution, framing, size) are locked, with no skip switches, because the handling is fixed. Sizes, patterns and lifestyle defaults per channel are placeholders until the channel owners confirm them.</div>
+    <div style="color: #323A45;">“Above the lips and below the nose” is written as a crop line that sits below the nose and above the lips. Please confirm that is the intended cut.</div>
+    <div style="color: #323A45;">Two product shots with the same tag get a number (front, front2) by default. The customer can keep the tag instead, and the preview warns when names then clash.</div>
+    <div style="color: #323A45;">Created images, videos and captions go to review, the same as other AI generation.</div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>
