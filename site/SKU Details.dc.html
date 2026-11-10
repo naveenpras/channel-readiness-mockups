@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="fonts.css">
 <script src="icons.js"></script>
 <script src="./image-slot.js"></script>
+<script src="./edit-product-data.js"></script>
 <style>
   html { scroll-behavior: smooth; }
   html, body { margin: 0; padding: 0; background: #fff; }
@@ -20,9 +21,10 @@
   @keyframes cc-fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes cc-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
 </style>
+<template id="__bundler_thumbnail" data-bg-color="#3448C5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#3448C5"/><text x="50" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#fff">SKU</text></svg></template>
 </helmet>
 
-<div data-screen-label="SKU details" style="display: flex; min-height: 100vh; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
+<div data-screen-label="Product details" style="display: flex; min-height: 100vh; background: #fff; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
 <div style="position: sticky; top: 0; height: calc(100vh - 32px); align-self: flex-start; width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
     <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #3448C5; margin-bottom: 8px;">
       <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="cloud" size="26" hint-size="26px,26px"></x-import>
@@ -80,9 +82,22 @@
         </a>
       </div>
 
-      <div style="padding: 16px 32px 0;">
-        <div style="font-size: 13px; color: #8A94A6; letter-spacing: 0.01em;">{{ editSkuCode }}</div>
-        <div style="font-size: clamp(20px, 5.5vw, 28px); font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; overflow-wrap: break-word; max-width: 100%;">{{ editName }}</div>
+      <div style="padding: 16px 32px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;">
+        <div style="min-width: 0; flex: 1;">
+          <div style="font-size: 13px; color: #8A94A6; letter-spacing: 0.01em;">{{ editSkuCode }}</div>
+          <div style="font-size: clamp(20px, 5.5vw, 28px); font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; overflow-wrap: break-word; max-width: 100%;">{{ editName }}</div>
+          <sc-if value="{{ hasMeta }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 10px;">
+              <sc-for list="{{ metaChips }}" as="m" hint-placeholder-count="4">
+                <span style="display: inline-flex; align-items: center; gap: 6px; max-width: 100%; height: 24px; padding: 0 9px; border-radius: 4px; background: #F1F3F7; font-size: 12px; color: #636D7E;">{{ m.k }}<span style="font-family: {{ m.font }}; font-weight: 600; color: #0A0C0F; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ m.v }}</span></span>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <a href="{{ editProductHref }}" style="flex: 0 0 auto; height: 40px; padding: 0 20px; border-radius: 4px; border: 1px solid #3448C5; background: #3448C5; color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap; box-shadow: 0 1px 2px rgba(52,72,197,0.3);" style-hover="background: #2B3BAD; border-color: #2B3BAD;" style-hover="background: #F7F8FA; text-decoration: none;">
+          <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="edit" size="16" hint-size="16px,16px"></x-import>
+          Edit product
+        </a>
       </div>
 
       <div style="padding: 20px 32px 0;">
@@ -106,19 +121,25 @@
         <div style="display: flex; gap: 18px; overflow-x: auto; padding: 18px 0 4px;">
           <sc-for list="{{ positions }}" as="p" hint-placeholder-count="6">
             <div style="width: 132px; flex: 0 0 132px;">
-              <sc-if value="{{ p.filled }}" hint-placeholder-val="{{ true }}">
-                <div onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="position: relative;">
+              <div onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="position: relative; width: 132px; height: 132px;">
+                <sc-if value="{{ p.isImage }}" hint-placeholder-val="{{ true }}">
                   <image-slot id="{{ p.id }}" src="{{ p.img }}" shape="rounded" radius="8" fit="contain" no-controls="" placeholder="{{ p.label }} photo" style="width: 132px; height: 132px; display: block;"></image-slot>
-                  <div onClick="{{ p.toggleMenu }}" style="position: absolute; top: 6px; right: 6px; z-index: 6; width: 24px; height: 24px; border-radius: 4px; background: rgba(255,255,255,0.92); box-shadow: 0 1px 3px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; opacity: {{ p.kebabOpacity }}; pointer-events: {{ p.kebabEvents }}; transition: opacity 120ms ease;" style-hover="background: #fff;">
-                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="more_vert" size="16" hint-size="16px,16px"></x-import>
-                  </div>
+                </sc-if>
+                <sc-if value="{{ p.isVideo }}" hint-placeholder-val="{{ false }}">
+                  <div style="position: relative; width: 132px; height: 132px; border-radius: 8px; overflow: hidden; background: #0A0C0F;"><img src="{{ p.img }}" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; display: block;"><span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"><span style="width: 40px; height: 40px; border-radius: 9999px; background: rgba(255,255,255,0.92); color: #0A0C0F; display: flex; align-items: center; justify-content: center;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="play_arrow" size="24" hint-size="24px,24px"></x-import></span></span></div>
+                </sc-if>
+                <sc-if value="{{ p.isVtt }}" hint-placeholder-val="{{ false }}">
+                  <div style="width: 132px; height: 132px; box-sizing: border-box; border-radius: 8px; border: 1px solid #EAEDF2; background: #F7F8FA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #636D7E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="description" size="32" hint-size="32px,32px"></x-import><span style="font-size: 11px; font-weight: 600;">WebVTT captions</span></div>
+                </sc-if>
+                <div onClick="{{ p.openDetail }}" title="Open preview" style="position: absolute; inset: 0; z-index: 5; border-radius: 8px; cursor: pointer;"></div>
+                <span style="position: absolute; top: 6px; left: 6px; z-index: 6; min-width: 22px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: 11px; background: rgba(10,12,15,0.78); color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; pointer-events: none;">{{ p.seq }}</span>
+                <span onClick="{{ p.moveLeft }}" title="Move earlier in the sequence" style="position: absolute; left: 6px; bottom: 6px; z-index: 6; width: 24px; height: 24px; border-radius: 12px; background: rgba(255,255,255,0.94); box-shadow: 0 1px 3px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; opacity: {{ p.leftShow }}; pointer-events: {{ p.leftEvents }}; transition: opacity 120ms ease;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_left" size="18" hint-size="18px,18px"></x-import></span>
+                <span onClick="{{ p.moveRight }}" title="Move later in the sequence" style="position: absolute; right: 6px; bottom: 6px; z-index: 6; width: 24px; height: 24px; border-radius: 12px; background: rgba(255,255,255,0.94); box-shadow: 0 1px 3px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; opacity: {{ p.rightShow }}; pointer-events: {{ p.rightEvents }}; transition: opacity 120ms ease;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_right" size="18" hint-size="18px,18px"></x-import></span>
+                <div onClick="{{ p.toggleMenu }}" style="position: absolute; top: 6px; right: 6px; z-index: 6; width: 24px; height: 24px; border-radius: 4px; background: rgba(255,255,255,0.92); box-shadow: 0 1px 3px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; color: #323A45; cursor: pointer; opacity: {{ p.kebabOpacity }}; pointer-events: {{ p.kebabEvents }}; transition: opacity 120ms ease;" style-hover="background: #fff;">
+                  <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="more_vert" size="16" hint-size="16px,16px"></x-import>
                 </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px;">
-                  <sc-for list="{{ p.activeChips }}" as="chip" hint-placeholder-count="1">
-                    <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: {{ chip.tint }}; color: {{ chip.color }};">{{ chip.name }}</span>
-                  </sc-for>
-                </div>
-              </sc-if>
+              </div>
+              <div style="margin-top: 8px; font-size: 12px; font-weight: 600; color: {{ p.labFg }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ p.labText }}</div>
             </div>
           </sc-for>
           <div onClick="{{ addOriginal }}" style="width: 132px; flex: 0 0 132px; height: 132px; border: 1px dashed #C4CBD8; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #3448C5; cursor: pointer; background: #fff;" style-hover="background: rgba(52,72,197,0.06); border-color: #3448C5;">
@@ -175,6 +196,7 @@
                   </sc-if>
                   <sc-if value="{{ showAssetLabels }}" hint-placeholder-val="{{ true }}">
                     <div style="font-size: 11px; color: #636D7E; margin-top: 6px; text-align: center;">{{ item.label }}</div>
+                  
                   </sc-if>
                 </div>
               </sc-for>
@@ -186,7 +208,7 @@
 
     <sc-if value="{{ kebabPanel }}" hint-placeholder-val="{{ false }}">
       <div onClick="{{ closeKebabMenu }}" style="position: fixed; inset: 0; z-index: 69;"></div>
-      <div style="position: fixed; top: {{ kebabPanel.top }}px; left: {{ kebabPanel.left }}px; z-index: 70; min-width: 176px; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.20); padding: 4px;">
+      <div style="position: fixed; top: {{ kebabPanel.top }}px; left: {{ kebabPanel.left }}px; z-index: 70; min-width: 188px; max-height: 70vh; overflow-y: auto; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.20); padding: 4px;">
         <div onClick="{{ kebabPanel.replace }}" style="display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
           <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="sync" size="16" hint-size="16px,16px"></x-import>
           Replace
@@ -196,22 +218,20 @@
           Unlink from SKU
         </div>
         <div style="height: 1px; background: #EAEDF2; margin: 4px 2px;"></div>
-        <div style="font-size: 11px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 10px 4px;">Add Label</div>
-        <sc-for list="{{ kebabPanel.labelOptions }}" as="opt" hint-placeholder-count="3">
-          <div onClick="{{ opt.toggle }}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
+        <div style="font-size: 11px; font-weight: 600; color: #8A94A6; text-transform: uppercase; letter-spacing: 0.03em; padding: 8px 10px 4px;">Label</div>
+        <sc-for list="{{ kebabPanel.labelOptions }}" as="opt" hint-placeholder-count="4">
+          <div onClick="{{ opt.pick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 32px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
             <span>{{ opt.name }}</span>
-            <sc-if value="{{ opt.checked }}" hint-placeholder-val="{{ false }}">
-              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="16" hint-size="16px,16px" color="#323A45"></x-import>
-            </sc-if>
+            <sc-if value="{{ opt.checked }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="16" hint-size="16px,16px" color="#323A45"></x-import></sc-if>
           </div>
         </sc-for>
-        <div style="height: 1px; background: #EAEDF2; margin: 4px 2px;"></div>
-        <div style="display: flex; align-items: center; gap: 4px; padding: 4px 2px;">
-          <input value="{{ kebabPanel.customDraft }}" onChange="{{ kebabPanel.onCustomDraft }}" onKeyDown="{{ kebabPanel.onCustomKeyDown }}" placeholder="Custom label…" style="flex: 1; min-width: 0; height: 30px; padding: 0 8px; border: 1px solid #D1D6E0; border-radius: 4px; font-family: inherit; font-size: 12px; outline: none; box-sizing: border-box;">
-          <div onClick="{{ kebabPanel.addCustom }}" style="flex: 0 0 auto; width: 28px; height: 28px; border-radius: 4px; background: #F1F3F7; color: #3448C5; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: rgba(52,72,197,0.10);">
-            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>
+        <sc-if value="{{ kebabPanel.showSetMain }}" hint-placeholder-val="{{ true }}">
+          <div style="height: 1px; background: #EAEDF2; margin: 4px 2px;"></div>
+          <div onClick="{{ kebabPanel.setMain }}" style="display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 10px; border-radius: 4px; font-size: 13px; color: #0A0C0F; cursor: pointer;" style-hover="background: #F7F8FA;">
+            <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="16" hint-size="16px,16px"></x-import>
+            Set as main image
           </div>
-        </div>
+        </sc-if>
       </div>
     </sc-if>
 
@@ -264,24 +284,54 @@
           </div>
         </div>
         <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 20px;">
-          <div style="width: 100%; aspect-ratio: 1; background: #F7F8FA; border: 1px solid #EAEDF2; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box; position: relative;">
+          <div style="position: relative; width: 100%; aspect-ratio: 1; background: #F7F8FA; border: 1px solid #EAEDF2; border-radius: 8px; overflow: hidden; box-sizing: border-box;">
+            <div style="position: absolute; inset: 0; overflow: auto;">
+              <div style="width: {{ zoomPct }}; height: {{ zoomPct }}; display: flex; align-items: center; justify-content: center;">
+                <sc-if value="{{ detailIsSlot }}" hint-placeholder-val="{{ false }}">
+                  <image-slot id="{{ detailPreviewId }}" src="{{ detailImg }}" shape="rect" fit="contain" no-controls="" placeholder="{{ detailLabel }}" style="width: 100%; height: 100%; display: block;"></image-slot>
+                </sc-if>
+                <sc-if value="{{ origIsImg }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ detailImg }}" alt="" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                </sc-if>
+                <sc-if value="{{ detailIsMissing }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; color: #A6AEBC;">
+                    <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ detailIcon }}" size="48" hint-size="48px,48px"></x-import>
+                    <span style="font-size: 13px; color: #8A94A6;">No asset yet</span>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ origIsVideo }}" hint-placeholder-val="{{ false }}">
+              <video src="{{ detailVideoSrc }}" poster="{{ detailImg }}" controls="" preload="metadata" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #0A0C0F;"></video>
+            </sc-if>
+            <sc-if value="{{ origIsVtt }}" hint-placeholder-val="{{ false }}">
+              <div style="position: absolute; inset: 0; overflow: auto; background: #fff; padding: 24px 56px;"><pre style="margin: 0; font-family: 'Roboto Mono', monospace; font-size: 13px; line-height: 1.6; color: #0A0C0F; white-space: pre-wrap;">{{ detailVtt }}</pre></div>
+            </sc-if>
             <div onClick="{{ detailPrev }}" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 9999px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; opacity: {{ detailPrevOpacity }};" style-hover="background: #F7F8FA;">
               <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_left" size="22" hint-size="22px,22px" color="#323A45"></x-import>
             </div>
             <div onClick="{{ detailNext }}" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 9999px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; opacity: {{ detailNextOpacity }};" style-hover="background: #F7F8FA;">
               <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="chevron_right" size="22" hint-size="22px,22px" color="#323A45"></x-import>
             </div>
-            <sc-if value="{{ detailIsImg }}" hint-placeholder-val="{{ false }}">
-              <image-slot id="{{ detailPreviewId }}" src="{{ detailImg }}" shape="rect" fit="contain" no-controls="" placeholder="{{ detailLabel }}" style="width: 100%; height: 100%; display: block;"></image-slot>
-            </sc-if>
-            <sc-if value="{{ detailIsMissing }}" hint-placeholder-val="{{ false }}">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; color: #A6AEBC;">
-                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="{{ detailIcon }}" size="48" hint-size="48px,48px"></x-import>
-                <span style="font-size: 13px; color: #8A94A6;">No asset yet</span>
+            <sc-if value="{{ showZoom }}" hint-placeholder-val="{{ true }}">
+              <div style="position: absolute; top: 12px; right: 12px; z-index: 3; display: flex; align-items: center; height: 32px; border-radius: 4px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); overflow: hidden;">
+                <span onClick="{{ zoomOut }}" title="Zoom out" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #323A45; cursor: pointer;" style-hover="background: #F1F3F7;">&minus;</span>
+                <span onClick="{{ zoomReset }}" title="Reset zoom" style="min-width: 46px; text-align: center; font-size: 12px; font-weight: 600; color: #323A45; cursor: pointer;">{{ zoomLabel }}</span>
+                <span onClick="{{ zoomIn }}" title="Zoom in" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #323A45; cursor: pointer;" style-hover="background: #F1F3F7;">+</span>
               </div>
             </sc-if>
           </div>
           <div style="margin-top: 20px; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #EAEDF2;">
+              <span style="font-size: 12px; color: #8A94A6; flex: 0 0 auto;">{{ detailPubLabel }}</span>
+              <a href="{{ detailOpenHref }}" onClick="{{ detailOpen }}" target="_blank" rel="noopener" title="Open in a new tab, no transformations" style="display: inline-flex; align-items: flex-start; gap: 5px; font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 600; line-height: 1.4; color: #3448C5; text-align: right; overflow-wrap: anywhere;" style-hover="text-decoration: underline;"><span>{{ detailPublicId }}</span><span style="flex: 0 0 auto; display: flex; margin-top: 1px;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="open_in_new" size="13" hint-size="13px,13px"></x-import></span></a>
+            </div>
+            <sc-if value="{{ detailIsOrig }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #EAEDF2;"><span style="font-size: 12px; color: #8A94A6; flex: 0 0 auto;">Label</span><span style="font-size: 13px; font-weight: 600; color: #0A0C0F; text-align: right;">{{ detailLabelText }}</span></div>
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #EAEDF2;"><span style="font-size: 12px; color: #8A94A6; flex: 0 0 auto;">Sequence</span><span style="font-size: 13px; font-weight: 600; color: #0A0C0F; text-align: right;">{{ detailSeqText }}</span></div>
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #EAEDF2;"><span style="font-size: 12px; color: #8A94A6; flex: 0 0 auto;">Type</span><span style="font-size: 13px; font-weight: 600; color: #0A0C0F; text-align: right;">{{ detailType }}</span></div>
+            </sc-if>
+            <sc-if value="{{ detailIsChannel }}" hint-placeholder-val="{{ true }}">
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EAEDF2;">
               <span style="font-size: 12px; color: #8A94A6;">Required size</span>
               <span style="font-size: 13px; font-weight: 600; color: #0A0C0F;">{{ detailReqSize }}</span>
@@ -297,6 +347,7 @@
               <span style="font-size: 12px; color: #8A94A6;">Format</span>
               <span style="font-size: 13px; font-weight: 600; color: #0A0C0F;">{{ detailFormat }}</span>
             </div>
+            </sc-if>
           </div>
         </div>
         <sc-if value="{{ detailHasAsset }}" hint-placeholder-val="{{ true }}">
@@ -644,6 +695,16 @@ const ACTIVE_SKU = (function () {
 
 const PRODUCT = PRODUCTS[ACTIVE_SKU];
 
+// Metadata that is already on the product, shown beside the SKU and name. Edited on Edit product.
+const META_CHIPS = (function () {
+  try {
+    const E = window.EP, p = E && E.PRODUCTS[ACTIVE_SKU];
+    if (!p) return [];
+    return E.fieldRows(p, E.blank(), E.FIELDS_JIRA).filter((r) => r.value && r.key !== 'name' && !r.multi)
+      .map((r) => ({ k: r.label, v: r.value, font: r.font }));
+  } catch (e) { return []; }
+})();
+
 // One readiness verdict per channel expands into a cell per asset type.
 const CELL_PATTERN = {
   ok: ['ok', 'ok', 'ok', 'ok', 'ok'],
@@ -662,6 +723,19 @@ const ENRICH = ENRICH_TYPES.map((t, i) => ({
 }));
 
 const ANGLES = PRODUCT.angles;
+
+// Public ids sit in the product's folder. Videos and captions come after the images in the same sequence.
+const SKU_FOLDER = (function () {
+  try { const p = window.EP && window.EP.PRODUCTS[ACTIVE_SKU]; if (p && p.folder) return p.folder; } catch (e) { /* use the default */ }
+  return 'catalog/' + ACTIVE_SKU.split('-')[0].toLowerCase();
+})();
+const ORIG_LABELS = ['Main', 'Back', 'Side', 'Angle', 'Detail', 'Pair', 'Lifestyle', 'Packaging', 'Scale', 'Infographic'];
+const VIDEO_URL = 'https://res.cloudinary.com/demo/video/upload/dog.mp4';
+const VTT_TEXT = 'WEBVTT\n\n00:00.000 --> 00:03.500\nMeet the ' + PRODUCT.name + '.\n\n00:03.500 --> 00:07.000\nBuilt for everyday use and shot in the studio.\n\n00:07.000 --> 00:11.000\nSee every angle before you buy.';
+const MEDIA = [
+  { pos: ANGLES.length + 1, id: 'orig-video', kind: 'video', label: 'Demo video', caption: 'Video', img: ANGLES[0].img, src: VIDEO_URL },
+  { pos: ANGLES.length + 2, id: 'orig-vtt', kind: 'vtt', label: 'Captions', caption: 'WebVTT', img: '', text: VTT_TEXT },
+];
 
 const TYPE_IMG = PRODUCT.typeImg;
 
@@ -687,7 +761,7 @@ const REQ_SIZE = {
 const ACTUAL_SIZE = PRODUCT.actual;
 
 class Component extends DCLogic {
-  state = { reorder: false, chFilter: null, pillMenu: null, removedChannels: [], preview: null,
+  state = { order: null, lab: {}, origDetail: null, zoom: 1, reorder: false, chFilter: null, pillMenu: null, removedChannels: [], preview: null,
     detailPanelOpen: false, detailChannel: null, detailIndex: 0,
     replacePanelOpen: false, replaceItemLabel: '', replaceSlotId: null, replaceTab: 'upload', genPrompt: '',
     assetsChanged: false, rerunModalOpen: false, rerunChannelOn: { amazon: true, aplus: true, walmart: true, target: true, google: true, brand: true }, rerunToast: null, removedItems: {}, filledItems: {}, originalLabels: {}, kebabMenu: null, kebabTop: 0, kebabLeft: 0, customDrafts: {}, extraOriginals: [], hoverOrig: null, unlinked: [], origImg: {},
@@ -727,6 +801,41 @@ class Component extends DCLogic {
     const s = this.state;
     const cols = CHANNELS;
 
+    // Originals in sequence order. Images, videos and captions share one sequence.
+    const allOrig = [...ANGLES.map((a) => ({ ...a, kind: 'image' })), ...MEDIA, ...s.extraOriginals.map((a) => ({ ...a, kind: 'image' }))].filter((a) => !s.unlinked.includes(a.id));
+    const byOrder = s.order ? [...allOrig].sort((a, b) => { const ia = s.order.indexOf(a.id), ib = s.order.indexOf(b.id); return (ia < 0 ? 999 + a.pos : ia) - (ib < 0 ? 999 + b.pos : ib); }) : allOrig;
+    const labelOf = (a) => (a.id in s.lab ? s.lab[a.id] : (a.kind === 'image' && a.pos === 1 ? 'Main' : ''));
+    const pubId = (a) => SKU_FOLDER + '/' + ACTIVE_SKU + (a.kind === 'video' ? '_demo' : a.kind === 'vtt' ? '_captions.vtt' : '_' + a.pos);
+    const imgOf = (a) => s.origImg[a.id] || a.img;
+    const hrefOf = (a) => (a.kind === 'video' ? a.src : a.kind === 'vtt' ? '#' : imgOf(a));
+    const openOf = (a) => (e) => { if (e) e.stopPropagation(); if (a.kind === 'vtt') { if (e) e.preventDefault(); try { window.open(URL.createObjectURL(new Blob([a.text], { type: 'text/vtt' })), '_blank'); } catch (err) { /* blocked */ } } };
+    const toast = (msg) => { this.setState({ rerunToast: msg }); if (this._toastTimer) clearTimeout(this._toastTimer); this._toastTimer = setTimeout(() => this.setState({ rerunToast: null }), 2600); };
+    const shortId = (a) => pubId(a).split('/').pop();
+    const imgs = byOrder.filter((a) => a.kind === 'image');
+    const sourceFor = (type, idx) => (type === 'Main image' ? (imgs.find((a) => labelOf(a) === 'Main') || imgs[0]) : imgs[Math.min(idx, imgs.length - 1)]) || null;
+    const moveTo = (id, to) => {
+      const ids = byOrder.map((a) => a.id), from = ids.indexOf(id);
+      if (from < 0 || to < 0 || to >= ids.length || from === to) return;
+      ids.splice(to, 0, ids.splice(from, 1)[0]);
+      this.setState({ order: ids });
+      toast('Sequence updated in metadata');
+    };
+    const setLabel = (id, v) => {
+      const next = { ...s.lab };
+      if (v === 'Main') allOrig.forEach((a) => { if (labelOf(a) === 'Main') next[a.id] = ''; });
+      next[id] = v;
+      this.setState({ lab: next });
+      toast(v ? 'Label saved: ' + v : 'Label removed');
+    };
+    const setMain = (id) => {
+      const next = { ...s.lab };
+      allOrig.forEach((a) => { if (labelOf(a) === 'Main') next[a.id] = ''; });
+      next[id] = 'Main';
+      const ids = byOrder.map((a) => a.id); ids.splice(0, 0, ids.splice(ids.indexOf(id), 1)[0]);
+      this.setState({ lab: next, order: ids });
+      toast('Main image set. Sequence updated in metadata');
+    };
+
     const badgeFor = (c, size) => React.createElement('span', { style: { width: size + 'px', height: size + 'px', borderRadius: '6px',
       background: c.color, color: '#fff', fontSize: Math.round(size * 0.42) + 'px', fontWeight: 700, display: 'flex',
       alignItems: 'center', justifyContent: 'center', flex: '0 0 auto' } }, c.initial);
@@ -756,7 +865,11 @@ class Component extends DCLogic {
           generate: (e) => { e.stopPropagation(); },
           slotId, img, reqSize, actSize, actUnder, previewId: slotId + '-detail',
           replace: doReplace, remove: doRemove,
-          openDetail: (e) => { e.stopPropagation(); this.setState({ detailPanelOpen: true, detailChannel: c.key, detailIndex: idx }); },
+          srcAsset: sourceFor(r.type, idx),
+          hasLink: hasAsset && !!sourceFor(r.type, idx),
+          linkText: sourceFor(r.type, idx) ? '…/' + shortId(sourceFor(r.type, idx)) : '', linkTitle: sourceFor(r.type, idx) ? 'Source original: ' + pubId(sourceFor(r.type, idx)) : '',
+          linkHref: sourceFor(r.type, idx) ? hrefOf(sourceFor(r.type, idx)) : '#', openLink: sourceFor(r.type, idx) ? openOf(sourceFor(r.type, idx)) : () => {},
+          openDetail: (e) => { e.stopPropagation(); this.setState({ detailPanelOpen: true, detailChannel: c.key, detailIndex: idx, origDetail: null, zoom: 1 }); },
         };
       });
       return { name: c.short || c.name, badge: badgeFor(c, 28), items, anchorId: 'ch-' + c.key, key: c.key };
@@ -767,12 +880,22 @@ class Component extends DCLogic {
     const detailCount = detailItems.length;
     const detailIdx = detailCount ? Math.max(0, Math.min(s.detailIndex, detailCount - 1)) : 0;
     const detailItem = detailItems[detailIdx] || null;
+    const origIdx = s.origDetail ? byOrder.findIndex((a) => a.id === s.origDetail) : -1;
+    const detailOrig = origIdx >= 0 ? byOrder[origIdx] : null;
+    const isOrig = !!detailOrig;
+    const navCount = isOrig ? byOrder.length : detailCount, navIdx = isOrig ? origIdx : detailIdx;
+    const srcAsset = isOrig ? detailOrig : (detailItem ? detailItem.srcAsset : null);
+    const zoomPct = Math.round(s.zoom * 100) + '%';
+    const setZoom = (z) => this.setState({ zoom: Math.max(1, Math.min(4, z)) });
+    const typeOf = (a) => (a.kind === 'video' ? 'Video · MP4' : a.kind === 'vtt' ? 'Captions · WebVTT' : 'Image · JPG');
 
     const runId = new URLSearchParams(location.search).get('run');
     const backHref = runId ? PAGE('Run Details') + '?run=' + encodeURIComponent(runId) : PAGE('Products');
     const goHome = (e) => { if (e) e.preventDefault(); window.location.href = backHref; };
     return { goHome, backHref, backLabel: runId ? 'Run details' : 'Products',
+      hasMeta: META_CHIPS.length > 0, metaChips: META_CHIPS,
       editSkuCode: ACTIVE_SKU,
+      editProductHref: PAGE('Edit Product') + '?sku=' + encodeURIComponent(ACTIVE_SKU) + (runId ? '&run=' + encodeURIComponent(runId) : ''),
       editName: PRODUCT.name,
       showAssetLabels: this.props.showAssetLabels ?? true,
 
@@ -786,14 +909,16 @@ class Component extends DCLogic {
       toggleReorder: () => this.setState({ reorder: !s.reorder }),
       addOriginal: () => {
         const n = s.extraOriginals.length + 1;
-        const item = { pos: ANGLES.length + n, id: 'orig-extra-' + n, label: 'New original', caption: 'Uploaded', img: '' };
+        const item = { pos: ANGLES.length + MEDIA.length + n, id: 'orig-extra-' + n, label: 'New original', caption: 'Uploaded', img: '' };
         this.setState({ extraOriginals: [...s.extraOriginals, item] });
         setTimeout(() => { const el = document.getElementById(item.id); if (el && el.openFilePicker) el.openFilePicker(); }, 60);
       },
-      positions: [...ANGLES, ...s.extraOriginals].filter((a) => !s.unlinked.includes(a.id)).map((a) => {
-        const active = s.originalLabels[a.id] || [];
+      positions: byOrder.map((a, i) => {
+        const lab = labelOf(a), isMain = lab === 'Main';
         return {
-          pos: a.pos, id: a.id, label: a.label, caption: a.caption, img: s.origImg[a.id] || a.img, filled: true, empty: false,
+          id: a.id, label: a.label, caption: a.caption, img: imgOf(a), seq: i + 1,
+          isImage: a.kind === 'image', isVideo: a.kind === 'video', isVtt: a.kind === 'vtt',
+          publicId: pubId(a), shortId: '…/' + shortId(a), openHref: hrefOf(a), openAsset: openOf(a),
           onEnter: () => { if (this.state.hoverOrig !== a.id) this.setState({ hoverOrig: a.id }); },
           onLeave: () => { if (this.state.hoverOrig === a.id) this.setState({ hoverOrig: null }); },
           kebabOpacity: (s.hoverOrig === a.id || s.kebabMenu === a.id) ? '1' : '0',
@@ -804,31 +929,28 @@ class Component extends DCLogic {
             const r = e.currentTarget.getBoundingClientRect();
             this.setState({ kebabMenu: a.id, kebabTop: r.bottom + 6, kebabLeft: Math.max(8, r.right - 176) });
           },
-          activeChips: active.map((name) => ({ name, tint: '#F1F3F7', color: '#323A45' })),
+          openDetail: (e) => { e.stopPropagation(); this.setState({ detailPanelOpen: true, origDetail: a.id, zoom: 1 }); },
+          moveLeft: (e) => { e.stopPropagation(); moveTo(a.id, i - 1); }, moveRight: (e) => { e.stopPropagation(); moveTo(a.id, i + 1); },
+          leftShow: i > 0 && (s.hoverOrig === a.id) ? '1' : '0', leftEvents: i > 0 && (s.hoverOrig === a.id) ? 'auto' : 'none',
+          rightShow: i < byOrder.length - 1 && (s.hoverOrig === a.id) ? '1' : '0', rightEvents: i < byOrder.length - 1 && (s.hoverOrig === a.id) ? 'auto' : 'none',
+          opts: [{ v: '', t: 'No label', sel: !lab }].concat(ORIG_LABELS.map((l) => ({ v: l, t: l, sel: lab === l }))),
+          onLabel: (e) => setLabel(a.id, e.target.value),
+          labFg: isMain ? '#3448C5' : lab ? '#0A0C0F' : '#8A94A6', labText: lab || 'No label',
         };
       }),
 
       closeKebabMenu: () => this.setState({ kebabMenu: null }),
       kebabPanel: (() => {
         if (!s.kebabMenu) return null;
-        const id = s.kebabMenu;
-        const active = s.originalLabels[id] || [];
+        const id = s.kebabMenu, a = allOrig.find((x) => x.id === id);
+        if (!a) return null;
         return {
           top: s.kebabTop, left: s.kebabLeft,
           replace: () => this.setState({ kebabMenu: null, galleryOpen: true, galleryTarget: id, gallerySearch: '' }),
           unlink: () => this.setState((st2) => ({ kebabMenu: null, hoverOrig: null, unlinked: [...st2.unlinked, id], assetsChanged: true })),
-          labelOptions: LABEL_TAGS.map((tag) => ({
-            name: tag.name, color: tag.color, checked: active.includes(tag.name),
-            toggle: (e) => { e.stopPropagation(); this.setState((st2) => {
-              const cur = st2.originalLabels[id] || [];
-              const next = cur.includes(tag.name) ? cur.filter((n) => n !== tag.name) : [...cur, tag.name];
-              return { originalLabels: { ...st2.originalLabels, [id]: next } };
-            }); },
-          })),
-          customDraft: s.customDrafts[id] || '',
-          onCustomDraft: (e) => this.setState((st2) => ({ customDrafts: { ...st2.customDrafts, [id]: e.target.value } })),
-          addCustom: (e) => { e.stopPropagation(); this.addCustomLabel(id); },
-          onCustomKeyDown: (e) => { if (e.key === 'Enter') { e.stopPropagation(); this.addCustomLabel(id); } },
+          labelOptions: [{ name: 'No label', v: '' }].concat(ORIG_LABELS.map((l) => ({ name: l, v: l }))).map((o) => ({ name: o.name, checked: labelOf(a) === o.v, pick: (e) => { e.stopPropagation(); this.setState({ kebabMenu: null }); setLabel(id, o.v); } })),
+          showSetMain: a.kind === 'image' && labelOf(a) !== 'Main',
+          setMain: () => { this.setState({ kebabMenu: null }); setMain(id); },
         };
       })(),
 
@@ -846,7 +968,7 @@ class Component extends DCLogic {
 
       galleryOpen: s.galleryOpen,
       galleryTargetLabel: (() => {
-        const a = [...ANGLES, ...s.extraOriginals].find((x) => x.id === s.galleryTarget);
+        const a = allOrig.find((x) => x.id === s.galleryTarget);
         return a ? 'Replacing ' + a.label : '';
       })(),
       gallerySearch: s.gallerySearch,
@@ -897,8 +1019,8 @@ class Component extends DCLogic {
       rerunToast: s.rerunToast,
 
       detailPanelOpen: s.detailPanelOpen,
-      detailLabel: detailItem ? (detailRow.name + ' - ' + detailItem.label) : '',
-      detailImg: detailItem ? detailItem.img : '',
+      detailLabel: isOrig ? ('Original ' + (origIdx + 1) + (labelOf(detailOrig) ? ' · ' + labelOf(detailOrig) : '')) : (detailItem ? (detailRow.name + ' - ' + detailItem.label) : ''),
+      detailImg: isOrig ? imgOf(detailOrig) : (detailItem ? detailItem.img : ''),
       detailPreviewId: detailItem ? detailItem.previewId : 'detail-preview-default',
       detailReqSize: detailItem ? detailItem.reqSize : '',
       detailActSize: detailItem ? detailItem.actSize : '',
@@ -906,18 +1028,32 @@ class Component extends DCLogic {
       detailActNote: detailItem && detailItem.actUnder ? 'Below the required size — upscale or recapture' : '',
       detailActUnder: !!(detailItem && detailItem.actUnder),
       detailIcon: 'image',
-      detailHasAsset: detailItem ? detailItem.hasAsset : false,
-      detailIsMissing: detailItem ? !detailItem.hasAsset : false,
-      detailIsImg: detailItem ? detailItem.hasAssetImg : false,
+      detailHasAsset: isOrig ? true : (detailItem ? detailItem.hasAsset : false),
+      detailIsMissing: !isOrig && detailItem ? !detailItem.hasAsset : false,
+      detailIsSlot: !isOrig && detailItem ? detailItem.hasAssetImg : false,
+      origIsImg: isOrig && detailOrig.kind === 'image', origIsVideo: isOrig && detailOrig.kind === 'video', origIsVtt: isOrig && detailOrig.kind === 'vtt',
+      detailVideoSrc: isOrig && detailOrig.kind === 'video' ? detailOrig.src : '', detailVtt: isOrig && detailOrig.kind === 'vtt' ? detailOrig.text : '',
+      detailIsOrig: isOrig, detailIsChannel: !isOrig,
+      detailPubLabel: isOrig ? 'Public ID' : 'Source original',
+      detailPublicId: srcAsset ? pubId(srcAsset) : '', detailOpenHref: srcAsset ? hrefOf(srcAsset) : '#', detailOpen: srcAsset ? openOf(srcAsset) : () => {},
+      detailLabelText: isOrig ? (labelOf(detailOrig) || 'None') : '', detailSeqText: isOrig ? (origIdx + 1) + ' of ' + byOrder.length : '', detailType: isOrig ? typeOf(detailOrig) : '',
+      zoomPct, zoomLabel: zoomPct, zoomIn: () => setZoom(s.zoom + 0.5), zoomOut: () => setZoom(s.zoom - 0.5), zoomReset: () => setZoom(1),
+      showZoom: isOrig ? detailOrig.kind === 'image' : !!(detailItem && detailItem.hasAssetImg),
       detailFormat: detailItem ? 'JPG' : '',
-      detailReplace: (e) => { if (!detailItem) return; this.setState({ detailPanelOpen: false }); detailItem.replace(e); },
-      detailRemove: (e) => { if (detailItem) detailItem.remove(e); },
+      detailReplace: (e) => {
+        if (isOrig) { this.setState({ detailPanelOpen: false, galleryOpen: true, galleryTarget: detailOrig.id, gallerySearch: '' }); return; }
+        if (!detailItem) return; this.setState({ detailPanelOpen: false }); detailItem.replace(e);
+      },
+      detailRemove: (e) => {
+        if (isOrig) { this.setState((st2) => ({ detailPanelOpen: false, unlinked: [...st2.unlinked, detailOrig.id], assetsChanged: true })); return; }
+        if (detailItem) detailItem.remove(e);
+      },
       detailUpload: () => { if (detailItem) this.openReplacePanel(detailItem.label, detailItem.slotId, 'upload'); },
       detailGenerate: () => { if (detailItem) this.openReplacePanel(detailItem.label, detailItem.slotId, 'generate'); },
-      detailPrev: () => this.setState((st) => ({ detailIndex: Math.max(0, st.detailIndex - 1) })),
-      detailNext: () => this.setState((st) => ({ detailIndex: Math.min(detailCount - 1, st.detailIndex + 1) })),
-      detailPrevOpacity: detailIdx <= 0 ? '0.3' : '1',
-      detailNextOpacity: detailIdx >= detailCount - 1 ? '0.3' : '1',
+      detailPrev: () => { if (isOrig) { if (origIdx > 0) this.setState({ origDetail: byOrder[origIdx - 1].id, zoom: 1 }); } else this.setState((st) => ({ detailIndex: Math.max(0, st.detailIndex - 1), zoom: 1 })); },
+      detailNext: () => { if (isOrig) { if (origIdx < byOrder.length - 1) this.setState({ origDetail: byOrder[origIdx + 1].id, zoom: 1 }); } else this.setState((st) => ({ detailIndex: Math.min(detailCount - 1, st.detailIndex + 1), zoom: 1 })); },
+      detailPrevOpacity: navIdx <= 0 ? '0.3' : '1',
+      detailNextOpacity: navIdx >= navCount - 1 ? '0.3' : '1',
       closeDetailPanel: () => this.setState({ detailPanelOpen: false }),
 
       replacePanelOpen: s.replacePanelOpen,

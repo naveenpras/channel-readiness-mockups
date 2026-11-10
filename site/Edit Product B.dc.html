@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit product, drawer</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<script src="edit-product-data.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #F7F8FA; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  input, textarea, select { font-family: inherit; }
+</style>
+</helmet>
+<div data-screen-label="Edit product B" style="position: relative; height: 880px; overflow: hidden; background: #F7F8FA; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
+  <!-- The Products list sits behind the drawer, so people keep their place. -->
+  <div style="position: absolute; inset: 0; pointer-events: none;">
+    <div style="padding: 20px 28px; background: #fff; border-bottom: 1px solid #EAEDF2; display: flex; align-items: center; justify-content: space-between;">
+      <div style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Products</div>
+      <div style="height: 32px; padding: 0 12px; border-radius: 4px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">Create New Product</div>
+    </div>
+    <div style="margin: 20px 28px; background: #fff; border: 1px solid #EAEDF2; border-radius: 8px;">
+      <div style="display: grid; grid-template-columns: 56px 160px minmax(0, 1fr) 100px 120px; gap: 16px; padding: 10px 16px; border-bottom: 1px solid #EAEDF2; background: #F7F8FA; font-size: 11px; font-weight: 600; color: #636D7E;"><span></span><span>SKU</span><span>Name</span><span>Assets</span><span>Metadata</span></div>
+      <sc-for list="{{ bgRows }}" as="b" hint-placeholder-count="8">
+        <div style="display: grid; grid-template-columns: 56px 160px minmax(0, 1fr) 100px 120px; gap: 16px; align-items: center; padding: 10px 16px; border-bottom: 1px solid #F1F3F7; background: {{ b.bg }};">
+          <img src="{{ b.src }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; display: block;">
+          <span style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ b.sku }}</span>
+          <span style="font-size: 13px; color: #323A45;">{{ b.name }}</span>
+          <span style="font-size: 13px; color: #636D7E;">{{ b.count }}</span>
+          <span style="font-size: 12px; color: #636D7E;">{{ b.meta }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="position: absolute; inset: 0; background: rgba(10, 12, 15, 0.42);"></div>
+
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 620px; max-width: 100%; display: flex; flex-direction: column; background: #fff; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);">
+      <div style="display: flex; align-items: flex-start; gap: 14px; padding: 20px 24px 0;">
+        <img src="{{ headImg }}" alt="" style="width: 52px; height: 52px; object-fit: cover; border-radius: 6px; background: #F1F3F7; display: block;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+            <span style="font-family: 'Roboto Mono', monospace; font-size: 17px; font-weight: 600;">{{ sku }}</span>
+            <sc-if value="{{ hasAttn }}" hint-placeholder-val="{{ true }}"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: #FFF6E0; color: #8A5A00; border: 1px solid #F2DFA8;">{{ attnText }}</span></sc-if>
+            <sc-if value="{{ noAttn }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: #E7F6EE; color: #1B7F4B; border: 1px solid #BFE5CF;">Required metadata complete</span></sc-if>
+          </div>
+          <div style="font-size: 13px; color: #636D7E; margin-top: 3px;">{{ headSub }}</div>
+        </div>
+        <div onClick="{{ close }}" style="color: #636D7E; cursor: pointer; display: flex;" style-hover="color: #0A0C0F;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="close" size="20" hint-size="20px,20px"></x-import></div>
+      </div>
+      <div style="display: flex; gap: 26px; padding: 0 24px; margin-top: 14px; border-bottom: 1px solid #EAEDF2;">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <div onClick="{{ t.onClick }}" style="display: flex; align-items: center; gap: 6px; padding: 10px 2px 10px; font-size: 14px; font-weight: {{ t.weight }}; color: {{ t.color }}; box-shadow: {{ t.line }}; cursor: pointer;">{{ t.label }}<sc-if value="{{ t.dot }}" hint-placeholder-val="{{ false }}"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D9A526; display: block;"></span></sc-if></div>
+        </sc-for>
+      </div>
+
+      <!-- DETAILS -->
+      <sc-if value="{{ showDetails }}" hint-placeholder-val="{{ true }}">
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 4px 24px 20px;">
+          <div style="font-size: 12px; color: #636D7E; margin-top: 14px; line-height: 1.5;">{{ createdLine }}</div>
+          <div style="margin-top: 16px;">
+            <div style="font-size: 12px; font-weight: 500; color: #323A45; margin-bottom: 6px;">SKU</div>
+            <div style="height: 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border: 1px solid #DFE3EA; border-radius: 4px; background: #F7F8FA; color: #636D7E; font-family: 'Roboto Mono', monospace; font-size: 14px;"><span>{{ sku }}</span><span style="font-family: 'Inter', system-ui, sans-serif; font-size: 11px; color: #8A94A6;">Can't be changed</span></div>
+          </div>
+          <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+            <div style="margin-top: 18px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+                <div style="font-size: 12px; font-weight: 500; color: #323A45;">{{ f.label }}</div>
+                <sc-if value="{{ f.hasReq }}" hint-placeholder-val="{{ false }}"><div style="font-size: 11px; color: #8A94A6;">Required by {{ f.req }}</div></sc-if>
+              </div>
+              <sc-if value="{{ f.single }}" hint-placeholder-val="{{ true }}">
+                <input value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.ph }}" spellcheck="false" style="width: 100%; box-sizing: border-box; height: 40px; padding: 0 12px; border: 1px solid {{ f.bd }}; border-radius: 4px; font-family: {{ f.font }}; font-size: 14px; color: #0A0C0F; background: #fff; outline: none;">
+              </sc-if>
+              <sc-if value="{{ f.multi }}" hint-placeholder-val="{{ false }}">
+                <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.ph }}" rows="3" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid {{ f.bd }}; border-radius: 4px; font-size: 14px; line-height: 1.45; color: #0A0C0F; background: #fff; outline: none; resize: vertical;"></textarea>
+              </sc-if>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; font-size: 12px; min-height: 16px;">
+                <sc-if value="{{ f.hasChip }}" hint-placeholder-val="{{ true }}">
+                  <span style="display: inline-flex; align-items: center; gap: 6px; color: #636D7E;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ f.dot }}; display: block;"></span>{{ f.chipLabel }}<sc-if value="{{ f.hasFrom }}" hint-placeholder-val="{{ false }}"><span style="color: #8A94A6;">· {{ f.fromShort }}</span></sc-if></span>
+                </sc-if>
+                <sc-if value="{{ f.showMissing }}" hint-placeholder-val="{{ false }}"><span style="color: #B3261E;">Missing. Type it, or add it to the asset metadata.</span></sc-if>
+                <sc-if value="{{ f.showUndo }}" hint-placeholder-val="{{ false }}"><span style="color: #8A94A6;">{{ f.undoText }}</span><span onClick="{{ f.undo }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Undo</span></sc-if>
+              </div>
+              <sc-if value="{{ f.hasCands }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px;">
+                  <span style="font-size: 12px; color: #8A5A00; font-weight: 500;">{{ f.candIntro }}</span>
+                  <sc-for list="{{ f.cands }}" as="c" hint-placeholder-count="2">
+                    <span onClick="{{ c.pick }}" style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 14px; border: 1px solid #F2DFA8; background: #FFF9E8; cursor: pointer;" style-hover="border-color: #D9A526;"><span style="font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 600; color: #0A0C0F;">{{ c.short }}</span><span style="font-size: 11px; color: #8A94A6;">{{ c.from }}</span></span>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; padding-top: 14px; border-top: 1px solid #EAEDF2; font-size: 11px; color: #636D7E;">
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #3448C5; display: block;"></span>Read from file name</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #8A94A6; display: block;"></span>Already on the asset before the product existed</span>
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #1B7F4B; display: block;"></span>Set by you</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ASSETS -->
+      <sc-if value="{{ showAssets }}" hint-placeholder-val="{{ false }}">
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 24px 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span onClick="{{ toggleAll }}" style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 3px; border: 1px solid {{ allBd }}; background: {{ allBg }}; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;"><sc-if value="{{ allOn }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="14" hint-size="14px,14px"></x-import></sc-if></span>
+              <span style="font-size: 13px; color: #323A45; font-weight: 500;">{{ selText }}</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div onClick="{{ sortFiles }}" style="height: 30px; padding: 0 10px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 12px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Sort by file name</div>
+              <div onClick="{{ togglePicker }}" style="display: flex; align-items: center; gap: 4px; height: 30px; padding: 0 10px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 12px; font-weight: 600; cursor: pointer;" style-hover="background: #F7F8FA;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>{{ pickerBtn }}</div>
+            </div>
+          </div>
+          <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px 12px; border-radius: 6px; background: #EEF1FB; border: 1px solid #C9D1F2;">
+              <span style="font-size: 12px; font-weight: 600; color: #1F2F99;">Apply to {{ selCount }} selected</span>
+              <select value="" onChange="{{ bulkLabel }}" style="height: 28px; box-sizing: border-box; padding: 0 8px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 12px; background: #fff; color: #0A0C0F;">
+                <sc-for list="{{ bulkOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+              </select>
+              <div style="flex: 1;"></div>
+              <span onClick="{{ bulkRemove }}" style="font-size: 12px; font-weight: 600; color: #B3261E; cursor: pointer;">Remove</span>
+              <span onClick="{{ clearSel }}" style="font-size: 12px; font-weight: 500; color: #3448C5; cursor: pointer;">Clear</span>
+            </div>
+          </sc-if>
+          <div style="margin-top: 10px; border: 1px solid #EAEDF2; border-radius: 6px;">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="5">
+              <div style="display: grid; grid-template-columns: 18px 40px 44px minmax(0, 1fr) 132px 56px; gap: 10px; align-items: center; padding: 8px 12px; border-bottom: 1px solid #F1F3F7; background: {{ r.rowBg }}; opacity: {{ r.op }};">
+                <span onClick="{{ r.toggle }}" style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 3px; border: 1px solid {{ r.boxBd }}; background: {{ r.boxBg }}; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;"><sc-if value="{{ r.sel }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="14" hint-size="14px,14px"></x-import></sc-if></span>
+                <div>
+                  <div style="font-size: 15px; font-weight: 600;">{{ r.seq }}</div>
+                  <div style="font-size: 10px; color: {{ r.seqFg }};">{{ r.seqTiny }}</div>
+                </div>
+                <img src="{{ r.src }}" alt="" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px; background: #F1F3F7; display: block;">
+                <div style="min-width: 0;">
+                  <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: {{ r.strike }};">{{ r.file }}</div>
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 3px;">
+                    <sc-for list="{{ r.meta }}" as="m" hint-placeholder-count="1">
+                      <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; background: {{ m.bg }}; color: {{ m.fg }};">{{ m.k }}: <b style="font-weight: 600; margin-left: 3px;">{{ m.v }}</b></span>
+                    </sc-for>
+                    <sc-if value="{{ r.isNew }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; font-weight: 600; background: #E7F6EE; color: #1B7F4B;">New</span></sc-if>
+                    <sc-if value="{{ r.unmatched }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; border: 1px dashed #C6CDDA; color: #636D7E;">Doesn't fit the pattern</span></sc-if>
+                    <sc-if value="{{ r.unread }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; background: #FFF6E0; color: #8A5A00;">Not read yet</span></sc-if>
+                  </div>
+                </div>
+                <div>
+                  <select value="{{ r.label }}" onChange="{{ r.onLabel }}" style="width: 100%; height: 30px; box-sizing: border-box; padding: 0 6px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 12px; background: #fff; color: #0A0C0F;">
+                    <sc-for list="{{ r.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for>
+                  </select>
+                  <div style="font-size: 10px; color: {{ r.labelFg }}; margin-top: 2px; min-height: 12px;">{{ r.labelTiny }}</div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 0;">
+                  <span onClick="{{ r.up }}" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #323A45; cursor: pointer; opacity: {{ r.upOp }};" style-hover="background: #F1F3F7;"><span style="display: flex; transform: rotate(180deg);"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="20" hint-size="20px,20px"></x-import></span></span>
+                  <span onClick="{{ r.down }}" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #323A45; cursor: pointer; opacity: {{ r.downOp }};" style-hover="background: #F1F3F7;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="20" hint-size="20px,20px"></x-import></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: 14px; padding: 12px; border: 1px solid #DFE3EA; border-radius: 6px; background: #FAFBFC;">
+              <div style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px; background: #fff; border: 1px solid #C6CDDA; border-radius: 4px; color: #8A94A6;">
+                <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
+                <input value="{{ pq }}" onChange="{{ onPQ }}" placeholder="Search the media library" style="flex: 1; border: none; font-size: 13px; outline: none; background: transparent;">
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; margin-top: 10px;">
+                <sc-for list="{{ libTiles }}" as="l" hint-placeholder-count="6">
+                  <div onClick="{{ l.toggle }}" style="position: relative; border: 2px solid {{ l.bd }}; border-radius: 6px; overflow: hidden; cursor: pointer; background: #fff;">
+                    <img src="{{ l.src }}" alt="" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
+                    <span style="position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; border-radius: 3px; border: 1px solid {{ l.boxBd }}; background: {{ l.boxBg }}; color: #fff; display: flex; align-items: center; justify-content: center;"><sc-if value="{{ l.on }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
+                    <div style="padding: 4px 6px; font-family: 'Roboto Mono', monospace; font-size: 10px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ l.id }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                <div onClick="{{ addPicked }}" style="height: 30px; padding: 0 12px; border-radius: 4px; background: {{ addBg }}; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">{{ addLabel }}</div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- FILE NAMES -->
+      <sc-if value="{{ showFiles }}" hint-placeholder-val="{{ false }}">
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 16px 24px 20px;">
+          <sc-if value="{{ hasPattern }}" hint-placeholder-val="{{ true }}">
+            <div style="border: 1px solid #EAEDF2; border-radius: 6px; padding: 12px 14px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
+                <div style="font-size: 12px; font-weight: 500; color: #323A45;">Pattern used to create this product</div>
+                <div style="font-size: 11px; color: #8A94A6;">{{ patName }} · saved patterns can't be edited</div>
+              </div>
+              <div style="margin-top: 8px; height: 36px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px; border-radius: 4px; background: #F7F8FA; border: 1px solid #DFE3EA; font-family: 'Roboto Mono', monospace; font-size: 13px; color: #323A45;">{{ pattern }}</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+                <sc-for list="{{ mapRows }}" as="mp" hint-placeholder-count="3">
+                  <span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 4px; background: #F7F8FA; font-size: 12px;"><span style="font-family: 'Roboto Mono', monospace; color: #323A45;">{{ mp.token }}</span><span style="color: #8A94A6;">goes to</span><span style="font-weight: 600; color: #3448C5;">{{ mp.target }}</span></span>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="margin-top: 16px; border: 1px solid {{ rrBd }}; border-radius: 6px; padding: 12px 14px; background: {{ rrBg }};">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <div style="font-size: 14px; font-weight: 600;">Read file names again</div>
+                <div onClick="{{ toggleKeep }}" style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; color: #323A45;">
+                  <span style="position: relative; width: 32px; height: 18px; border-radius: 9px; background: {{ keepBg }}; display: block;"><span style="position: absolute; top: 2px; left: {{ keepLeft }}; width: 14px; height: 14px; border-radius: 50%; background: #fff; display: block;"></span></span>Keep values I edited
+                </div>
+              </div>
+              <div style="font-size: 12px; color: #636D7E; margin-top: 4px;">{{ rrText }}</div>
+              <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top: 10px; border: 1px solid #EAEDF2; border-radius: 6px; background: #fff;">
+                  <sc-for list="{{ rrRows }}" as="x" hint-placeholder-count="3">
+                    <div style="display: grid; grid-template-columns: 32px minmax(0, 1fr) 84px 64px; gap: 10px; align-items: center; padding: 6px 10px; border-bottom: 1px solid #F1F3F7;">
+                      <img src="{{ x.src }}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 3px; display: block;">
+                      <div style="min-width: 0;">
+                        <div style="font-family: 'Roboto Mono', monospace; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ x.id }}</div>
+                        <div style="font-size: 11px; color: #636D7E;">{{ x.field }}: {{ x.from }} → <b style="font-weight: 600; color: #0A0C0F;">{{ x.to }}</b></div>
+                      </div>
+                      <span style="justify-self: start; display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: {{ x.bg }}; color: {{ x.fg }};">{{ x.kindLabel }}</span>
+                      <span></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px;">
+                <div style="font-size: 12px; font-weight: 600; color: #323A45;">{{ rrSummary }}</div>
+                <div onClick="{{ applyRerun }}" style="height: 30px; padding: 0 12px; border-radius: 4px; background: {{ rrBtnBg }}; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">{{ rrBtn }}</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px; font-size: 14px; font-weight: 600;">File by file</div>
+            <div style="font-size: 12px; color: #636D7E; margin-top: 3px;">How each file name was read.</div>
+            <div style="margin-top: 10px; border: 1px solid #EAEDF2; border-radius: 6px;">
+              <sc-for list="{{ fileRows }}" as="fr" hint-placeholder-count="4">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid #F1F3F7;">
+                  <img src="{{ fr.src }}" alt="" style="width: 36px; height: 36px; object-fit: cover; border-radius: 3px; flex: 0 0 36px; display: block;">
+                  <sc-if value="{{ fr.matched }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 2px; min-width: 0;">
+                      <sc-for list="{{ fr.segs }}" as="sg" hint-placeholder-count="5">
+                        <span style="display: inline-flex; flex-direction: column; align-items: center;">
+                          <span style="padding: 1px 5px; border-radius: 3px; font-family: 'Roboto Mono', monospace; font-size: 12px; background: {{ sg.bg }}; color: {{ sg.fg }};">{{ sg.text }}</span>
+                          <span style="font-size: 9px; color: #8A94A6; height: 11px; line-height: 11px;">{{ sg.roleText }}</span>
+                        </span>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ fr.unmatched }}" hint-placeholder-val="{{ false }}">
+                    <div style="min-width: 0;">
+                      <div style="font-family: 'Roboto Mono', monospace; font-size: 12px;">{{ fr.id }}</div>
+                      <div style="font-size: 11px; color: #8A94A6; margin-top: 2px;">Doesn't fit the pattern. Its values are set by hand.</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noPattern }}" hint-placeholder-val="{{ false }}">
+            <div style="border: 1px dashed #C6CDDA; border-radius: 6px; padding: 24px; text-align: center; font-size: 13px; color: #636D7E; line-height: 1.5;">This product was created by hand, so there is no pattern to read.</div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 24px; border-top: 1px solid #EAEDF2; background: #fff;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 13px; font-weight: 500; color: {{ footFg }};">{{ footText }}</div>
+          <div style="font-size: 11px; color: #8A94A6; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ footDetail }}</div>
+        </div>
+        <div onClick="{{ discard }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer; opacity: {{ discardOp }};" style-hover="background: #F7F8FA;">Discard</div>
+        <div onClick="{{ save }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: {{ saveBg }}; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">Save changes</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onClose":{"editor":null,"tsType":"() => void"},"initialSku":{"editor":"text","default":"60026","tsType":"string"},"initialTab":{"editor":"enum","options":["details","assets","files"],"default":"details","tsType":"string"}}'>
+const BG = [['60026', 'Shoes black', 'shoe-hero', 4, 'Needs attention'], ['E7SA', 'E7SA signal analyzer', 'camera-front', 3, 'Complete'], ['M006OA', 'Brace polo', 'polo-front', 5, 'Complete'], ['K2PB', 'K2PB power supply', 'drill-hero', 1, 'Needs attention'], ['70026', 'Shoes white', 'shoe-alt', 2, 'Complete'], ['60107', 'Runner navy', 'shoe-side', 3, 'Complete'], ['W551AB', 'Crew tee', 'wshirt-front', 4, 'Complete'], ['APW-SHT-30026', 'Classic polo', 'polo-back', 3, 'Needs attention']];
+class Component extends DCLogic {
+  state = { fe: {}, order: null, lab: {}, removed: [], added: [], read: [], saved: false, tab: this.props.initialTab || 'details', sel: [], keep: true, picker: false, pq: '', psel: [] };
+  componentDidMount() { if (!window.EP) this._t = setInterval(() => { if (window.EP) { clearInterval(this._t); this.forceUpdate(); } }, 50); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const E = window.EP, s = this.state, set = (x) => this.setState(x), go = (x) => { if (x) set(x); };
+    const sku0 = this.props.initialSku || '60026';
+    const bgRows = BG.map(([sku, name, img, n, meta]) => ({ sku, name, src: 'assets/' + img + '.jpg', count: n + ' assets', meta, bg: sku === sku0 ? '#EEF1FB' : '#fff' }));
+    const close = (e) => { if (this.props.onClose) { if (e && e.preventDefault) e.preventDefault(); this.props.onClose(); } else window.location.href = 'Products.dc.html'; };
+    if (!E) return { bgRows, ready: false, tabs: [], fields: [], rows: [], libTiles: [], bulkOpts: [], mapRows: [], rrRows: [], fileRows: [], close };
+    const p = E.PRODUCTS[sku0] || E.PRODUCTS['60026'];
+    const ch = E.changes(p, s), A = E.assets(p, s), live = A.filter((a) => !a.removed);
+    const fields = E.fieldRows(p, s).map((r) => ({
+      ...r,
+      fromShort: r.fromText.replace('Read from file name · ', '').replace('Found on ', ''),
+      onChange: (e) => set(E.act.type(p, s, r.key, e.target.value)),
+      undo: () => set(E.act.undo(s, r.key)),
+      cands: r.cands.map((c) => ({ ...c, pick: () => set(E.act.pick(s, r.key, c.raw)) })),
+    }));
+    const name = fields.find((r) => r.key === 'name').value || p.sku;
+    const attn = fields.filter((r) => r.attn).map((r) => r.label);
+    const conflicts = fields.filter((r) => r.showConflict).length;
+    const tabs = [['details', 'Details', attn.length > 0 || conflicts > 0], ['assets', 'Assets (' + live.length + ')', false], ['files', 'File names', false]].map(([k, l, dot]) => ({ label: l, dot, weight: s.tab === k ? 600 : 400, color: s.tab === k ? '#0A0C0F' : '#636D7E', line: s.tab === k ? 'inset 0 -2px 0 #3448C5' : 'none', onClick: () => set({ tab: k }) }));
+
+    const rows = E.assetRows(p, s).map((r) => {
+      const on = s.sel.includes(r.id);
+      return { ...r, sel: on, rowBg: on ? '#F7F8FE' : '#fff', boxBd: on ? '#3448C5' : '#C6CDDA', boxBg: on ? '#3448C5' : '#fff',
+        toggle: () => set({ sel: on ? s.sel.filter((x) => x !== r.id) : s.sel.concat(r.id) }),
+        onLabel: (e) => set(E.act.label(p, s, r.id, e.target.value)),
+        up: () => go(E.act.move(p, s, r.id, -1)), down: () => go(E.act.move(p, s, r.id, 1)) };
+    });
+    const selIds = s.sel.filter((id) => A.some((a) => a.id === id && !a.removed));
+    const allOn = live.length > 0 && selIds.length === live.length;
+    const have = new Set(E.ids(p, s)), q = s.pq.trim().toLowerCase();
+    const libTiles = s.picker ? E.LIB.filter((a) => !have.has(a.id) && (!q || a.id.toLowerCase().includes(q))).map((a) => {
+      const on = s.psel.includes(a.id);
+      return { src: a.img, id: a.id, on, bd: on ? '#3448C5' : '#EAEDF2', boxBd: on ? '#3448C5' : '#C6CDDA', boxBg: on ? '#3448C5' : '#fff', toggle: () => set({ psel: on ? s.psel.filter((x) => x !== a.id) : s.psel.concat(a.id) }) };
+    }) : [];
+
+    const rr = p.pattern ? E.rerun(p, s, s.keep) : null;
+    const dirty = ch.total > 0 && !s.saved;
+    const footText = s.saved ? 'All changes saved' : ch.total ? ch.text : 'No changes yet';
+    return {
+      bgRows, ready: true, close, tabs, sku: p.sku, headImg: live.length ? live[0].img : '', headSub: name + ' · ' + live.length + (live.length === 1 ? ' asset' : ' assets'),
+      hasAttn: attn.length > 0, noAttn: attn.length === 0, attnText: attn.length ? 'Needs attention: ' + attn.join(', ') : '',
+      showDetails: s.tab === 'details', showAssets: s.tab === 'assets', showFiles: s.tab === 'files',
+      createdLine: p.pattern ? 'Created ' + p.created + ' from file names. Values we found are filled in. Anything you type is kept.' : 'Created by hand on ' + p.created + '.',
+      fields,
+      rows, selText: selIds.length ? selIds.length + ' selected' : live.length + ' assets', hasSel: selIds.length > 0, selCount: selIds.length,
+      allOn, allBd: allOn ? '#3448C5' : '#C6CDDA', allBg: allOn ? '#3448C5' : '#fff',
+      toggleAll: () => set({ sel: allOn ? [] : live.map((a) => a.id) }), clearSel: () => set({ sel: [] }),
+      bulkOpts: [{ v: '', t: 'Set label…' }].concat(E.LABELS.map((l) => ({ v: l, t: l }))),
+      bulkLabel: (e) => { const v = e.target.value; if (!v) return; let lab = { ...s.lab }; selIds.forEach((id) => { lab = E.act.label(p, { ...s, lab }, id, v).lab; }); set({ lab, saved: false }); },
+      bulkRemove: () => { let removed = s.removed.slice(), added = s.added.slice(), order = E.ids(p, s); selIds.forEach((id) => { if (added.includes(id)) { added = added.filter((x) => x !== id); order = order.filter((x) => x !== id); } else if (!removed.includes(id)) removed.push(id); }); set({ removed, added, order: order, sel: [], saved: false }); },
+      sortFiles: () => set(E.act.sort(p, s)),
+      pickerOpen: s.picker, togglePicker: () => set({ picker: !s.picker, psel: [] }), pickerBtn: s.picker ? 'Close' : 'Add assets', pq: s.pq, onPQ: (e) => set({ pq: e.target.value }), libTiles,
+      addBg: s.psel.length ? '#3448C5' : '#A6AEBC', addLabel: s.psel.length ? 'Add ' + s.psel.length + (s.psel.length === 1 ? ' asset' : ' assets') : 'Add assets',
+      addPicked: () => { if (s.psel.length) set({ ...E.act.add(p, s, s.psel), picker: false, psel: [] }); },
+      hasPattern: !!p.pattern, noPattern: !p.pattern, patName: p.patternName, pattern: p.pattern || '',
+      mapRows: (p.map || []).map(([t, g]) => ({ token: '{' + t + '}', target: g })),
+      rrBd: rr && rr.actionable ? '#C9D1F2' : '#EAEDF2', rrBg: rr && rr.actionable ? '#F7F8FE' : '#fff',
+      keepBg: s.keep ? '#3448C5' : '#C6CDDA', keepLeft: s.keep ? '16px' : '2px', toggleKeep: () => set({ keep: !s.keep }),
+      rrText: s.keep ? 'Only empty values are filled in. Values you edited stay as they are.' : 'Values you edited are replaced with what the file names say.',
+      hasRows: !!rr && rr.rows.length > 0, rrRows: rr ? rr.rows : [], rrSummary: rr ? rr.text : '',
+      rrBtn: rr && rr.actionable ? 'Apply' : 'Up to date', rrBtnBg: rr && rr.actionable ? '#3448C5' : '#A6AEBC',
+      applyRerun: () => { if (rr && rr.actionable) set({ order: rr.order, read: s.read.concat(rr.unreadIds), saved: false }); },
+      fileRows: E.fileRows(p, s),
+      footText, footFg: dirty ? '#0A0C0F' : '#636D7E', footDetail: s.saved ? '' : ch.detail,
+      discardOp: dirty ? 1 : 0.45, saveBg: dirty ? '#3448C5' : '#A6AEBC',
+      discard: () => set({ ...E.blank(), sel: [], picker: false, pq: '', psel: [] }),
+      save: () => { if (dirty) set({ saved: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

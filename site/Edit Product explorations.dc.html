@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit product explorations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<meta name="design_doc_mode" content="canvas">
+<style>
+  html, body { margin: 0; padding: 0; background: #F1F3F7; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</helmet>
+<section data-screen-label="Edit product" style="padding: 48px; display: flex; flex-direction: column; gap: 56px;">
+  <div>
+    <div style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Edit products</div>
+    <div style="font-size: 14px; color: #636D7E; margin-top: 6px; max-width: 820px; line-height: 1.5;">Two ways to manage a product after it exists. Both show where every value came from (read from a file name, already on the asset, or typed by you), flag values that disagree, and treat sequence and label as per-asset fields next to the product-level ASIN, EAN and description. Every frame is interactive.</div>
+  </div>
+
+  <div id="A" style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">A</span>
+      <span style="font-size: 16px; font-weight: 600;">Product page: details and assets side by side</span>
+      <a href="Edit Product A.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">A full page you reach from a product row. Everything is visible at once: product fields on the left, the ordered asset list on the right. Best for working through one product carefully. Each field says where its value came from, and when two assets carry different values you pick one in place. Reorder with the arrows, set labels per asset, and read file names for assets added later.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+      <div style="width: 1280px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product A" initial-sku="60026" hint-size="1280px,900px"></dc-import></div>
+      <div style="width: 1280px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product A" initial-sku="M006OA" hint-size="1280px,900px"></dc-import></div>
+    </div>
+  </div>
+
+  <div id="B" style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">B</span>
+      <span style="font-size: 16px; font-weight: 600;">Drawer from the Products list: details, assets, file names</span>
+      <a href="Edit Product B.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">A drawer that opens over the Products list, so a quick fix to one SKU keeps your place in the list. Three tabs split the job. Details holds the product fields with suggestion chips for values we found. Assets is a compact list with bulk label and remove. File names shows how the pattern read every file and lets you read the names again, with a preview of what would change and a switch to keep what you edited.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+      <div style="width: 1280px; height: 880px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product B" initial-sku="60026" initial-tab="details" hint-size="1280px,880px"></dc-import></div>
+      <div style="width: 1280px; height: 880px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product B" initial-sku="M006OA" initial-tab="assets" hint-size="1280px,880px"></dc-import></div>
+      <div style="width: 1280px; height: 880px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product B" initial-sku="M006OA" initial-tab="files" hint-size="1280px,880px"></dc-import></div>
+    </div>
+  </div>
+
+  <div id="C" style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">A in context</span>
+      <span style="font-size: 16px; font-weight: 600;">Product page: Readiness and Details and assets in one page</span>
+      <a href="Product Page.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Clicking a row on Products opens one product page in the same shell as Product details. The title area is shared. The Readiness tab keeps what Product details has today (the red missing banner, the blue re-run banner, Originals, Asset variations). The Details and assets tab is Option A. The two tabs read the same state: a label set on an asset fills that channel slot on Readiness straight away, and a missing EAN on Readiness is a button that lands on the EAN field. One save bar serves both tabs. Saving a change to the originals brings back the existing re-run prompt.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">1. Row opens the page on Readiness. EAN and two slots are missing.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Product Page" initial-sku="60026" initial-tab="readiness" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">2. “Add EAN” lands on the field. The ASIN conflict is resolved in place.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Product Page" initial-sku="60026" initial-tab="details" initial-hl="ean" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">3. Edits made. One save bar, whichever tab you are on.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Product Page" initial-sku="60026" initial-tab="details" demo="edited" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">4. Saved. Back on Readiness the slots are filled and the re-run prompt appears.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Product Page" initial-sku="60026" initial-tab="readiness" demo="saved" hint-size="1440px,900px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <div id="D" style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">Product details, extended</span>
+      <span style="font-size: 16px; font-weight: 600;">Same Product details screen, with metadata and sequence added</span>
+      <a href="SKU Details with Metadata.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Nothing on the existing screen moves or changes. Two things are added, both in the screen's own section style. A “Product metadata” section sits above Originals: ASIN, EAN and description, each saying where its value came from, with a picker when assets disagree and a missing flag for fields a channel requires. On Originals, every tile gets a sequence number, its file name, and left and right arrows, with “Sort by file name” and “Reset to file names” in the section header. A save bar appears only when something changed. Saving a new sequence offers the screen's existing “Run tool again” step. The label chips and the three-dot menu are untouched.</div>
+    <div style="width: 1440px; height: 1200px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="SKU Details with Metadata" hint-size="1440px,1200px"></dc-import></div>
+  </div>
+
+  <div id="E" style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="height: 24px; padding: 0 10px; border-radius: 12px; background: #3448C5; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center;">Direction</span>
+      <span style="font-size: 16px; font-weight: 600;">Product details stays as it is. A separate Edit product screen does the editing.</span>
+      <a href="Edit Product.dc.html" style="font-size: 13px;">Open page</a>
+    </div>
+    <div style="font-size: 13px; color: #636D7E; max-width: 1000px; line-height: 1.5;">Product details still shows the originals and every channel variation, and gets one new button next to the title: “Edit product”. That opens a full screen with its own job. On the left you see and edit the product metadata (ASIN, EAN, description) with where each value came from. On the right you add and remove assets, change the sequence, and manage labels, using the same label chips as Product details. One save bar serves the whole screen. After saving, “Back to Product details” returns you, and if the originals changed the screen's existing re-run prompt is the next step. Frame 1 is the Product details screen with the new button. Frames 2 to 4 are the Edit product screen in three states.</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">1. Product details, unchanged except for the Edit product button.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="SKU Details" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">2. Edit product opens with the metadata and the assets in sequence. The EAN is missing and two ASINs disagree.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product" initial-sku="TLS-DRL-50026" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">3. A complete product made from file names, with six assets.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product" initial-sku="FTW-RUN-60026" hint-size="1440px,900px"></dc-import></div></div>
+      <div style="display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 13px; font-weight: 600;">4. A product created by hand. No file name pattern, so every value is existing or typed.</div><div style="width: 1440px; height: 900px; border-radius: 8px; overflow: auto; box-shadow: 0 1px 3px rgba(10,12,15,0.12);"><dc-import name="Edit Product" initial-sku="CAM-DSLR-10026" hint-size="1440px,900px"></dc-import></div></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

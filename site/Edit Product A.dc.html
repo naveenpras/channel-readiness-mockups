@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit product, page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="fonts.css">
+<script src="icons.js"></script>
+<script src="edit-product-data.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #F7F8FA; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F; -webkit-font-smoothing: antialiased; }
+  a { color: #3448C5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  input, textarea, select { font-family: inherit; }
+</style>
+</helmet>
+<div data-screen-label="Edit product A" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F8FA; font-family: 'Inter', system-ui, sans-serif; color: #0A0C0F;">
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="background: #fff; border-bottom: 1px solid #EAEDF2; padding: 14px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+      <a href="Products.dc.html" style="display: flex; align-items: center; gap: 6px; color: #636D7E; font-size: 13px; font-weight: 500;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="arrow_back" size="18" hint-size="18px,18px"></x-import>Products</a>
+      <div style="width: 1px; height: 28px; background: #EAEDF2;"></div>
+      <img src="{{ headImg }}" alt="" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px; background: #F1F3F7; display: block;">
+      <div style="min-width: 0; flex: 1 1 260px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+          <span style="font-family: 'Roboto Mono', monospace; font-size: 18px; font-weight: 600;">{{ sku }}</span>
+          <sc-if value="{{ hasAttn }}" hint-placeholder-val="{{ true }}"><span style="display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: #FFF6E0; color: #8A5A00; border: 1px solid #F2DFA8;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="warning" size="14" hint-size="14px,14px"></x-import>{{ attnText }}</span></sc-if>
+          <sc-if value="{{ noAttn }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; background: #E7F6EE; color: #1B7F4B; border: 1px solid #BFE5CF;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="14" hint-size="14px,14px"></x-import>Required metadata complete</span></sc-if>
+        </div>
+        <div style="font-size: 13px; color: #636D7E; margin-top: 2px;">{{ headSub }}</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 13px; color: #636D7E;">{{ changeText }}</span>
+        <div onClick="{{ discard }}" style="height: 36px; padding: 0 16px; border-radius: 4px; border: 1px solid #DFE3EA; background: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer; opacity: {{ discardOp }};" style-hover="background: #F7F8FA;">Discard</div>
+        <div onClick="{{ save }}" style="height: 36px; padding: 0 16px; border-radius: 4px; background: {{ saveBg }}; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">Save changes</div>
+      </div>
+    </div>
+    <sc-if value="{{ showSaved }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 10px 28px; background: #E7F6EE; border-bottom: 1px solid #BFE5CF; color: #1B7F4B; font-size: 13px; font-weight: 500;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check_circle" size="18" hint-size="18px,18px"></x-import>Saved. {{ savedText }}</div>
+    </sc-if>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; padding: 24px 28px;">
+      <div style="flex: 1 1 360px; max-width: 440px; min-width: 0; box-sizing: border-box; background: #fff; border: 1px solid #EAEDF2; border-radius: 8px; padding: 20px;">
+        <div style="font-size: 15px; font-weight: 600;">Product details</div>
+        <div style="font-size: 12px; color: #636D7E; margin-top: 4px; line-height: 1.5;">{{ createdLine }}</div>
+
+        <div style="margin-top: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+            <div style="font-size: 12px; font-weight: 500; color: #323A45;">SKU</div>
+            <span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 500; background: {{ skuBg }}; color: {{ skuFg }};">{{ skuChip }}</span>
+          </div>
+          <div style="height: 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border: 1px solid #DFE3EA; border-radius: 4px; background: #F7F8FA; color: #636D7E; font-family: 'Roboto Mono', monospace; font-size: 14px;"><span>{{ sku }}</span><span style="font-family: 'Inter', system-ui, sans-serif; font-size: 11px; color: #8A94A6;">Can't be changed</span></div>
+        </div>
+
+        <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+          <div style="margin-top: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+              <div style="font-size: 12px; font-weight: 500; color: #323A45;">{{ f.label }}<sc-if value="{{ f.hasReq }}" hint-placeholder-val="{{ false }}"><span style="color: #8A94A6; font-weight: 400;"> · required by {{ f.req }}</span></sc-if></div>
+              <sc-if value="{{ f.hasChip }}" hint-placeholder-val="{{ true }}"><span style="display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px; font-size: 11px; font-weight: 500; background: {{ f.chipBg }}; color: {{ f.chipFg }};">{{ f.chipLabel }}</span></sc-if>
+            </div>
+            <sc-if value="{{ f.single }}" hint-placeholder-val="{{ true }}">
+              <input value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.ph }}" spellcheck="false" style="width: 100%; box-sizing: border-box; height: 40px; padding: 0 12px; border: 1px solid {{ f.bd }}; border-radius: 4px; font-family: {{ f.font }}; font-size: 14px; color: #0A0C0F; background: #fff; outline: none;">
+            </sc-if>
+            <sc-if value="{{ f.multi }}" hint-placeholder-val="{{ false }}">
+              <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.ph }}" rows="4" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid {{ f.bd }}; border-radius: 4px; font-size: 14px; line-height: 1.45; color: #0A0C0F; background: #fff; outline: none; resize: vertical;"></textarea>
+            </sc-if>
+
+            <sc-if value="{{ f.showConflict }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 8px; border: 1px solid #F2DFA8; background: #FFF9E8; border-radius: 6px; padding: 10px 12px;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #8A5A00;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="warning" size="16" hint-size="16px,16px"></x-import>Your assets disagree. Pick the right one.</div>
+                <sc-for list="{{ f.cands }}" as="c" hint-placeholder-count="2">
+                  <div onClick="{{ c.pick }}" style="display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 8px 10px; background: #fff; border: 1px solid #EAEDF2; border-radius: 4px; cursor: pointer;" style-hover="border-color: #3448C5;">
+                    <span style="font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 600;">{{ c.short }}</span>
+                    <span style="flex: 1; min-width: 0; font-size: 11px; color: #8A94A6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">on {{ c.from }}</span>
+                    <span style="font-size: 12px; font-weight: 600; color: #3448C5;">Use this</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ f.showSuggest }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 8px; border: 1px solid #C9D1F2; background: #F7F8FE; border-radius: 6px; padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-size: 11px; color: #636D7E;">Found on {{ f.sugFrom }}</div>
+                  <div style="font-size: 13px; color: #0A0C0F; margin-top: 2px; line-height: 1.4;">{{ f.sugV }}</div>
+                </div>
+                <span onClick="{{ f.sugPick }}" style="font-size: 12px; font-weight: 600; color: #3448C5; cursor: pointer; white-space: nowrap;">Use this</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ f.showMissing }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 12px; color: #B3261E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="error" size="16" hint-size="16px,16px"></x-import>Missing. Needed for {{ f.req }}.</div>
+            </sc-if>
+            <sc-if value="{{ f.hasFrom }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 6px; font-size: 11px; color: #8A94A6;">{{ f.fromText }}</div>
+            </sc-if>
+            <sc-if value="{{ f.showUndo }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 6px; font-size: 12px; color: #636D7E;">{{ f.undoText }} <span onClick="{{ f.undo }}" style="color: #3448C5; font-weight: 500; cursor: pointer;">Undo</span></div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; background: #fff; border: 1px solid #EAEDF2; border-radius: 8px; padding: 20px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+          <div>
+            <div style="font-size: 15px; font-weight: 600;">{{ assetsTitle }}</div>
+            <div style="font-size: 12px; color: #636D7E; margin-top: 4px;">Sequence sets the order channels show the images in. Use the arrows to reorder.</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <div onClick="{{ sortFiles }}" style="height: 32px; padding: 0 12px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;" style-hover="background: #F7F8FA;">Sort by file name</div>
+            <div onClick="{{ togglePicker }}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 4px; border: 1px solid #DFE3EA; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #F7F8FA;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="add" size="16" hint-size="16px,16px"></x-import>{{ pickerBtn }}</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; overflow-x: auto;">
+          <div style="min-width: 680px; border: 1px solid #EAEDF2; border-radius: 6px;">
+            <div style="display: grid; grid-template-columns: 20px 64px 48px minmax(0, 1fr) 168px 100px; gap: 12px; padding: 8px 12px; background: #F7F8FA; border-bottom: 1px solid #EAEDF2; font-size: 11px; font-weight: 600; color: #636D7E; border-radius: 6px 6px 0 0;">
+              <span></span><span>Sequence</span><span></span><span>Asset</span><span>Label</span><span></span>
+            </div>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="5">
+              <div style="display: grid; grid-template-columns: 20px 64px 48px minmax(0, 1fr) 168px 100px; gap: 12px; align-items: center; padding: 10px 12px; border-bottom: 1px solid #F1F3F7; opacity: {{ r.op }};">
+                <span style="color: #A6AEBC; display: flex; cursor: grab;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="drag_indicator" size="18" hint-size="18px,18px"></x-import></span>
+                <div>
+                  <div style="font-size: 16px; font-weight: 600;">{{ r.seq }}</div>
+                  <div style="font-size: 10px; color: {{ r.seqFg }};">{{ r.seqTiny }}</div>
+                </div>
+                <img src="{{ r.src }}" alt="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px; background: #F1F3F7; display: block;">
+                <div style="min-width: 0;">
+                  <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: {{ r.strike }};">{{ r.file }}.jpg</div>
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 4px;">
+                    <sc-for list="{{ r.meta }}" as="m" hint-placeholder-count="1">
+                      <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; background: {{ m.bg }}; color: {{ m.fg }};">{{ m.k }}: <b style="font-weight: 600; margin-left: 3px;">{{ m.v }}</b></span>
+                    </sc-for>
+                    <sc-if value="{{ r.isNew }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; font-weight: 600; background: #E7F6EE; color: #1B7F4B;">New</span></sc-if>
+                    <sc-if value="{{ r.unmatched }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; border: 1px dashed #C6CDDA; color: #636D7E;">Doesn't fit the pattern</span></sc-if>
+                    <sc-if value="{{ r.unread }}" hint-placeholder-val="{{ false }}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 4px; font-size: 10px; background: #FFF6E0; color: #8A5A00;">Not read yet</span><span onClick="{{ r.readName }}" style="font-size: 11px; font-weight: 500; color: #3448C5; cursor: pointer;">Read file name</span></sc-if>
+                  </div>
+                </div>
+                <div>
+                  <select value="{{ r.label }}" onChange="{{ r.onLabel }}" style="width: 100%; height: 32px; box-sizing: border-box; padding: 0 8px; border: 1px solid #C6CDDA; border-radius: 4px; font-size: 13px; background: #fff; color: #0A0C0F;">
+                    <sc-for list="{{ r.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for>
+                  </select>
+                  <div style="font-size: 10px; color: {{ r.labelFg }}; margin-top: 3px; min-height: 12px;">{{ r.labelTiny }}</div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 2px;">
+                  <span onClick="{{ r.up }}" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #323A45; cursor: pointer; opacity: {{ r.upOp }};" style-hover="background: #F1F3F7;"><span style="display: flex; transform: rotate(180deg);"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="20" hint-size="20px,20px"></x-import></span></span>
+                  <span onClick="{{ r.down }}" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #323A45; cursor: pointer; opacity: {{ r.downOp }};" style-hover="background: #F1F3F7;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="expand_more" size="20" hint-size="20px,20px"></x-import></span>
+                  <sc-if value="{{ r.showRemove }}" hint-placeholder-val="{{ true }}"><span onClick="{{ r.remove }}" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #636D7E; cursor: pointer;" style-hover="background: #F1F3F7; color: #B3261E;"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="delete" size="18" hint-size="18px,18px"></x-import></span></sc-if>
+                  <sc-if value="{{ r.removed }}" hint-placeholder-val="{{ false }}"><span onClick="{{ r.remove }}" style="height: 28px; padding: 0 6px; display: flex; align-items: center; font-size: 12px; font-weight: 500; color: #3448C5; cursor: pointer;">Undo</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 16px; padding: 14px; border: 1px solid #DFE3EA; border-radius: 6px; background: #FAFBFC;">
+            <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; background: #fff; border: 1px solid #C6CDDA; border-radius: 4px; color: #8A94A6;">
+              <x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="search" size="16" hint-size="16px,16px"></x-import>
+              <input value="{{ pq }}" onChange="{{ onPQ }}" placeholder="Search the media library" style="flex: 1; border: none; font-size: 13px; outline: none; background: transparent;">
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 10px;">
+              <sc-for list="{{ libTiles }}" as="l" hint-placeholder-count="6">
+                <div onClick="{{ l.toggle }}" style="position: relative; border: 2px solid {{ l.bd }}; border-radius: 6px; overflow: hidden; cursor: pointer; background: #fff;">
+                  <img src="{{ l.src }}" alt="" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
+                  <span style="position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; border-radius: 3px; border: 1px solid {{ l.boxBd }}; background: {{ l.boxBg }}; color: #fff; display: flex; align-items: center; justify-content: center;"><sc-if value="{{ l.on }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="OfficialDesignSystem_de0730.CldIcon" name="check" size="12" hint-size="12px,12px"></x-import></sc-if></span>
+                  <div style="padding: 4px 6px; font-family: 'Roboto Mono', monospace; font-size: 10px; color: #323A45; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ l.id }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+              <div onClick="{{ addPicked }}" style="height: 32px; padding: 0 14px; border-radius: 4px; background: {{ addBg }}; color: #fff; font-size: 13px; font-weight: 600; display: flex; align-items: center; cursor: pointer;">{{ addLabel }}</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"initialSku":{"editor":"text","default":"60026","tsType":"string"}}'>
+class Component extends DCLogic {
+  state = { fe: {}, order: null, lab: {}, removed: [], added: [], read: [], saved: false, picker: false, pq: '', psel: [] };
+  componentDidMount() { if (!window.EP) this._t = setInterval(() => { if (window.EP) { clearInterval(this._t); this.forceUpdate(); } }, 50); }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const E = window.EP, s = this.state, set = (x) => this.setState(x), go = (x) => { if (x) set(x); };
+    if (!E) return { ready: false, fields: [], rows: [], libTiles: [] };
+    const p = E.PRODUCTS[this.props.initialSku || '60026'] || E.PRODUCTS['60026'];
+    const ch = E.changes(p, s), A = E.assets(p, s), live = A.filter((a) => !a.removed);
+    const fields = E.fieldRows(p, s).map((r) => ({
+      ...r,
+      onChange: (e) => set(E.act.type(p, s, r.key, e.target.value)),
+      undo: () => set(E.act.undo(s, r.key)),
+      cands: r.cands.map((c) => ({ ...c, pick: () => set(E.act.pick(s, r.key, c.raw)) })),
+      sugPick: () => { if (r.cands[0]) set(E.act.pick(s, r.key, r.cands[0].raw)); },
+    }));
+    const name = fields.find((r) => r.key === 'name').value || p.sku;
+    const attn = fields.filter((r) => r.attn).map((r) => r.label);
+    const rows = E.assetRows(p, s).map((r) => ({
+      ...r,
+      readName: () => set(E.act.read(s, r.id)),
+      onLabel: (e) => set(E.act.label(p, s, r.id, e.target.value)),
+      up: () => go(E.act.move(p, s, r.id, -1)),
+      down: () => go(E.act.move(p, s, r.id, 1)),
+      remove: () => set(E.act.remove(p, s, r.id)),
+    }));
+    const have = new Set(E.ids(p, s)), q = s.pq.trim().toLowerCase();
+    const libTiles = s.picker ? E.LIB.filter((a) => !have.has(a.id) && (!q || a.id.toLowerCase().includes(q))).map((a) => {
+      const on = s.psel.includes(a.id);
+      return { src: a.img, id: a.id, on, bd: on ? '#3448C5' : '#EAEDF2', boxBd: on ? '#3448C5' : '#C6CDDA', boxBg: on ? '#3448C5' : '#fff', toggle: () => set({ psel: on ? s.psel.filter((x) => x !== a.id) : s.psel.concat(a.id) }) };
+    }) : [];
+    const dirty = ch.total > 0 && !s.saved;
+    const src = p.pattern ? E.SRC.filename : E.SRC.manual;
+    return {
+      ready: true, sku: p.sku, headImg: live.length ? live[0].img : '', headSub: name + ' · ' + live.length + (live.length === 1 ? ' asset' : ' assets'),
+      hasAttn: attn.length > 0, noAttn: attn.length === 0, attnText: 'Needs attention: ' + attn.join(', '),
+      changeText: s.saved ? 'All changes saved' : ch.text, discardOp: dirty ? 1 : 0.45, saveBg: dirty ? '#3448C5' : '#A6AEBC',
+      discard: () => set({ ...E.blank(), picker: false, pq: '', psel: [] }),
+      save: () => { if (dirty) set({ saved: true }); },
+      showSaved: s.saved && ch.total > 0, savedText: ch.detail ? ch.detail.charAt(0).toUpperCase() + ch.detail.slice(1) + '.' : '',
+      createdLine: p.pattern ? 'Created ' + p.created + ' from file names with the “' + p.patternName + '” pattern. Edit any value below. Your edits are kept if the pattern runs again.' : 'Created by hand on ' + p.created + '.',
+      skuChip: src.label, skuBg: src.bg, skuFg: src.fg,
+      fields,
+      assetsTitle: 'Assets (' + live.length + ')', rows,
+      sortFiles: () => set(E.act.sort(p, s)),
+      pickerOpen: s.picker, togglePicker: () => set({ picker: !s.picker, psel: [] }), pickerBtn: s.picker ? 'Close' : 'Add assets', pq: s.pq, onPQ: (e) => set({ pq: e.target.value }), libTiles,
+      addBg: s.psel.length ? '#3448C5' : '#A6AEBC', addLabel: s.psel.length ? 'Add ' + s.psel.length + (s.psel.length === 1 ? ' asset' : ' assets') : 'Add assets',
+      addPicked: () => { if (s.psel.length) set({ ...E.act.add(p, s, s.psel), picker: false, psel: [] }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

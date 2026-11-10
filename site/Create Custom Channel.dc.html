@@ -16,6 +16,7 @@
   a { color: #3448C5; text-decoration: none; }
   a:hover { color: #2B3BAD; text-decoration: underline; }
 </style>
+<template id="__bundler_thumbnail" data-bg-color="#3448C5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#3448C5"></rect><text x="50" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#fff">NC</text></svg></template>
 </helmet>
 <div data-screen-label="Create custom channel" style="display: flex; min-height: 100%; background: #fff;">
 <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}"><div style="position: sticky; top: 0; height: calc(100vh - 32px); align-self: flex-start; width: 76px; flex: 0 0 76px; background: #fff; border-right: 1px solid #EAEDF2; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 4px;">
@@ -485,7 +486,7 @@ const T3_SLOTS = [
 ];
 const T2_INIT = { name: 'Brand site', types: ['images', 'video', 'lifestyle'],
   ops: { images: T2_ALL4.slice(), lifestyle: T2_EC.slice(), use: ['crop'], nutrition: ['crop'], infographic: ['crop'] },
-  open: { 'images:crop': true }, addOp: null, addType: false, upscale: '4x', shadow: 'None', cropMode: 'Exact size', cropFit: 'Pad', cropAr: '1:1',
+  open: { 'images:crop': true }, addOp: null, addType: false, upscale: '2x', shadow: 'None', cropMode: 'Exact size', cropFit: 'Pad', cropAr: '1:1',
   res: '1080p', ar: '16:9', vtt: true, cat: 'shoes', src: {}, catB: 'shoes', slot: 1, slotOps: {}, addOpB: false };
 
 class Component extends DCLogic {
@@ -494,7 +495,7 @@ class Component extends DCLogic {
     modeC: 'public', modeD: 'public', selD: 'images', maxImg: 10, filter: 'All',
     optPub: {}, optCus: { video: true, lifestyle: true, use: true },
     fix: { upscale: true, bg: true, frame: true, crop: true, overlay: false },
-    upscale: '4x', overlayType: 'Text', method: 'fixes',
+    upscale: '2x', overlayType: 'Text', method: 'fixes',
     chanOn: { amazon: true, walmart: true, target: false, brand: true, macys: false },
     copied: false,
   };
@@ -549,7 +550,7 @@ class Component extends DCLogic {
     const box = (label, val, sw) => ({ label, val, isOpts: false, notOpts: true, hasSwatch: !!sw });
     const opts = (label, list, cur, set) => ({ label, isOpts: true, notOpts: false, opts: this.seg(list, cur, set) });
     const items = [
-      { key: 'upscale', title: 'Enhance quality', desc: 'Upscale low-resolution originals.', fields: [opts('Upscale', ['2x', '4x'], s.upscale, (v) => this.setState({ upscale: v }))] },
+      { key: 'upscale', title: 'Enhance quality', desc: 'Upscale low-resolution originals.', fields: [box('Upscale', '2x')] },
       { key: 'bg', title: 'Remove and replace background', desc: 'Replace the background with a solid color.', fields: [box('Background color (RGB)', '255, 255, 255 · white', true)] },
       { key: 'frame', title: 'Fix product framing', desc: 'Scale the product so it fills part of the frame.', fields: [box('Product fills', '85% of the frame')] },
       { key: 'crop', title: 'Crop to size', desc: 'Set the image dimensions.', fields: [box('Width', '2000 px'), box('Height', '2000 px'), box('Aspect ratio', '1:1')] },
@@ -609,7 +610,7 @@ class Component extends DCLogic {
     const pick = (label, list, cur, key, rule) => ({ label, rule: rule || '', isOpts: true, notOpts: false, opts: this.seg(list, cur, (v) => set({ [key]: v })) });
     const fillOf = (cat) => (cat && cat.over && cat.over.frame) || '85%';
     const opFields = (k, cat) => {
-      if (k === 'enhance') return [pick('Upscale', ['2x', '4x'], t.upscale, 'upscale', 'Runs only when the original is smaller than the output size')];
+      if (k === 'enhance') return [box('Upscale', '2x', 'Always 2x. Runs only when the original is smaller than the output size')];
       if (k === 'bg') return [box('Background color', '#FFFFFF · white', 'Hex or RGB. Pure white is 255, 255, 255', true), pick('Shadow', ['None', 'Keep natural'], t.shadow, 'shadow', 'Natural shadows stay under the product')];
       if (k === 'frame') return [box('Product fills', fillOf(cat) + ' of the frame', 'Between 50% and 100%'), box('Edge margin', '2%', 'Space between product and edge, 0–20%')];
       const f = [pick('Crop mode', ['Exact size', 'Keep aspect ratio', 'Aspect ratio'], t.cropMode, 'cropMode', '')];
